@@ -34,13 +34,14 @@ const validationSchema = Yup.object().shape({
 const Login = () => {
   const url =window.location.origin+'/'+'dashboard';
   const [backendErrStatus,setBackendErrStatus] =useState(false);
-  const [backendErr,setBackendErr] =useState(false);
+  const [backendErr,setBackendErr] =useState('');
 
   const handleSubmit=async (values, { setSubmitting})=>{
     try{
       const result= await login(values.email,values.password);
       setBackendErrStatus(false);
-      // window.location =url
+      setBackendErr('');
+      window.location =url
     }catch (e) {
       console.log(e)
       setBackendErrStatus(true);
