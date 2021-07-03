@@ -7,22 +7,37 @@ import {
   CCardGroup,
   CCol,
   CContainer,
-  CForm,
+  CForm, CFormControl, CFormFeedback, CFormGroup,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
-  CInputGroupText,
-  CRow
+  CInputGroupText, CInvalidFeedback, CLabel,
+  CRow, CValidFeedback
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import {Formik} from 'formik';
+import {Formik} from "formik";
+import * as Yup from "yup";
+
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Enter valid email")
+    .required("Email is required")
+    .label("Email"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(8)
+    .label("Password"),
+});
+
 
 const Login = () => {
   const url =window.location.origin+'/'+'dashboard';
 
   const handleSubmit=(values)=>{
-    console.log(window.location.origin+'/'+'dashboard');
-    window.location =url
+
+    console.log(values);
+    // window.location =url
   }
 
   return (
@@ -34,72 +49,82 @@ const Login = () => {
               <CCard className="p-4">
                 <CCardBody>
 
-                  <h1>Login</h1>
-                  <p className="text-muted">Sign In to your account</p>
-
                   <Formik
                     initialValues={{email:'',password:''}}
+                    validationSchema ={validationSchema}
                     onSubmit={handleSubmit}
                   >
                     {({
                         values,
+                        errors,
                         handleChange,
                         handleSubmit,
+                        touched,
+                        dirty,
+                        isValid
 
                       })=>(
                       <>
-                        <form onSubmit={handleSubmit}>
-                          <CInputGroup className="mb-3">
-                            <CInputGroupPrepend>
-                              <CInputGroupText>
-                                <CIcon name="cil-user" />
-                              </CInputGroupText>
-                            </CInputGroupPrepend>
-                            <CInput
-                              type="text"
-                              name="email"
-                              value={values.email}
-                              onChange={handleChange("email")}
-                              placeholder="Username"
+                        <CForm onSubmit={handleSubmit}>
+                          <h1>Login</h1>
+                          <p className="text-muted">Sign In to your account</p>
 
-                            />
-                          </CInputGroup>
+                          <CFormGroup>
+                            <CInputGroup className="mb-4">
+                              <CInputGroupPrepend>
+                                <CInputGroupText>
+                                  <CIcon name="cil-user" />
+                                </CInputGroupText>
+                              </CInputGroupPrepend>
+                              <CInput
+                                name="email"
+                                className={touched.email ?  errors.email? "is-invalid":"is-valid":null}
+                                type="text"
+                                placeholder="Enter email"
+                                value={values.email}
+                                onChange={handleChange("email")}
+                                error={errors.email}
+                              />
+                              {touched.email && errors.email &&<CInvalidFeedback>{errors.email}</CInvalidFeedback>}
+                            </CInputGroup>
+                          </CFormGroup>
 
-                          <CInputGroup className="mb-4">
-                            <CInputGroupPrepend>
-                              <CInputGroupText>
-                                <CIcon name="cil-lock-locked" />
-                              </CInputGroupText>
-                            </CInputGroupPrepend>
-                            <CInput
-                              type="password"
-                              name="password"
-                              value={values.password}
-                              onChange={handleChange("password")}
-                              placeholder="Password"
+                          <CFormGroup>
+                            <CInputGroup className="mb-4">
+                              <CInputGroupPrepend>
+                                <CInputGroupText>
+                                  <CIcon name="cil-lock-locked" />
+                                </CInputGroupText>
+                              </CInputGroupPrepend>
+                              <CInput
+                                className={touched.password ?  errors.password? "is-invalid":"is-valid":null}
+                                type="text"
+                                name="password"
+                                placeholder="Enter password"
+                                value={values.password}
+                                onChange={handleChange("password")}
+                                error={errors.password}
+                              />
+                              {touched.password && errors.password &&<CInvalidFeedback>{errors.password}</CInvalidFeedback>}
+                            </CInputGroup>
+                          </CFormGroup>
 
-                            />
-                          </CInputGroup>
 
                           <CRow>
                             <CCol xs="6">
-                              <CButton
-                                color="primary"
-                                type="submit"
-                                className="px-4"
-                              >Login
-                              </CButton>
+                              <CButton type="submit" color="primary" className="px-4" disabled={!(dirty && isValid)}>Login</CButton>
                             </CCol>
                             <CCol xs="6" className="text-right">
                               <CButton color="link" className="px-0">Forgot password?</CButton>
                             </CCol>
                           </CRow>
-
-
-                        </form>
+                        </CForm>
                       </>
                     )}
                   </Formik>
+
+
+
 
 
                 </CCardBody>
