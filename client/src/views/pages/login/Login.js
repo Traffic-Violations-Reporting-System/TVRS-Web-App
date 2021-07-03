@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -7,14 +7,18 @@ import {
   CCardGroup,
   CCol,
   CContainer,
-  CForm, CFormControl, CFormFeedback, CFormGroup,
+  CForm,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
-  CInputGroupText, CInvalidFeedback, CLabel,
-  CRow, CValidFeedback,CAlert
+  CInputGroupText,
+  CFormGroup,
+  CRow,
+  CLabel, CDropdownItem, CAlert, CInvalidFeedback,
+
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+
 import {Formik} from "formik";
 import * as Yup from "yup";
 import {login} from "../../../services/web/userService";
@@ -29,7 +33,6 @@ const validationSchema = Yup.object().shape({
     .min(8)
     .label("Password"),
 });
-
 
 const Login = () => {
   const url =window.location.origin+'/'+'dashboard';
@@ -50,110 +53,151 @@ const Login = () => {
     }
 
   }
-
   return (
-    <div className="c-app c-default-layout flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md="8">
-            <CCardGroup>
-              <CCard className="p-4">
-                <CCardBody>
+    <>
+      <div className="home-btn d-none d-sm-block">
+        <Link to="/"><i className="mdi mdi-home-variant h2 text-white"></i></Link>
+      </div>
 
-                  <Formik
-                    initialValues={{email:'',password:''}}
-                    validationSchema ={validationSchema}
-                    onSubmit={handleSubmit}
-                  >
-                    {({
-                        values,
-                        errors,
-                        handleChange,
-                        handleSubmit,
-                        touched,
-                        dirty,
-                        isValid
+      <div>
+        <CContainer fluid className="p-0" style={{backgroundColor: 'white'}}>
+          <CRow className="no-gutters">
+            <CCol lg={4}>
+              <div className="authentication-page-content p-4 d-flex align-items-center min-vh-100">
+                <div className="w-100">
+                  <CRow className="justify-content-center">
+                    <CCol lg={9}>
+                      <div>
+                        <div className="text-center">
+                          <div>
+                            <Link to="/" className="logo"></Link>
+                          </div>
 
-                      })=>(
-                      <>
-                        <CForm onSubmit={handleSubmit}>
+                          <h4 className="font-size-18 mt-4">Welcome Back !</h4>
+                          <p className="text-muted">Sign in to continue</p>
                           {backendErr&&<CAlert color="danger">{backendErr}</CAlert>}
-                          <h1>Login</h1>
-                          <p className="text-muted">Sign In to your account</p>
-
-                          <CFormGroup>
-                            <CInputGroup className="mb-4">
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-user" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CInput
-                                name="email"
-                                className={touched.email ?  errors.email? "is-invalid":"is-valid":null}
-                                type="text"
-                                placeholder="Enter email"
-                                value={values.email}
-                                onChange={handleChange("email")}
-                                error={errors.email}
-                              />
-                              {touched.email && errors.email &&<CInvalidFeedback>{errors.email}</CInvalidFeedback>}
-                            </CInputGroup>
-                          </CFormGroup>
-
-                          <CFormGroup>
-                            <CInputGroup className="mb-4">
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-lock-locked" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CInput
-                                className={touched.password ?  errors.password? "is-invalid":"is-valid":null}
-                                type="text"
-                                name="password"
-                                placeholder="Enter password"
-                                value={values.password}
-                                onChange={handleChange("password")}
-                                error={errors.password}
-                              />
-                              {touched.password && errors.password &&<CInvalidFeedback>{errors.password}</CInvalidFeedback>}
-                            </CInputGroup>
-                          </CFormGroup>
-
-
-                          <CRow>
-                            <CCol xs="6">
-                              <CButton type="submit" color="primary" className="px-4" disabled={!(dirty && isValid)}>Login</CButton>
-                            </CCol>
-                            <CCol xs="6" className="text-right">
-                              <CButton color="link" className="px-0">Forgot password?</CButton>
-                            </CCol>
-                          </CRow>
-                        </CForm>
-                      </>
-                    )}
-                  </Formik>
+                        </div>
 
 
 
+                        <div className="p-2 mt-5">
 
 
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
+                          <Formik
+                            initialValues={{email:'',password:''}}
+                            validationSchema ={validationSchema}
+                            onSubmit={handleSubmit}
+                          >
+                            {({
+                                values,
+                                errors,
+                                handleChange,
+                                handleSubmit,
+                                touched,
+                                dirty,
+                                isValid
 
-                  </div>
-                </CCardBody>
-              </CCard>
-            </CCardGroup>
-          </CCol>
-        </CRow>
-      </CContainer>
-    </div>
-  )
+                              })=>(
+                              <CForm className="form-horizontal"  onSubmit={handleSubmit}>
+                                <CFormGroup  className={`border rounded ${touched.email && errors.email ? "mb-0 border-danger" : "border-primary"}`}>
+                                  <div className="row m-md-1">
+                                    <div className="col" >
+                                      <CIcon name="cil-user" size={'xl'} className="mt-3"  />
+                                    </div>
+                                    <div className="col-10">
+                                      <CLabel htmlFor="email" className="mb-0">Username</CLabel>
+                                      <CInput
+                                        id="email"
+                                        name="email"
+                                        placeholder="Enter username"
+                                        className="border-0 shadow-none pl-0 ml-0"
+                                        value={values.email}
+                                        onChange={handleChange("email")}
+                                        error={errors.email}
+                                      />
+                                    </div>
+                                  </div>
+                                </CFormGroup>
+                                {touched.email && errors.email &&<p className="text-danger">{errors.email}</p>}
+
+
+                                <CFormGroup  className={`border rounded ${touched.password && errors.password ? "mb-0 border-danger" : "border-primary"}`}>
+                                  <div className="row m-md-1">
+                                    <div className="col" >
+                                      <CIcon name="cil-lock-locked" size={'xl'} className="mt-3"  />
+                                    </div>
+                                    <div className="col-10">
+                                      <CLabel htmlFor="password" className="mb-0">Password</CLabel>
+                                      <CInput
+                                        id="password"
+                                        placeholder="Enter password"
+                                        className="border-0 shadow-none pl-0 ml-0"
+                                        name="password"
+                                        value={values.password}
+                                        onChange={handleChange("password")}
+                                        error={errors.password}
+                                      />
+                                    </div>
+                                  </div>
+                                </CFormGroup>
+                                {touched.password && errors.password &&<p className="text-danger">{errors.password}</p>}
+
+
+                                <div className="custom-control custom-checkbox mt-2">
+                                  <CInput type="checkbox" className="custom-control-input" id="customControlInline"/>
+                                  <CLabel className="custom-control-label" htmlFor="customControlInline">Remember me</CLabel>
+                                </div>
+
+                                <div className="mt-4 text-center">
+                                  <CButton
+                                    color="primary"
+                                    className="w-md waves-effect waves-light"
+                                    style={{width:"35%"}}
+                                    type="submit"
+                                    disabled={!(dirty && isValid)}
+                                  >
+                                    Log In
+                                  </CButton>
+                                </div>
+
+                                <div className="mt-4 text-center">
+                                  <div><i className="mdi mdi-lock mr-1"></i> Forgot your password?</div>
+                                </div>
+                              </CForm>
+                            )}</Formik>
+
+
+
+                        </div>
+
+                        <div className="mt-5 text-center">
+
+                          <p>© All rights reserved</p>
+                        </div>
+                      </div>
+
+                    </CCol>
+                  </CRow>
+                </div>
+              </div>
+            </CCol>
+            <CCol lg={8}>
+
+              <div style={
+                {
+                  backgroundColor:'#fff',
+                  backgroundImage:"url('https://wallpaperplay.com/walls/full/2/d/8/13598.jpg')",
+                  height: '100%',
+
+                }}>
+              </div>
+
+            </CCol>
+          </CRow>
+        </CContainer>
+      </div>
+    </>
+  );
 }
 
 export default Login
