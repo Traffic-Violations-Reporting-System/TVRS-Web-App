@@ -6,10 +6,13 @@ const jwt = require("jsonwebtoken");
 
 exports.loginController = async (req, res) => {
     try{
-        const { error } = authValidation(req.body);
+        const {error} = authValidation(req.body);
         if (error) return res.status(400).send(error.details[0].message);
         const {email,password}=req.body;
         const user =await webuser.findOne({where:{email}})
+
+        if (!user)return res.status(400).send("invalid username or password");
+
         if(!user.status) return res.status(400).send("user is not active");
 
         const validPassword =await bcrypt.compare(password,user.password);

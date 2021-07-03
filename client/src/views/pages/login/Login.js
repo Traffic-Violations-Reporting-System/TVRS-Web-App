@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -12,12 +12,12 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText, CInvalidFeedback, CLabel,
-  CRow, CValidFeedback
+  CRow, CValidFeedback,CAlert
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {Formik} from "formik";
 import * as Yup from "yup";
-
+import {login} from "../../../services/web/userService";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -33,11 +33,21 @@ const validationSchema = Yup.object().shape({
 
 const Login = () => {
   const url =window.location.origin+'/'+'dashboard';
+  const [backendErrStatus,setBackendErrStatus] =useState(false);
+  const [backendErr,setBackendErr] =useState(false);
 
-  const handleSubmit=(values)=>{
+  const handleSubmit=async (values, { setSubmitting})=>{
+    try{
+      const result= await login(values.email,values.password);
+      setBackendErrStatus(false);
+      // window.location =url
+    }catch (e) {
+      console.log(e)
+      setBackendErrStatus(true);
+      setBackendErr(e.response.data);
+      setSubmitting(false);
+    }
 
-    console.log(values);
-    // window.location =url
   }
 
   return (
@@ -66,6 +76,7 @@ const Login = () => {
                       })=>(
                       <>
                         <CForm onSubmit={handleSubmit}>
+                          {backendErr&&<CAlert color="danger">{backendErr}</CAlert>}
                           <h1>Login</h1>
                           <p className="text-muted">Sign In to your account</p>
 
