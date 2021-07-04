@@ -9,18 +9,47 @@ import {
   CCol,
   CCollapse,
   CFade,
-  CForm,
+  CForm, CInput,
   CRow,
 
 } from '@coreui/react'
 
 import { DocsLink } from 'src/reusable'
 import {Formik} from "formik";
-import {login} from "../../../services/web/userService";
 import AppInput from "../../../common/input.common";
 import AppSelect from "../../../common/select.common";
 import {getUserRoles,register} from "../../../services/web/userService";
+import * as Yup from "yup";
 
+const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+const validationSchema = Yup.object().shape({
+
+  first_name: Yup.string()
+    .required("First name is required")
+    .min(3)
+    .max(50)
+    .label("First name"),
+  last_name: Yup.string()
+    .required("Last name is required")
+    .min(3)
+    .max(50)
+    .label("Last name"),
+  email: Yup.string()
+    .email("Enter valid email")
+    .required("Email is required")
+    .label("Email"),
+  service_id: Yup.string()
+    .required("service id required")
+    .label("service id"),
+  nic: Yup.string()
+    .required("nic is required")
+    .matches('^(?:19|20)?\d{2}[0-9]{10}|[0-9]{9}[x|X|v|V]$',"enter valid NIC number")
+    .label("Nic"),
+  role_id: Yup.string()
+    .required("Role is required")
+    .label("role"),
+
+});
 const BasicForms = () => {
   const [collapsed, setCollapsed] = React.useState(true)
   const [showElements, setShowElements] = React.useState(true)
@@ -39,9 +68,8 @@ const BasicForms = () => {
   };
 
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
-     values.role_id =parseInt(values.role_id);
-     console.log(values);
 
+    setAlert('');
     try {
       const result = await register(values);
       if(result.status==200) setSuccess(result.data);
@@ -78,10 +106,9 @@ const BasicForms = () => {
                       nic:'',
                       service_id:'',
                       role_id:'',
-                      region:''
-
 
                     }}
+                    validationSchema ={validationSchema}
 
                     onSubmit={handleSubmit}
                   >
@@ -105,15 +132,17 @@ const BasicForms = () => {
                           value={values.first_name}
                           onChange={handleChange("first_name")}
                           visible={touched.first_name}
+                          error={errors.first_name}
                         />
                         <AppInput
                           type="text"
                           name="last_name"
                           label="Last Name"
-                          placeholder="Enter First Name"
+                          placeholder="Enter Last Name"
                           value={values.last_name}
                           onChange={handleChange("last_name")}
                           visible={touched.last_name}
+                          error={errors.last_name}
                         />
 
                         <AppInput
@@ -124,6 +153,7 @@ const BasicForms = () => {
                           value={values.email}
                           onChange={handleChange("email")}
                           visible={touched.email}
+                          error={errors.email}
                         />
 
 
@@ -136,6 +166,7 @@ const BasicForms = () => {
                           value={values.nic}
                           onChange={handleChange("nic")}
                           visible={touched.nic}
+                          error={errors.nic}
                         />
 
                         <AppInput
@@ -146,6 +177,7 @@ const BasicForms = () => {
                           value={values.service_id}
                           onChange={handleChange("service_id")}
                           visible={touched.service_id}
+                          error={errors.service_id}
                         />
 
                         <AppSelect
@@ -155,21 +187,18 @@ const BasicForms = () => {
                           onChange={handleChange("role_id")}
                           value={values.role_id}
                           visible={touched.role_id}
-                        />
-
-                        <AppInput
-                          type="text"
-                          name="region"
-                          label="Region"
-                          placeholder="Enter region"
-                          value={values.region}
-                          onChange={handleChange("region")}
-                          visible={touched.region}
+                          error={errors.role_id}
                         />
 
                       </CCardBody>
                         <CCardFooter>
-                           <CButton type="submit" style={{width:"15%"}}  color="primary" >Submit</CButton>
+                           <CButton
+                             type="submit"
+                             style={{width:"105",height:"38"}}
+                             color="primary"
+                             disabled={!(dirty && isValid)}
+                           >Submit</CButton>
+
                         </CCardFooter>
                       </CForm>
                     )}</Formik>

@@ -48,10 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       allowNull:false
     },
-    region: {
-      type:DataTypes.STRING,
-      allowNull:false
-    },
+
   }, {
     sequelize,
     modelName: 'webuser',

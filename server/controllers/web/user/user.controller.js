@@ -8,7 +8,7 @@ exports.registerController = async (req, res) => {
         const {error} = userValidation(req.body);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const {first_name,last_name,email,role_id,nic,service_id,region}=req.body;
+        const {first_name,last_name,email,role_id,nic,service_id}=req.body;
         let user =await webuser.findOne({where:{email}})
         if(user) return res.status(400).send('User already registered!');
 
@@ -24,7 +24,6 @@ exports.registerController = async (req, res) => {
             status: 0,
             nic,
             service_id,
-            region
         };
 
          await webuser.create(user);

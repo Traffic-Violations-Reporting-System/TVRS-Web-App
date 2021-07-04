@@ -33,9 +33,6 @@ module.exports = {
       service_id: {
         type: Sequelize.STRING
       },
-      region: {
-        type: Sequelize.STRING
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
