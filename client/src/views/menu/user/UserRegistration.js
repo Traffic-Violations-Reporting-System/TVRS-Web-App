@@ -7,29 +7,24 @@ import {
   CCardHeader,
   CCol,
   CCollapse,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
   CFade,
   CForm,
-  CFormGroup,
-  CFormText,
-  CValidFeedback,
-  CInvalidFeedback,
-  CTextarea,
-  CInput,
-  CLabel,
-  CSelect,
   CRow,
-  CSwitch,
+
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+
 import { DocsLink } from 'src/reusable'
+import {Formik} from "formik";
+import {login} from "../../../services/web/userService";
+import AppInput from "../../../common/input.common";
+import AppSelect from "../../../common/select.common";
 
 const BasicForms = () => {
   const [collapsed, setCollapsed] = React.useState(true)
   const [showElements, setShowElements] = React.useState(true)
-
+  const handleSubmit= (values)=>{
+    console.log(values)
+  }
   return (
     <>
       <CRow>
@@ -42,98 +37,116 @@ const BasicForms = () => {
                 </div>
               </CCardHeader>
               <CCollapse show={collapsed} timeout={1000}>
-                <CCardBody>
-
-                    <CFormGroup>
-                      <CRow>
-                        <CCol lg={2}>
-                          <CLabel htmlFor="fn">First Name</CLabel>
-                        </CCol>
-                        <CCol lg={10}>
-                          <CInput id="fn" placeholder="Enter first name" />
-                        </CCol>
-                      </CRow>
-                    </CFormGroup>
-
-                  <CFormGroup>
-                    <CRow>
-                      <CCol lg={2}>
-                        <CLabel htmlFor="ln">Last Name</CLabel>
-                      </CCol>
-                      <CCol lg={10}>
-                        <CInput id="ln" placeholder="Enter last name" />
-                      </CCol>
-                    </CRow>
-                  </CFormGroup>
-
-                  <CFormGroup>
-                    <CRow>
-                      <CCol lg={2}>
-                        <CLabel htmlFor="email">Email</CLabel>
-                      </CCol>
-                      <CCol lg={10}>
-                        <CInput id="email" placeholder="Enter email address" />
-                      </CCol>
-                    </CRow>
 
 
-                  </CFormGroup>
-
-                  <CFormGroup>
-                    <CRow>
-                      <CCol lg={2}>
-                        <CLabel htmlFor="nic">NIC</CLabel>
-                      </CCol>
-                      <CCol lg={10}>
-                        <CInput id="nic" placeholder="Enter NIC number" />
-                      </CCol>
-                    </CRow>
-                  </CFormGroup>
-
-                  <CFormGroup>
-                    <CRow>
-                      <CCol lg={2}>
-                        <CLabel htmlFor="sid">Service ID</CLabel>
-                      </CCol>
-                      <CCol lg={10}>
-                        <CInput id="sid" placeholder="Enter Service ID" />
-                      </CCol>
-                    </CRow>
+                  <Formik
+                    initialValues={{
+                      first_name:'',
+                      last_name:'',
+                      email:'',
+                      nic:'',
+                      sid:'',
+                      roleId:'',
+                      region:''
 
 
-                  </CFormGroup>
+                    }}
 
-                  <CFormGroup>
-                    <CRow>
-                      <CCol lg={2}>
-                        <CLabel htmlFor="sid">User Level</CLabel>
-                      </CCol>
-                      <CCol lg={10}>
-                        <CSelect aria-label="Default select example">
-                          <option>Open this select menu</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </CSelect>
-                      </CCol>
-                    </CRow>
-                  </CFormGroup>
+                    onSubmit={handleSubmit}
+                  >
+                    {({
+                        values,
+                        errors,
+                        handleChange,
+                        handleSubmit,
+                        touched,
+                        dirty,
+                        isValid
 
-                  <CFormGroup>
-                    <CRow>
-                      <CCol lg={2}>
-                        <CLabel htmlFor="country">Region</CLabel>
-                      </CCol>
-                      <CCol lg={10}>
-                        <CInput id="country" placeholder="Enter region" />
-                      </CCol>
-                    </CRow>
-                  </CFormGroup>
-                </CCardBody>
+                      })=>(
+                      <CForm className="form-horizontal"  onSubmit={handleSubmit}>
+                        <CCardBody>
+                        <AppInput
+                          type="text"
+                          name="first_name"
+                          label="First Name"
+                          placeholder="Enter First Name"
+                          value={values.first_name}
+                          onChange={handleChange("first_name")}
+                          visible={touched.first_name}
+                        />
+                        <AppInput
+                          type="text"
+                          name="last_name"
+                          label="Last Name"
+                          placeholder="Enter First Name"
+                          value={values.last_name}
+                          onChange={handleChange("last_name")}
+                          visible={touched.last_name}
+                        />
 
-                <CCardFooter>
-                  <CButton type="submit" style={{width:"15%"}}  color="primary" >Submit</CButton>
-                </CCardFooter>
+                        <AppInput
+                          type="email"
+                          name="email"
+                          label="Email Address"
+                          placeholder="Enter Enter Address"
+                          value={values.email}
+                          onChange={handleChange("email")}
+                          visible={touched.email}
+                        />
+
+
+
+                        <AppInput
+                          type="text"
+                          name="nic"
+                          label="NIC Number"
+                          placeholder="Enter NIC number"
+                          value={values.nic}
+                          onChange={handleChange("nic")}
+                          visible={touched.nic}
+                        />
+
+                        <AppInput
+                          type="text"
+                          name="sid"
+                          label="Service ID"
+                          placeholder="Enter Service ID"
+                          value={values.sid}
+                          onChange={handleChange("sid")}
+                          visible={touched.sid}
+                        />
+
+                        <AppSelect
+                          name="roleId"
+                          label="Select Role"
+                          options=""
+                          onChange={handleChange("roleId")}
+                          value={values.roleId}
+                          visible={touched.roleId}
+                        />
+
+                        <AppInput
+                          type="text"
+                          name="region"
+                          label="Region"
+                          placeholder="Enter region"
+                          value={values.region}
+                          onChange={handleChange("region")}
+                          visible={touched.region}
+                        />
+
+                      </CCardBody>
+                        <CCardFooter>
+                           <CButton type="submit" style={{width:"15%"}}  color="primary" >Submit</CButton>
+                        </CCardFooter>
+                      </CForm>
+                    )}</Formik>
+
+
+
+
+
               </CCollapse>
             </CCard>
           </CFade>
