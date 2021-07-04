@@ -1,5 +1,7 @@
 const {sequelize,webuser,webuserrole}=require('./models');
 const authRoute =require('./router/web/auth.route');
+const userRoute =require('./router/web/user/user.route');
+
 const express  =require('express');  //return function
 let cors = require('cors');
 const bcrypt = require("bcrypt");
@@ -11,8 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
 app.use('/web', authRoute);
-
-
+app.use('/web/user', userRoute);
 
 const port =process.env.PORT ||4000;
 app.listen(port,async () => {
