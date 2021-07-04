@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {
+  CAlert,
   CButton,
   CCard,
   CCardBody,
@@ -18,13 +19,42 @@ import {Formik} from "formik";
 import {login} from "../../../services/web/userService";
 import AppInput from "../../../common/input.common";
 import AppSelect from "../../../common/select.common";
+import {getUserRoles,register} from "../../../services/web/userService";
 
 const BasicForms = () => {
   const [collapsed, setCollapsed] = React.useState(true)
   const [showElements, setShowElements] = React.useState(true)
-  const handleSubmit= (values)=>{
-    console.log(values)
-  }
+  const [useRoles, setUserRoles] = useState([]);
+  const [alert, setAlert] = useState('');
+  const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    fetchUserRoles();
+  }, []);
+
+  const fetchUserRoles = async () => {
+    const { data: roles } = await getUserRoles();
+    console.log(roles);
+    setUserRoles(roles);
+  };
+
+  const handleSubmit=async (values, { setSubmitting, resetForm })=> {
+     values.role_id =parseInt(values.role_id);
+     console.log(values);
+
+    try {
+      const result = await register(values);
+      if(result.status==200) setSuccess(result.data);
+      else setSuccess('')
+
+      setAlert(result.data);
+      resetForm({})
+    } catch (e) {
+      setAlert(e.response.data);
+      setSubmitting(false);
+      console.log(e.response.data);
+    }
+  };
   return (
     <>
       <CRow>
@@ -36,6 +66,7 @@ const BasicForms = () => {
                 <div className="card-header-actions">
                 </div>
               </CCardHeader>
+              {alert&&<CAlert color={success ? "success" : "danger"}>{alert}</CAlert>}
               <CCollapse show={collapsed} timeout={1000}>
 
 
@@ -45,8 +76,8 @@ const BasicForms = () => {
                       last_name:'',
                       email:'',
                       nic:'',
-                      sid:'',
-                      roleId:'',
+                      service_id:'',
+                      role_id:'',
                       region:''
 
 
@@ -109,21 +140,21 @@ const BasicForms = () => {
 
                         <AppInput
                           type="text"
-                          name="sid"
+                          name="service_id"
                           label="Service ID"
                           placeholder="Enter Service ID"
-                          value={values.sid}
-                          onChange={handleChange("sid")}
-                          visible={touched.sid}
+                          value={values.service_id}
+                          onChange={handleChange("service_id")}
+                          visible={touched.service_id}
                         />
 
                         <AppSelect
-                          name="roleId"
+                          name="role_id"
                           label="Select Role"
-                          options=""
-                          onChange={handleChange("roleId")}
-                          value={values.roleId}
-                          visible={touched.roleId}
+                          options={useRoles}
+                          onChange={handleChange("role_id")}
+                          value={values.role_id}
+                          visible={touched.role_id}
                         />
 
                         <AppInput
