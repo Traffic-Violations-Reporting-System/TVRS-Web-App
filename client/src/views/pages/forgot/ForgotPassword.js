@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
+import 'remixicon/fonts/remixicon.css'
 import {
   CButton,
   CCol,
@@ -27,7 +28,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPassword = () => {
-  const url =window.location.origin+'/'+'forgot';
+  // const url =window.location.origin+'/'+'forgot';
   const [backendErrStatus,setBackendErrStatus] = useState(false);
   const [backendErr,setBackendErr] = useState('');
 
@@ -36,7 +37,7 @@ const ForgotPassword = () => {
       const result = await forgotPassword(values.email);
       setBackendErrStatus(true);
       setBackendErr('Please check the email for instructions to reset your password');
-      window.location = url
+      // window.location = url
     }catch (e) {
       console.log(e)
       setBackendErrStatus(true);
@@ -92,14 +93,14 @@ const ForgotPassword = () => {
                                 <CFormGroup  className={`border rounded ${touched.email && errors.email ? "mb-0 border-danger" : "border-primary"}`}>
                                   <div className="row m-md-1">
                                     <div className="col" >
-                                      <CIcon name="cil-mail" size={'xl'} className="mt-3"  />
+                                      <CIcon name="cil-user" size={'xl'} className="mt-3"  />
                                     </div>
                                     <div className="col-10">
                                       <CLabel htmlFor="email" className="mb-0">Email</CLabel>
                                       <CInput
                                         id="email"
                                         name="email"
-                                        placeholder="Enter username"
+                                        placeholder="Enter user email"
                                         className="border-0 shadow-none pl-0 ml-0"
                                         value={values.email}
                                         onChange={handleChange("email")}
@@ -110,10 +111,6 @@ const ForgotPassword = () => {
                                 </CFormGroup>
                                 {touched.email && errors.email &&<p className="text-danger">{errors.email}</p>}
 
-                                {/* <div className="custom-control custom-checkbox mt-2">
-                                  <CInput type="checkbox" className="custom-control-input" id="customControlInline"/>
-                                  <CLabel className="custom-control-label" htmlFor="customControlInline">Remember me</CLabel>
-                                </div> */}
 
                                 <div className="mt-4 text-center">
                                   <CButton

@@ -155,7 +155,7 @@ const Login = () => {
                                     className="w-md waves-effect waves-light"
                                     style={{width:"35%"}}
                                     type="submit"
-                                    disabled={!(dirty && isValid)}
+                                    // disabled={!(dirty && isValid)}
                                   >
                                     Log In
                                   </CButton>

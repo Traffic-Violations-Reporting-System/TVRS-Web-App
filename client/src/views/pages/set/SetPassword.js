@@ -149,12 +149,6 @@ const SetPassword = () => {
                                 </CFormGroup>
                                 {touched.confirmpassword && errors.confirmpassword &&<p className="text-danger">{errors.confirmpassword}</p>}
 
-
-                                {/* <div className="custom-control custom-checkbox mt-2">
-                                  <CInput type="checkbox" className="custom-control-input" id="customControlInline"/>
-                                  <CLabel className="custom-control-label" htmlFor="customControlInline">Remember me</CLabel>
-                                </div> */}
-
                                 <div className="mt-4 text-center">
                                   <CButton
                                     color="primary"

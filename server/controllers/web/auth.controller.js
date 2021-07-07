@@ -1,15 +1,16 @@
-const {sequelize,webuser,webuserrole}=require('../../models');
-const authValidation=require('../../validation/web/auth.validation');
-const Joi = require("joi");
+const Sequelize = require('sequelize');
+const { webuser, webuserrole } = require('../../models');
+const loginValidate = require('../../validation/web/auth.validation');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
 exports.loginController = async (req, res) => {
+
     try{
-        const {error} = authValidation(req.body);
+        const {error} = loginValidate(req.body);
         if (error) return res.status(400).send(error.details[0].message);
-        const {email,password}=req.body;
-        const user =await webuser.findOne({where:{email}})
+        const {email,password} = req.body;
+        const user = await webuser.findOne({where:{email}})
 
         if (!user)return res.status(400).send("invalid username or password");
 
@@ -25,3 +26,7 @@ exports.loginController = async (req, res) => {
         return res.status(500).send("Internal Server Error")
     }
 }
+
+
+
+

@@ -7,12 +7,12 @@ export async function login(email,password){
 }
 
 export async function forgotPassword(email){
-    const {data:jwt} =await http.post('http://localhost:4000/web/forgot-password',{email});
+    const {data:jwt} =await http.post('http://localhost:4000/web/forgot',{email});
     localStorage.setItem('token',jwt);
 }
 
-export async function setPassword(newpassword){
-    const {data:jwt} =await http.post('http://localhost:4000/web/set-password',{newpassword});
+export async function setPassword(newpassword,confirmpassword){
+    const {data:jwt} =await http.post('http://localhost:4000/web/set',{newpassword,confirmpassword});
     localStorage.setItem('token',jwt);
 }
 
