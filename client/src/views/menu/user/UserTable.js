@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import { useHistory } from 'react-router-dom';
 import {
   CAlert,
   CButton,
@@ -17,11 +18,11 @@ import {
 
 } from '@coreui/react'
 import {getAllUsers} from "../../../services/web/userService";
-
-
-
+ 
 const UsersTable = () => {
 
+  const history = useHistory();
+  const handleEditUser = (selectId) => history.push(`/edituser/${selectId}`);
 
   const [usersData, setUsersAllData] = useState([]);
   useEffect(() => {
@@ -122,11 +123,11 @@ const UsersTable = () => {
                           <h4>
                             {item.username}
                           </h4>
-                          <p className="text-muted">User Name: {item.name}</p>
+                          <p className="text-muted">User Name: {item.id}</p>
                           <CButton size="sm" color="primary" >
                             View User
                           </CButton>
-                          <CButton size="sm" color="info" className="ml-1">
+                          <CButton size="sm" color="info" className="ml-1" onClick={()=>handleEditUser(item.id)}>
                             Edit User
                           </CButton>
                           <CButton size="sm" color="danger" className="ml-1">
