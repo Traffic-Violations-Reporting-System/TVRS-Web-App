@@ -16,40 +16,26 @@ import {
 
 
 } from '@coreui/react'
+import {getAllUsers} from "../../../services/web/userService";
 
 
 
 const UsersTable = () => {
-  const usersData = [
-    {id: 0, name: 'John Doe', serviceId: '2018/01/01',nic:'951234354V', role: 'Guest', status: 'Pending'},
-    {id: 1, name: 'Samppa Nori', serviceId: '2018/01/01',nic:'951234354V', role: 'Member', status: 'Active'},
-    {id: 2, name: 'Estavan Lykos', serviceId: '2018/02/01',nic:'951234354V', role: 'Staff', status: 'Banned'},
-    {id: 3, name: 'Chetan Mohamed', serviceId: '2018/02/01',nic:'951234354V', role: 'Admin', status: 'Inactive'},
-    {id: 4, name: 'Derick Maximinus', serviceId: '2018/03/01',nic:'951234354V', role: 'Member', status: 'Pending'},
-    {id: 5, name: 'Friderik Dávid', serviceId: '2018/01/21',nic:'951234354V', role: 'Staff', status: 'Active'},
-    {id: 6, name: 'Yiorgos Avraamu', serviceId: '2018/01/01',nic:'951234354V', role: 'Member', status: 'Active'},
-    {id: 7, name: 'Avram Tarasios', serviceId: '2018/02/01', role: 'Staff', status: 'Banned'},
-    {id: 8, name: 'Quintin Ed', serviceId: '2018/02/01', role: 'Admin', status: 'Inactive'},
-    {id: 9, name: 'Enéas Kwadwo', serviceId: '2018/03/01', role: 'Member', status: 'Pending'},
-    {id: 10, name: 'Agapetus Tadeáš', serviceId: '2018/01/21', role: 'Staff', status: 'Active'},
-    {id: 11, name: 'Carwyn Fachtna', serviceId: '2018/01/01', role: 'Member', status: 'Active'},
-    {id: 12, name: 'Nehemiah Tatius', serviceId: '2018/02/01', role: 'Staff', status: 'Banned'},
-    {id: 13, name: 'Ebbe Gemariah', serviceId: '2018/02/01', role: 'Admin', status: 'Inactive'},
-    {id: 14, name: 'Eustorgios Amulius', serviceId: '2018/03/01', role: 'Member', status: 'Pending'},
-    {id: 15, name: 'Leopold Gáspár', serviceId: '2018/01/21', role: 'Staff', status: 'Active'},
-    {id: 16, name: 'Pompeius René', serviceId: '2018/01/01', role: 'Member', status: 'Active'},
-    {id: 17, name: 'Paĉjo Jadon', serviceId: '2018/02/01', role: 'Staff', status: 'Banned'},
-    {id: 18, name: 'Micheal Mercurius', serviceId: '2018/02/01', role: 'Admin', status: 'Inactive'},
-    {id: 19, name: 'Ganesha Dubhghall', serviceId: '2018/03/01', role: 'Member', status: 'Pending'},
-    {id: 20, name: 'Hiroto Šimun', serviceId: '2018/01/21', role: 'Staff', status: 'Active'},
-    {id: 21, name: 'Vishnu Serghei', serviceId: '2018/01/01', role: 'Member', status: 'Active'},
-    {id: 22, name: 'Zbyněk Phoibos', serviceId: '2018/02/01', role: 'Staff', status: 'Banned'},
-    {id: 23, name: 'Aulus Agmundr', serviceId: '2018/01/01', role: 'Member', status: 'Pending'},
-    {id: 42, name: 'Ford Prefect', serviceId: '2001/05/25', role: 'Alien', status: 'Don\'t panic!'}
-  ]
 
+
+  const [usersData, setUsersAllData] = useState([]);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    const { data: users } = await getAllUsers();
+    setUsersAllData(users);
+  };
+
+ 
   const [details, setDetails] = useState([])
-  // const [items, setItems] = useState(usersData)
+ 
 
   const toggleDetails = (index) => {
     const position = details.indexOf(index)
@@ -65,10 +51,10 @@ const UsersTable = () => {
 
   const fields = [
     { key: 'name', _style: { width: '20%'} },
-    'serviceId',
-    'nic',
-    { key: 'role', _style: { width: '20%'} },
-    { key: 'status', _style: { width: '20%'} },
+    { key: 'serviceId', _style: { width: '20%'} },
+    { key: 'email', _style: { width: '20%'} },
+    { key: 'role', _style: { width: '10%'} },
+    { key: 'status', _style: { width: '10%'} },
     {
       key: 'show_details',
       label: '',
@@ -79,13 +65,8 @@ const UsersTable = () => {
   ]
 
   const getBadge = (status)=>{
-    switch (status) {
-      case 'Active': return 'success'
-      case 'Inactive': return 'secondary'
-      case 'Pending': return 'warning'
-      case 'Banned': return 'danger'
-      default: return 'primary'
-    }
+    if (status) return 'primary'
+      return 'danger'
   }
 
   return (
@@ -113,7 +94,7 @@ const UsersTable = () => {
                   (item)=>(
                     <td>
                       <CBadge color={getBadge(item.status)} style={{width:60}}>
-                        {item.status}
+                        {item.status ? "Active" : "Not"}
                       </CBadge>
                     </td>
                   ),
@@ -141,7 +122,7 @@ const UsersTable = () => {
                           <h4>
                             {item.username}
                           </h4>
-                          <p className="text-muted">User Service Id: {item.serviceId}</p>
+                          <p className="text-muted">User Name: {item.name}</p>
                           <CButton size="sm" color="primary" >
                             View User
                           </CButton>

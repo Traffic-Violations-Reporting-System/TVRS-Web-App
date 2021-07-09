@@ -14,3 +14,6 @@ export async function getUserRoles() {
 export function register(user){
   return  http.post('http://localhost:4000/web/user/register',user);
 }
+export async function getAllUsers() {
+  return await http.post('http://localhost:4000/web/user/view');
+}
