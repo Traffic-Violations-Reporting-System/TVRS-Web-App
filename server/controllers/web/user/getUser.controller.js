@@ -10,7 +10,7 @@ exports.getSelectedUserController = async (req, res) => {
             'first_name':foundUser.first_name,
             'last_name':foundUser.last_name,
             'email':foundUser.email,
-            'role':foundUser.role_id,
+            'role_id':foundUser.role_id.toString(),
 
         });
     }catch (e) {

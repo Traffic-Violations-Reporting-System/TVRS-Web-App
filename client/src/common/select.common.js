@@ -9,7 +9,7 @@ const AppSelect = ({ name,error, label,value, options,visible, ...rest }) => {
           <CLabel htmlFor="role">User Level</CLabel>
         </CCol>
         <CCol lg={10}>
-          <CSelect name={name}  {...rest} className={visible && error?"is-invalid":""}>
+          <CSelect value={value} name={name}  {...rest} className={visible && error?"is-invalid":""}>
             <option value="">Select user levels</option>
             {options.map(option =>
               <option

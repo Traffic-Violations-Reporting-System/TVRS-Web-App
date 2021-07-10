@@ -11,10 +11,10 @@ exports.EditController = async (req, res) => {
         const {first_name,last_name, email,role_id } = req.body;
 
         const foundUser = await webuser.findOne({ where: { id:req.params.id } });
-        if (!foundUser) return res.status(400).send("not user fot given id");
+        if (!foundUser) return res.status(400).send("not user for given id");
 
-        const foundRole = await webuser.findOne({ where: { id:role_id } });
-        if (!foundRole) return res.status(400).send("not user fot given id");
+        const foundRole = await webuserrole.findOne({ where: { id:role_id } });
+        if (!foundRole) return res.status(400).send("not found role for selected role");
 
 
         webuser.update(
