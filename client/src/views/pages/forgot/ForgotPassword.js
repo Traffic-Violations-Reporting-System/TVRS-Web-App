@@ -28,23 +28,23 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPassword = () => {
-  // const url =window.location.origin+'/'+'forgot';
-  const [backendErrStatus,setBackendErrStatus] = useState(false);
-  const [backendErr,setBackendErr] = useState('');
 
-  const handleSubmit = async (values, { setSubmitting} )=>{
+  const [backendErr, setBackendErr] = useState('');
+  const [alertType,setAlertType] = useState('');
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+
     try{
-      const result = await forgotPassword(values.email);
-      setBackendErrStatus(true);
+      await forgotPassword(values.email);   
+      setAlertType('success');
       setBackendErr('Please check the email for instructions to reset your password');
-      // window.location = url
     }catch (e) {
-      console.log(e)
-      setBackendErrStatus(true);
+      console.log(e);
+      setAlertType('danger');
       setBackendErr(e.response.data);
       setSubmitting(false);
     }
-
+    //console.log(alertType);
   }
   return (
     <>
@@ -68,12 +68,11 @@ const ForgotPassword = () => {
 
                           <h4 className="font-size-18 mt-4">Reset Password</h4>
                           <p className="text-muted">Reset your password to TVRS.</p>
-                          {backendErr&&<CAlert color="danger">{backendErr}</CAlert>}
+                          {backendErr && alertType == "success" && <CAlert color="success">{backendErr}</CAlert>}
+                          {backendErr&&alertType=="danger"&&<CAlert color="danger">{backendErr}</CAlert>}
                         </div>
 
                         <div className="p-2 mt-5">
-
-
                           <Formik
                             initialValues={{email:''}}
                             validationSchema ={validationSchema}
@@ -84,9 +83,7 @@ const ForgotPassword = () => {
                                 errors,
                                 handleChange,
                                 handleSubmit,
-                                touched,
-                                dirty,
-                                isValid
+                                touched
                               })=>(
                               <CForm className="form-horizontal"  onSubmit={handleSubmit}>
                                 
@@ -125,9 +122,7 @@ const ForgotPassword = () => {
 
                               </CForm>
                             )}</Formik>
-
-
-
+                          
                         </div>
 
                         <div className="mt-5 text-center">
@@ -146,9 +141,12 @@ const ForgotPassword = () => {
               <div style={
                 {
                   backgroundColor:'#fff',
-                  backgroundImage:"url('https://wallpaperplay.com/walls/full/2/d/8/13598.jpg')",
-                  height: '100%',
-
+                  backgroundImage:"url('https://wallpaperplay.com/walls/full/8/b/9/23581.jpg')",
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                  width: '70vw',
+                  height: '100vh'
                 }}>
               </div>
 

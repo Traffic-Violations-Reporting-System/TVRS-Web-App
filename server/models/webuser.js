@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.BOOLEAN,
     nic: DataTypes.STRING,
     service_id: DataTypes.STRING,
-    region: DataTypes.STRING
+    region: DataTypes.STRING,
+    salt: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'webuser',

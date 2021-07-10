@@ -2,26 +2,21 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
   CCol,
   CContainer,
   CForm,
   CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CFormGroup,
   CRow,
-  CLabel, CDropdownItem, CAlert, CInvalidFeedback,
+  CLabel, CAlert, 
 
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 import {Formik} from "formik";
 import * as Yup from "yup";
-import {setPassword} from "../../../services/web/userService";
+import { setPassword } from "../../../services/web/userService";
+
 
 const validationSchema = Yup.object().shape({
   newpassword: Yup.string()
@@ -33,18 +28,38 @@ const validationSchema = Yup.object().shape({
     .min(8)
     .label("Confirm Password")
     .test("password-match", "Password fields fields must be equal", function (value) {
-      return this.parent.newpassword == value;
+      return this.parent.newpassword === value;
     }),
 });
 
-const SetPassword = () => {
-  const url =window.location.origin+'/'+'login';
+const SetPassword = (props) => {
+  const url =window.location.origin+'/login';
   const [backendErrStatus,setBackendErrStatus] =useState(false);
-  const [backendErr,setBackendErr] =useState('');
+  const [backendErr, setBackendErr] = useState('');
+
+  //for get url parameters
+  function getQueryVariable(variable){
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+                
+      if (pair[0] == variable) {
+        return pair[1];
+      }
+    }
+     return(false);
+  }
+  const email = getQueryVariable('email');
+  // console.log(email);
+  const token = getQueryVariable('token');
+  // console.log(token);
+  if (!email && !token) window.location = url;
+  
 
   const handleSubmit = async (values, { setSubmitting})=>{
     try{
-      const result= await setPassword(values.newpassword,values.confirmpassword);
+      await setPassword(values.newpassword,values.confirmpassword,token,email);
       setBackendErrStatus(false);
       setBackendErr('');
       window.location =url
@@ -56,6 +71,7 @@ const SetPassword = () => {
     }
 
   }
+
   return (
     <>
       <div className="home-btn d-none d-sm-block">
@@ -96,9 +112,7 @@ const SetPassword = () => {
                                 errors,
                                 handleChange,
                                 handleSubmit,
-                                touched,
-                                dirty,
-                                isValid
+                                touched
 
                             }) => (
                               
@@ -160,18 +174,13 @@ const SetPassword = () => {
                                   </CButton>
                                 </div>
 
-                                {/* <div className="mt-4 text-center">
-                                  <div><i className="mdi mdi-lock mr-1"></i> Forgot your password?</div>
-                                </div> */}
                               </CForm>
                             )}</Formik>
-
-
-
+                          
                         </div>
 
                         <div className="mt-5 text-center">
-
+                        <p>Back to <Link to="/login" className="font-weight-medium text-primary"> Log in </Link> </p>      
                         <p>© 2021, 3rd Year Group Project | TVRS</p>
                         </div>
                       </div>
@@ -186,8 +195,12 @@ const SetPassword = () => {
               <div style={
                 {
                   backgroundColor:'#fff',
-                  backgroundImage:"url('https://wallpaperplay.com/walls/full/2/d/8/13598.jpg')",
-                  height: '100%',
+                  backgroundImage:"url('https://wallpaperplay.com/walls/full/8/b/9/23581.jpg')",
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                  width: '70vw',
+                  height: '100vh'
 
                 }}>
               </div>

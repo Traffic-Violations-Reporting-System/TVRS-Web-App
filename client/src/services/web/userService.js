@@ -11,8 +11,8 @@ export async function forgotPassword(email){
     localStorage.setItem('token',jwt);
 }
 
-export async function setPassword(newpassword,confirmpassword){
-    const {data:jwt} =await http.post('http://localhost:4000/web/set',{newpassword,confirmpassword});
+export async function setPassword(newpassword,confirmpassword,token,email){
+    const {data:jwt} =await http.post('http://localhost:4000/web/set',{newpassword,confirmpassword,token,email});
     localStorage.setItem('token',jwt);
 }
 

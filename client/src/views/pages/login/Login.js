@@ -187,8 +187,12 @@ const Login = () => {
               <div style={
                 {
                   backgroundColor:'#fff',
-                  backgroundImage:"url('https://wallpaperplay.com/walls/full/2/d/8/13598.jpg')",
-                  height: '100%',
+                  backgroundImage:"url('https://wallpaperplay.com/walls/full/8/b/9/23581.jpg')",
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                  width: '70vw',
+                  height: '100vh'
 
                 }}>
               </div>
