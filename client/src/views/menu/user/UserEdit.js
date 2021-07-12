@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+
 import {
   CAlert,
   CButton,
@@ -18,7 +19,7 @@ import { DocsLink } from 'src/reusable'
 import {Formik} from "formik";
 import AppInput from "../../../common/input.common";
 import AppSelect from "../../../common/select.common";
-import {getUserRoles,register} from "../../../services/web/userService";
+import {getUserRoles,getUser,updateUser} from "../../../services/web/userService";
 import * as Yup from "yup";
 
 const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -38,45 +39,64 @@ const validationSchema = Yup.object().shape({
     .email("Enter valid email")
     .required("Email is required")
     .label("Email"),
-  service_id: Yup.string()
-    .required("service id required")
-    .label("service id"),
-  nic: Yup.string()
-    .required("nic is required")
-    .matches('^(?:19|20)?\d{2}[0-9]{10}|[0-9]{9}[x|X|v|V]$',"enter valid NIC number")
-    .label("Nic"),
   role_id: Yup.string()
     .required("Role is required")
     .label("role"),
 
 });
-const BasicForms = () => {
+const BasicForms = (props) => {
   const [collapsed, setCollapsed] = React.useState(true)
   const [showElements, setShowElements] = React.useState(true)
   const [useRoles, setUserRoles] = useState([]);
+  const [selectedUser, setSelectedUser] = useState();
+  const [initialValues, setInitialValues] = useState({
+    first_name:'',
+    last_name:'',
+    email:'',
+    role_id:'',
+
+  });
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetchUserRoles();
+    fetchUser(props);
   }, []);
 
-  const fetchUserRoles = async () => {
+  const fetchUser = async (props) => {
     const { data: roles } = await getUserRoles();
-    console.log(roles);
     setUserRoles(roles);
+
+    const userId = props.match.params.id;
+    setSelectedUser(userId)
+    const { data: user } = await getUser(userId);
+    
+
+      const newMessageObj = { 
+        first_name: user.first_name, 
+        last_name:user.last_name, 
+        email:user.email,
+        role_id:user.role_id,
+    };
+      setInitialValues(newMessageObj);
+    //  setInitialValues({user});
+      console.log(initialValues);
   };
 
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
 
+    console.log(values);
+    console.log(selectedUser);
+    
     setAlert('');
     try {
-      const result = await register(values);
+
+      const result = await updateUser(values,selectedUser);
       if(result.status==200) setSuccess(result.data);
       else setSuccess('')
-
       setAlert(result.data);
-      resetForm({})
+      
+      
     } catch (e) {
       setAlert(e.response.data);
       setSubmitting(false);
@@ -90,7 +110,7 @@ const BasicForms = () => {
           <CFade timeout={300} in={showElements} unmountOnExit={true}>
             <CCard>
               <CCardHeader className="font-weight-bold">
-                User Registration
+                Edit Profile
                 <div className="card-header-actions">
                 </div>
               </CCardHeader>
@@ -99,15 +119,8 @@ const BasicForms = () => {
 
 
                   <Formik
-                    initialValues={{
-                      first_name:'',
-                      last_name:'',
-                      email:'',
-                      nic:'',
-                      service_id:'',
-                      role_id:'',
-
-                    }}
+                    enableReinitialize 
+                    initialValues={initialValues}
                     validationSchema ={validationSchema}
 
                     onSubmit={handleSubmit}
@@ -157,29 +170,6 @@ const BasicForms = () => {
                         />
 
 
-
-                        <AppInput
-                          type="text"
-                          name="nic"
-                          label="NIC Number"
-                          placeholder="Enter NIC number"
-                          value={values.nic}
-                          onChange={handleChange("nic")}
-                          visible={touched.nic}
-                          error={errors.nic}
-                        />
-
-                        <AppInput
-                          type="text"
-                          name="service_id"
-                          label="Service ID"
-                          placeholder="Enter Service ID"
-                          value={values.service_id}
-                          onChange={handleChange("service_id")}
-                          visible={touched.service_id}
-                          error={errors.service_id}
-                        />
-
                         <AppSelect
                           name="role_id"
                           label="Select Role"
@@ -188,6 +178,7 @@ const BasicForms = () => {
                           value={values.role_id}
                           visible={touched.role_id}
                           error={errors.role_id}
+                          value={values.role_id}
                         />
 
                       </CCardBody>

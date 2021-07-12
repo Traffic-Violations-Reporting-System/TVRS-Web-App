@@ -3,55 +3,40 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class webuser extends Model {
+  class reset_password extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({webuserrole}) {
+    static associate(models) {
       // define association here
-      this.belongsTo(webuserrole,{foreignKey:'role_id'})
     }
-
   };
-  webuser.init({
-    first_name: {
-      type:DataTypes.STRING,
-      allowNull:false
-    },
-    last_name: {
-      type:DataTypes.STRING,
+  reset_password.init({
+    user_id:  {
+      type:DataTypes.INTEGER,
       allowNull:false
     },
     email: {
       type:DataTypes.STRING,
       allowNull:false
     },
-    password: {
+    auth_token:  {
       type:DataTypes.STRING,
-
+      allowNull:false
     },
-    role_id: {
+    used:   {
       type:DataTypes.INTEGER,
       allowNull:false
     },
-    status: {
-      type:DataTypes.BOOLEAN,
+    expire: {
+      type:DataTypes.DATE,
       allowNull:false
     },
-    nic: {
-      type:DataTypes.STRING,
-      allowNull:false
-    },
-    service_id: {
-      type:DataTypes.STRING,
-      allowNull:false
-    },
-
   }, {
     sequelize,
-    modelName: 'webuser',
+    modelName: 'reset_password',
   });
-  return webuser;
+  return reset_password;
 };
