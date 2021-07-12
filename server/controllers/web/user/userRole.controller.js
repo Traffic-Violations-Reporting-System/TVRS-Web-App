@@ -24,7 +24,7 @@ exports.userRoleAddController = async (req, res) => {
 
          const result = await webuserrole.create({role});
          if(!result) return res.status(400).send("User Role Not added!!");
-         return res.status(200).send(result);
+         return res.status(200).send("User Role Scucess added");
     }catch (e) {
         return res.status(500).send("Internal Server Error");
     }
