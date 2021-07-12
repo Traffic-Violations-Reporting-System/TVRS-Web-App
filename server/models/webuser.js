@@ -16,16 +16,44 @@ module.exports = (sequelize, DataTypes) => {
 
   };
   webuser.init({
-    first_name: DataTypes.STRING,
-    last_name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role_id: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN,
-    nic: DataTypes.STRING,
-    service_id: DataTypes.STRING,
-    region: DataTypes.STRING,
-    salt: DataTypes.STRING
+    first_name: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    last_name: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    email: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    password: {
+      type:DataTypes.STRING,
+
+    },
+    role_id: {
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    status: {
+      type:DataTypes.BOOLEAN,
+      allowNull:false
+    },
+    nic: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    service_id: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+      salt: {
+      type:DataTypes.STRING,
+     
+    },
+
+
   }, {
     sequelize,
     modelName: 'webuser',

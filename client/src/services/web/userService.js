@@ -16,3 +16,21 @@ export async function setPassword(newpassword,confirmpassword,token,email){
     localStorage.setItem('token',jwt);
 }
 
+export async function getUserRoles() {
+  return await http.get('http://localhost:4000/web/user/roles');
+}
+
+export function register(user){
+  return  http.post('http://localhost:4000/web/user/register',user);
+}
+export async function getAllUsers() {
+  return await http.post('http://localhost:4000/web/user/view');
+}
+export function getUser(id){
+  return  http.get('http://localhost:4000/web/user/select'+'/'+id);
+}
+
+export function updateUser(user,selectedUser){
+      
+  return  http.put('http://localhost:4000/web/user/update'+'/'+selectedUser,user);
+}

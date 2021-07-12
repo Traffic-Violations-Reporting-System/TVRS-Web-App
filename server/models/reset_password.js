@@ -14,11 +14,28 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   reset_password.init({
-    user_id: DataTypes.INTEGER,
-    email: DataTypes.STRING,
-    auth_token: DataTypes.STRING,
-    used: DataTypes.INTEGER,
-    expire: DataTypes.DATE
+
+    user_id:  {
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    email: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    auth_token:  {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    used:   {
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    expire: {
+      type:DataTypes.DATE,
+      allowNull:false
+    },
+
   }, {
     sequelize,
     modelName: 'reset_password',

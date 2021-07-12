@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       first_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       last_name: {
         type: Sequelize.STRING
@@ -30,9 +31,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       service_id: {
-        type: Sequelize.STRING
-      },
-      region: {
         type: Sequelize.STRING
       },
       createdAt: {
