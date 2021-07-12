@@ -24,7 +24,7 @@ import * as Yup from "yup";
 const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 const validationSchema = Yup.object().shape({
 
-  user_role: Yup.string()
+  role: Yup.string()
     .required("User role is required")
     .min(3)
     .max(10)
@@ -44,9 +44,13 @@ const BasicForms = () => {
 
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
 
+   
     setAlert('');
     try {
       const result = await createUserRole(values);
+      console.log(result);
+      
+
       if(result.status==200) setSuccess(result.data);
       else setSuccess('')
 
@@ -54,6 +58,7 @@ const BasicForms = () => {
       resetForm({})
     } catch (e) {
       setAlert(e.response.data);
+     setSuccess('')
       setSubmitting(false);
       console.log(e.response.data);
     }
@@ -75,7 +80,7 @@ const BasicForms = () => {
 
                   <Formik
                     initialValues={{
-                      user_role:'',
+                      role:'',
 
                     }}
                     validationSchema ={validationSchema}
@@ -96,13 +101,13 @@ const BasicForms = () => {
                         <CCardBody>
                         <AppInput
                           type="text"
-                          name="user_role"
+                          name="role"
                           label="User Role"
                           placeholder="User role"
-                          value={values.user_role}
-                          onChange={handleChange("user_role")}
-                          visible={touched.user_role}
-                          error={errors.user_role}
+                          value={values.role}
+                          onChange={handleChange("role")}
+                          visible={touched.role}
+                          error={errors.role}
                         />
                         
 
