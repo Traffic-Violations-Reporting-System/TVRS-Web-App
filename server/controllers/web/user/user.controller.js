@@ -3,6 +3,8 @@ const {webuser,webuserrole,reset_password}=require('../../../models');
 const userValidation=require('../../../validation/web/user/user.validation');
 const crypto  = require('crypto');
 
+console.log("success");
+
 exports.registerController = async (req, res) => {
     try{
         const {error} = userValidation(req.body);

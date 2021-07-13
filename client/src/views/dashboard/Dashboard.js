@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 
 const Dashboard = () => {
@@ -10,3 +10,4 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
