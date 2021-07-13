@@ -15,6 +15,7 @@ import {
 } from '@coreui/react'
 import logodark from "../../../assets/elogo.png";
 import CIcon from '@coreui/icons-react'
+import cover from "../../../assets/cover.jpg";
 
 import {Formik} from "formik";
 import * as Yup from "yup";
@@ -138,16 +139,19 @@ const ForgotPassword = () => {
             </CCol>
             <CCol lg={8}>
 
-              <div style={
+            <div style={
                 {
-                  backgroundColor:'#fff',
-                  backgroundImage:"url('https://wallpaperplay.com/walls/full/8/b/9/23581.jpg')",
+                  
+                  backgroundImage:  `url(${cover})`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                   width: '70vw',
                   height: '100vh'
-                }}>
+
+                }}
+                
+                >
               </div>
 
             </CCol>
