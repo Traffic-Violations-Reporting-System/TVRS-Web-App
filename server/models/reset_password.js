@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   reset_password.init({
+
     user_id:  {
       type:DataTypes.INTEGER,
       allowNull:false
@@ -34,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DATE,
       allowNull:false
     },
+
   }, {
     sequelize,
     modelName: 'reset_password',

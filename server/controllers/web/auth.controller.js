@@ -11,7 +11,7 @@ exports.loginController = async (req, res) => {
         const {email,password}=req.body;
         const user =await webuser.findOne({where:{email}})
 
-        if (!user)return res.status(400).send("invalid username or password");
+        if (!user) return res.status(400).send("invalid username or password");
 
         if(!user.status) return res.status(400).send("user is not active");
 

@@ -2,51 +2,67 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
   CCol,
   CContainer,
   CForm,
   CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CFormGroup,
   CRow,
-  CLabel, CDropdownItem, CAlert, CInvalidFeedback,
+  CLabel, CAlert, 
 
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 import {Formik} from "formik";
 import * as Yup from "yup";
-import {login} from "../../../services/web/userService";
+import { setPassword } from "../../../services/web/userService";
+
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Enter valid email")
-    .required("Email is required")
-    .label("Email"),
-  password: Yup.string()
+  newpassword: Yup.string()
     .required("Password is required")
     .min(8)
-    .label("Password"),
+    .label("New Password"),
+  confirmpassword: Yup.string()
+    .required("Password is required")
+    .min(8)
+    .label("Confirm Password")
+    .test("password-match", "Password fields fields must be equal", function (value) {
+      return this.parent.newpassword === value;
+    }),
 });
 
-const Login = () => {
-  const url =window.location.origin+'/auth'+'/dashboard';
+const SetPassword = (props) => {
+  const url =window.location.origin+'/login';
   const [backendErrStatus,setBackendErrStatus] =useState(false);
-  const [backendErr,setBackendErr] =useState('');
+  const [backendErr, setBackendErr] = useState('');
 
-  const handleSubmit=async (values, { setSubmitting})=>{
+  //for get url parameters
+  function getQueryVariable(variable){
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+                
+      if (pair[0] == variable) {
+        return pair[1];
+      }
+    }
+     return(false);
+  }
+  const email = getQueryVariable('email');
+  // console.log(email);
+  const token = getQueryVariable('token');
+  // console.log(token);
+  if (!email && !token) window.location = url;
+  
+
+  const handleSubmit = async (values, { setSubmitting})=>{
     try{
-      const role= await login(values.email,values.password);
+      await setPassword(values.newpassword,values.confirmpassword,token,email);
       setBackendErrStatus(false);
       setBackendErr('');
-      const url =window.location.origin+'/'+`${role}`+'/dashboard';
-      window.location =url;
-     
+      window.location =url
     }catch (e) {
       console.log(e)
       setBackendErrStatus(true);
@@ -55,6 +71,7 @@ const Login = () => {
     }
 
   }
+
   return (
     <>
       <div className="home-btn d-none d-sm-block">
@@ -75,8 +92,8 @@ const Login = () => {
                             <Link to="/" className="logo"></Link>
                           </div>
 
-                          <h4 className="font-size-18 mt-4">Welcome Back !</h4>
-                          <p className="text-muted">Sign in to continue</p>
+                          <h4 className="font-size-18 mt-4">Set New Password</h4>
+                          <p className="text-muted">Set your new password to TVRS.</p>
                           {backendErr&&<CAlert color="danger">{backendErr}</CAlert>}
                         </div>
 
@@ -86,7 +103,7 @@ const Login = () => {
 
 
                           <Formik
-                            initialValues={{email:'',password:''}}
+                            initialValues={{newpassword:'',confirmpassword:''}}
                             validationSchema ={validationSchema}
                             onSubmit={handleSubmit}
                           >
@@ -95,87 +112,76 @@ const Login = () => {
                                 errors,
                                 handleChange,
                                 handleSubmit,
-                                touched,
-                                dirty,
-                                isValid
+                                touched
 
-                              })=>(
-                              <CForm className="form-horizontal"  onSubmit={handleSubmit}>
-                                <CFormGroup  className={`border rounded ${touched.email && errors.email ? "mb-0 border-danger" : "border-primary"}`}>
-                                  <div className="row m-md-1">
-                                    <div className="col" >
-                                      <CIcon name="cil-user" size={'xl'} className="mt-3"  />
-                                    </div>
-                                    <div className="col-10">
-                                      <CLabel htmlFor="username" className="mb-0">Username</CLabel>
-                                      <CInput
-                                        id="email"
-                                        name="email"
-                                        placeholder="Enter username"
-                                        className="border-0 shadow-none pl-0 ml-0"
-                                        value={values.email}
-                                        onChange={handleChange("email")}
-                                        error={errors.email}
-                                      />
-                                    </div>
-                                  </div>
-                                </CFormGroup>
-                                {touched.email && errors.email &&<p className="text-danger">{errors.email}</p>}
-
-
-                                <CFormGroup  className={`border rounded ${touched.password && errors.password ? "mb-0 border-danger" : "border-primary"}`}>
+                            }) => (
+                              
+                              <CForm className="form-horizontal" onSubmit={handleSubmit}>
+                                
+                                <CFormGroup  className={`border rounded ${touched.newpassword && errors.newpassword ? "mb-0 border-danger" : "border-primary"}`}>
                                   <div className="row m-md-1">
                                     <div className="col" >
                                       <CIcon name="cil-lock-locked" size={'xl'} className="mt-3"  />
                                     </div>
                                     <div className="col-10">
-                                      <CLabel htmlFor="password" className="mb-0">Password</CLabel>
+                                      <CLabel htmlFor="newpassword" className="mb-0">New Password</CLabel>
                                       <CInput
-                                        id="password"
-                                        placeholder="Enter password"
+                                        id="newpassword"
+                                        placeholder="Enter new password"
                                         className="border-0 shadow-none pl-0 ml-0"
-                                        name="password"
+                                        name="newpassword"
                                         type="password"
-                                        value={values.password}
-                                        onChange={handleChange("password")}
-                                        error={errors.password}
+                                        value={values.newpassword}
+                                        onChange={handleChange("newpassword")}
+                                        error={errors.newpassword}
                                       />
                                     </div>
                                   </div>
                                 </CFormGroup>
-                                {touched.password && errors.password &&<p className="text-danger">{errors.password}</p>}
+                                {touched.newpassword && errors.newpassword &&<p className="text-danger">{errors.newpassword}</p>}
 
 
-                                <div className="custom-control custom-checkbox mt-2">
-                                  <CInput type="checkbox" className="custom-control-input" id="customControlInline"/>
-                                  <CLabel className="custom-control-label" htmlFor="customControlInline">Remember me</CLabel>
-                                </div>
+                                <CFormGroup  className={`border rounded ${touched.confirmpassword && errors.confirmpassword ? "mb-0 border-danger" : "border-primary"}`}>
+                                  <div className="row m-md-1">
+                                    <div className="col" >
+                                      <CIcon name="cil-lock-locked" size={'xl'} className="mt-3"  />
+                                    </div>
+                                    <div className="col-10">
+                                      <CLabel htmlFor="password" className="mb-0">Confirm Password</CLabel>
+                                      <CInput
+                                        id="confirmpassword"
+                                        type="password"
+                                        placeholder="Enter password"
+                                        className="border-0 shadow-none pl-0 ml-0"
+                                        name="confirmpassword"
+                                        value={values.confirmpassword}
+                                        onChange={handleChange("confirmpassword")}
+                                        error={errors.confirmpassword}
+                                      />
+                                    </div>
+                                  </div>
+                                </CFormGroup>
+                                {touched.confirmpassword && errors.confirmpassword &&<p className="text-danger">{errors.confirmpassword}</p>}
 
                                 <div className="mt-4 text-center">
                                   <CButton
                                     color="primary"
                                     className="w-md waves-effect waves-light"
-                                    style={{width:"35%"}}
+                                    style={{width:"50%"}}
                                     type="submit"
-                                    // disabled={!(dirty && isValid)}
                                   >
-                                    Log In
+                                    Set Password
                                   </CButton>
                                 </div>
 
-                                <div className="mt-4 text-center">
-                                  <div><Link to="/forgot" className="text-muted"><i className="mdi mdi-lock mr-1"></i> Forgot your password?</Link></div>
-                                </div>
                               </CForm>
                             )}</Formik>
-
-
-
+                          
                         </div>
 
                         <div className="mt-5 text-center">
-
-                          <p>© 2021, 3rd Year Group Project | TVRS</p>
+                        <p>Back to <Link to="/login" className="font-weight-medium text-primary"> Log in </Link> </p>      
+                        <p>© 2021, 3rd Year Group Project | TVRS</p>
                         </div>
                       </div>
 
@@ -207,4 +213,4 @@ const Login = () => {
   );
 }
 
-export default Login
+export default SetPassword

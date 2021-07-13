@@ -8,7 +8,15 @@ export async function login(email,password){
       return jwtDecode(jwt).role;
     } 
     return null;
+}
+export async function forgotPassword(email){
+    const {data:jwt} =await http.post('http://localhost:4000/web/forgot',{email});
+    localStorage.setItem('token',jwt);
+}
 
+export async function setPassword(newpassword,confirmpassword,token,email){
+    const {data:jwt} =await http.post('http://localhost:4000/web/set',{newpassword,confirmpassword,token,email});
+    localStorage.setItem('token',jwt);
 }
 
 export async function getUserRoles() {
@@ -35,5 +43,4 @@ export function getCurrentUser(){
   const jwt =localStorage.getItem('token');
   if(jwt) return jwtDecode(jwt);
   return false;
-
 }
