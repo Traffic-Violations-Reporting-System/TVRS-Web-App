@@ -44,3 +44,6 @@ export function getCurrentUser(){
   if(jwt) return jwtDecode(jwt);
   return false;
 }
+export function logout(){
+  localStorage.removeItem('token');
+}

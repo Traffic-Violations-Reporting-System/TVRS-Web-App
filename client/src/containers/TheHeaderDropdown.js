@@ -8,6 +8,8 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import avatar2 from "../assets/avatar-2.jpg";
+import {logout} from "../../src/services/web/userService"
 
 const TheHeaderDropdown = () => {
   return (
@@ -19,7 +21,7 @@ const TheHeaderDropdown = () => {
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
           <CImg
-            src={'avatars/6.jpg'}
+            src={avatar2}
             className="c-avatar-img"
             alt=""
           />
@@ -60,9 +62,20 @@ const TheHeaderDropdown = () => {
           Lock Screen
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
-          <CIcon name="cil-lock-locked"  className="mfe-2"/>
-          Log Out
+        <CDropdownItem
+           onClick={() => {
+            logout();
+            window.location=window.location.origin+'/login';
+          }}
+           
+           >
+          <CIcon 
+            name="cil-lock-locked"  
+            className="mfe-2"
+            style={{color:"red"}}
+            />
+            <div class="text-danger">Log Out</div>
+          
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

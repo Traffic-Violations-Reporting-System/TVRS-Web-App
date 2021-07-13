@@ -13,7 +13,7 @@ import {
   CAlert,
   
 } from '@coreui/react'
-
+import logodark from "../../../assets/elogo.png";
 import CIcon from '@coreui/icons-react'
 
 import {Formik} from "formik";
@@ -62,8 +62,8 @@ const ForgotPassword = () => {
                     <CCol lg={9}>
                       <div>
                         <div className="text-center">
-                          <div>
-                            <Link to="/" className="logo"></Link>
+                        <div>
+                          <img className="mb-2 mt-0" src={logodark} height="35" alt="logo"/>
                           </div>
 
                           <h4 className="font-size-18 mt-4">Reset Password</h4>
