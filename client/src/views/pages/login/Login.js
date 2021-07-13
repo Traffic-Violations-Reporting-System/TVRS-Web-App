@@ -35,16 +35,18 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const url =window.location.origin+'/'+'dashboard';
+  const url =window.location.origin+'/auth'+'/dashboard';
   const [backendErrStatus,setBackendErrStatus] =useState(false);
   const [backendErr,setBackendErr] =useState('');
 
   const handleSubmit=async (values, { setSubmitting})=>{
     try{
-      const result= await login(values.email,values.password);
+      const role= await login(values.email,values.password);
       setBackendErrStatus(false);
       setBackendErr('');
-      window.location =url
+      const url =window.location.origin+'/'+`${role}`+'/dashboard';
+      window.location =url;
+     
     }catch (e) {
       console.log(e)
       setBackendErrStatus(true);

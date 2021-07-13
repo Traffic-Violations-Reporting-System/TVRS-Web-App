@@ -15,27 +15,31 @@ const loading = (
   </div>
 )
 
-const TheContent = () => {
+const TheContent = ({currentUserRole}) => {
   return (
     <main className="c-main">
       <CContainer fluid>
         <Suspense fallback={loading}>
           <Switch>
             {routes.map((route, idx) => {
-              return route.component && (
-                <Route
-                  key={idx}
-                  path={route.path}
-                  exact={route.exact}
-                  name={route.name}
-                  render={props => (
-                    <CFade>
-                      <route.component {...props} />
-                    </CFade>
-                  )} />
-              )
+              if(currentUserRole===route.role){
+                return route.component && (
+                  <Route
+                    key={idx}
+                    path={route.path}
+                    exact={route.exact}
+                    name={route.name}
+                    render={props => (
+                      <CFade>
+                        <route.component {...props} />
+                      </CFade>
+                    )} />
+                )
+              }else if(!currentUserRole){
+                return  <Redirect from="/" to="/login" />;
+              }
             })}
-            <Redirect from="/" to="/dashboard" />
+           
           </Switch>
         </Suspense>
       </CContainer>

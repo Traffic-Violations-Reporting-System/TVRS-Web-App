@@ -17,7 +17,7 @@ import CIcon from '@coreui/icons-react'
 // sidebar nav config
 import navigation from './_nav'
 
-const TheSidebar = () => {
+const TheSidebar = ({currentUserRole}) => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.sidebarShow)
 
@@ -38,7 +38,7 @@ const TheSidebar = () => {
 
         <CCreateElement
 
-          items={navigation}
+          items={navigation.filter(({role})=>role===currentUserRole)}
           components={{
             CSidebarNavDivider,
             CSidebarNavDropdown,
