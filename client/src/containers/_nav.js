@@ -24,7 +24,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Users Table',
+    name: 'All Users',
     to: '/admin/usertable',
     icon: 'cil-star',
     role:'admin'
