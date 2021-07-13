@@ -22,7 +22,6 @@ function App(){
   const [currentUserRole,setCurrentUserRole]=useState();
   
   useEffect(() => {
-
     const user =getCurrentUser();
     console.log(user.role);
     setCurrentUserRole(user.role);
