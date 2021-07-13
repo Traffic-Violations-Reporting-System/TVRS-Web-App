@@ -2,25 +2,19 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
   CCol,
   CContainer,
   CForm,
   CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CFormGroup,
   CRow,
-  CLabel, CDropdownItem, CAlert, CInvalidFeedback,
+  CLabel, 
+  CAlert,
 
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import logodark from "../../../assets/elogo.png";
-
-
+import cover from "../../../assets/cover.jpg";
 
 import {Formik} from "formik";
 import * as Yup from "yup";
@@ -188,18 +182,20 @@ const Login = () => {
               </div>
             </CCol>
             <CCol lg={8}>
-
+           
               <div style={
                 {
-                  backgroundColor:'#fff',
-                  backgroundImage:"url('https://wallpaperplay.com/walls/full/8/b/9/23581.jpg')",
+                  
+                  backgroundImage:  `url(${cover})`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                   width: '70vw',
                   height: '100vh'
 
-                }}>
+                }}
+                
+                >
               </div>
 
             </CCol>

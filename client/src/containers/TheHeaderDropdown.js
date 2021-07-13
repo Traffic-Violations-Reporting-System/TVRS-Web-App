@@ -74,7 +74,7 @@ const TheHeaderDropdown = () => {
             className="mfe-2"
             style={{color:"red"}}
             />
-            <div class="text-danger">Log Out</div>
+            <div className="text-danger">Log Out</div>
           
         </CDropdownItem>
       </CDropdownMenu>

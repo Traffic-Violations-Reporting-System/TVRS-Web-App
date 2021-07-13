@@ -2,6 +2,7 @@ import React from 'react';
 
 //admin
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
+
 const UserRegister = React.lazy(() => import('./views/menu/admin/UserRegistration'));
 const UserTable = React.lazy(() => import('./views/menu/admin/UserTable'));
 const UserEdit = React.lazy(() => import('./views/menu/admin/UserEdit'));
@@ -36,6 +37,7 @@ const routes = [
 
   //level3
   { path: '/level3/dashboard', name: 'Dashboard', component: DashboardLvel3,role:'level3' },
+
 
 
 
