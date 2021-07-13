@@ -32,9 +32,11 @@ const TheContent = () => {
                     <CFade>
                       <route.component {...props} />
                     </CFade>
+                    
                   )} />
               )
             })}
+           
             <Redirect from="/" to="/dashboard" />
           </Switch>
         </Suspense>

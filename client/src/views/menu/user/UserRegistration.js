@@ -41,13 +41,7 @@ const validationSchema = Yup.object().shape({
   service_id: Yup.string()
     .required("service id required")
     .label("service id"),
-  nic: Yup.string()
-    .required("nic is required")
-    .matches('^(?:19|20)?\d{2}[0-9]{10}|[0-9]{9}[x|X|v|V]$',"enter valid NIC number")
-    .label("Nic"),
-  role_id: Yup.string()
-    .required("Role is required")
-    .label("role"),
+  
 
 });
 const BasicForms = () => {
@@ -103,9 +97,9 @@ const BasicForms = () => {
                       first_name:'',
                       last_name:'',
                       email:'',
-                      nic:'',
+                    //  nic:'',
                       service_id:'',
-                      role_id:'',
+                    //  role_id:'',
 
                     }}
                     validationSchema ={validationSchema}
@@ -158,16 +152,6 @@ const BasicForms = () => {
 
 
 
-                        <AppInput
-                          type="text"
-                          name="nic"
-                          label="NIC Number"
-                          placeholder="Enter NIC number"
-                          value={values.nic}
-                          onChange={handleChange("nic")}
-                          visible={touched.nic}
-                          error={errors.nic}
-                        />
 
                         <AppInput
                           type="text"
@@ -180,15 +164,7 @@ const BasicForms = () => {
                           error={errors.service_id}
                         />
 
-                        <AppSelect
-                          name="role_id"
-                          label="Select Role"
-                          options={useRoles}
-                          onChange={handleChange("role_id")}
-                          value={values.role_id}
-                          visible={touched.role_id}
-                          error={errors.role_id}
-                        />
+                       
 
                       </CCardBody>
                         <CCardFooter>
@@ -196,7 +172,7 @@ const BasicForms = () => {
                              type="submit"
                              style={{width:"105",height:"38"}}
                              color="primary"
-                             disabled={!(dirty && isValid)}
+                            // disabled={!(dirty && isValid)}
                            >Submit</CButton>
 
                         </CCardFooter>
