@@ -28,7 +28,7 @@ const WidgetsDropdown = () => {
               style={{height: '70px'}}
               dataPoints={[65, 59, 84, 84, 51, 55, 40]}
               pointHoverBackgroundColor="primary"
-              label="Members"
+              label="Users"
               labels="months"
             />
           }
@@ -60,7 +60,7 @@ const WidgetsDropdown = () => {
               dataPoints={[1, 18, 9, 17, 34, 22, 11]}
               pointHoverBackgroundColor="info"
               options={{ elements: { line: { tension: 0.00001 }}}}
-              label="Members"
+              label="Complaints"
               labels="months"
             />
           }
@@ -85,14 +85,14 @@ const WidgetsDropdown = () => {
           header="56754"
           text="Accepted Complaints"
           footerSlot={
-            <ChartLineSimple
+            <ChartBarSimple
               className="mt-3"
               style={{height: '70px'}}
               backgroundColor="rgba(255,255,255,.2)"
               dataPoints={[78, 81, 80, 45, 34, 12, 40]}
               options={{ elements: { line: { borderWidth: 2.5 }}}}
               pointHoverBackgroundColor="warning"
-              label="Members"
+              label="Complaints"
               labels="months"
             />
           }
@@ -121,7 +121,7 @@ const WidgetsDropdown = () => {
               className="mt-3 mx-3"
               style={{height: '70px'}}
               backgroundColor="rgb(250, 152, 152)"
-              label="Members"
+              label="Complaints"
               labels="months"
             />
           }
