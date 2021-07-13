@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-module.exports =function validate(user) {
+function loginValidate(obj) {
     const schema = Joi.object({
         email: Joi.string()
             .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
@@ -10,5 +10,8 @@ module.exports =function validate(user) {
             .min(8),
     });
 
-    return schema.validate(user);
+    return schema.validate(obj);
 }
+
+
+module.exports = loginValidate

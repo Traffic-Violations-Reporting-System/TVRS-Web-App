@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
+import { setPassword } from './services/web/userService';
 
 const loading = (
   <div className="pt-3 text-center">
@@ -13,6 +14,8 @@ const TheLayout = React.lazy(() => import('./containers/TheLayout'));
 
 // Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'));
+const ForgotPassword = React.lazy(() => import('./views/pages/forgot/ForgotPassword'));
+const SetPassword = React.lazy(() => import('./views/pages/set/SetPassword'));
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
 
@@ -23,7 +26,9 @@ class App extends Component {
       <BrowserRouter>
           <React.Suspense fallback={loading}>
             <Switch>
-              <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
+              <Route exact path="/login" name="Login Page" render={props => <Login {...props} />} />
+              <Route exact path="/forgot" name="Forgot password page" render={props => <ForgotPassword {...props}/>} />
+              <Route exact path="/set" name="Set Password Page" render={props => <SetPassword {...props} />} />
               <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />
               <Route exact path="/500" name="Page 500" render={props => <Page500 {...props}/>} />
               <Route path="/" name="Home" render={props => <TheLayout {...props}/>} />
