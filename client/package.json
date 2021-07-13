@@ -25,7 +25,7 @@
   "dependencies": {
     "@coreui/chartjs": "^2.0.0",
     "@coreui/coreui": "^3.4.0",
-    "@coreui/icons": "^2.0.0",
+    "@coreui/icons": "^2.0.1",
     "@coreui/icons-react": "^1.1.0",
     "@coreui/react": "^3.4.6",
     "@coreui/react-chartjs": "^1.1.0",
@@ -38,12 +38,14 @@
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
     "prop-types": "^15.7.2",
+    "query-string": "^4.3.4",
     "react": "^17.0.2",
     "react-app-polyfill": "^2.0.0",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
+    "remixicon": "^2.5.0",
     "sass": "^1.32.8",
     "yup": "^0.32.9"
   },

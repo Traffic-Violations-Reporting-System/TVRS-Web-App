@@ -24,7 +24,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Users Table',
+    name: 'All Users',
     to: '/admin/usertable',
     icon: 'cil-star',
     role:'admin'
@@ -36,6 +36,7 @@ const _nav =  [
     icon: 'cil-star',
     role:'admin'
   },
+   //level 1
   {
     _tag: 'CSidebarNavItem',
     name: 'Dashbord',
@@ -43,12 +44,29 @@ const _nav =  [
     icon: 'cil-star',
     role:'level1'
   },
+ 
   {
     _tag: 'CSidebarNavItem',
     name: 'Video Feed',
     to: '/level1/videofeed',
     icon: 'cil-star',
     role:'level1'
+  },
+   //level 2
+   {
+    _tag: 'CSidebarNavItem',
+    name: 'Dashbord',
+    to: '/level2/dashboard',
+    icon: 'cil-star',
+    role:'level2'
+  },
+   //level 3
+   {
+    _tag: 'CSidebarNavItem',
+    name: 'Dashbord',
+    to: '/level3/dashboard',
+    icon: 'cil-star',
+    role:'level3'
   },
 
 

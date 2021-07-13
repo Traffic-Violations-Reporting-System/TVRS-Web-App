@@ -22,8 +22,8 @@ import {getAllUsers} from "../../../services/web/userService";
 const UsersTable = () => {
 
   const history = useHistory();
-  const handleEditUser = (selectId) => history.push(`/edituser/${selectId}`);
-
+  const handleEditUser = (selectId) => history.push(`/admin/edituser/${selectId}`);
+ // const handleEditUser = (selectId) =>alert(history));
   const [usersData, setUsersAllData] = useState([]);
   useEffect(() => {
     fetchUserData();
