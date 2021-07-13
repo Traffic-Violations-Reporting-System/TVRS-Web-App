@@ -23,7 +23,7 @@ export async function getUserRoles() {
   return await http.get('http://localhost:4000/web/user/roles');
 }
 
-export function register(user){
+export function register(user){ 
   return  http.post('http://localhost:4000/web/user/register',user);
 }
 export async function getAllUsers() {

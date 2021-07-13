@@ -2,10 +2,10 @@ import React from 'react';
 
 //admin
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
-const UserRegister = React.lazy(() => import('./views/menu/user/UserRegistration'));
-const UserTable = React.lazy(() => import('./views/menu/user/UserTable'));
-const UserEdit = React.lazy(() => import('./views/menu/user/UserEdit'));
-const UserRoleAdd = React.lazy(() => import('./views/menu/user/UserRoleAdd'));
+const UserRegister = React.lazy(() => import('./views/menu/admin/UserRegistration'));
+const UserTable = React.lazy(() => import('./views/menu/admin/UserTable'));
+const UserEdit = React.lazy(() => import('./views/menu/admin/UserEdit'));
+const UserRoleAdd = React.lazy(() => import('./views/menu/admin/UserRoleAdd'));
 
 //level1
 const DashboardLvel1 = React.lazy(() => import('./views/dashboard/DashboardLevel1'));
@@ -23,6 +23,7 @@ const routes = [
   { path: '/admin/register', name: 'Register', component: UserRegister, exact: true ,role:'admin'},
   { path: '/admin/usertable', name: 'Users', component: UserTable, exact: true ,role:'admin'},
   { path: '/admin/edituser/:id', name: 'EditUsers', component: UserEdit,exact: true,role:'admin' },
+  { path: '/admin/userrolecreate', name: 'Create User Role', component: UserRoleAdd, exact: true, role: 'admin' },
   { path: '/admin/userrolecreate', name: 'Create User Role', component: UserRoleAdd, exact: true,role:'admin' },
 
   //level1
