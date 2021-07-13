@@ -37,6 +37,8 @@ return (
               <Route exact path="/500" name="Page 500" render={props => <Page500 {...props}/>} />
               <Route  path="/admin" name="Home" render={props => <TheLayout {...props} userrole={currentUserRole}/>} />
               <Route  path="/level1" name="Home" render={props => <TheLayout {...props} userrole={currentUserRole}/>} />
+              <Route  path="/level2" name="Home" render={props => <TheLayout {...props} userrole={currentUserRole}/>} />
+              <Route  path="/level3" name="Home" render={props => <TheLayout {...props} userrole={currentUserRole}/>} />
              
              <Redirect from="/" to="/login" />
             </Switch>

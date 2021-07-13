@@ -11,6 +11,10 @@ const UserRoleAdd = React.lazy(() => import('./views/menu/user/UserRoleAdd'));
 const DashboardLvel1 = React.lazy(() => import('./views/dashboard/DashboardLevel1'));
 
 //level2
+const DashboardLvel2 = React.lazy(() => import('./views/dashboard/DashboardLevel2'));
+
+//level3
+const DashboardLvel3 = React.lazy(() => import('./views/dashboard/DashboardLevel3'));
 
 
 const routes = [
@@ -24,6 +28,16 @@ const routes = [
   //level1
   { path: '/level1/dashboard', name: 'Dashboard', component: DashboardLvel1 ,role:'level1' },
   { path: '/level1/videofeed', name: 'Video Feed', component: DashboardLvel1 ,role:'level1' },
+
+  //level2
+  { path: '/level2/dashboard', name: 'Dashboard', component: DashboardLvel2 ,role:'level2' },
+ 
+
+  //level3
+  { path: '/level3/dashboard', name: 'Dashboard', component: DashboardLvel3,role:'level3' },
+
+
+
 ];
 
 export default routes;
