@@ -8,7 +8,7 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-
+import avatar2 from "../assets/avatar-2.jpg";
 const TheHeaderDropdown = () => {
   return (
     <CDropdown
@@ -19,7 +19,7 @@ const TheHeaderDropdown = () => {
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
           <CImg
-            src={'avatars/6.jpg'}
+            src={avatar2}
             className="c-avatar-img"
             alt=""
           />

@@ -18,6 +18,9 @@ import {
 
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import logodark from "../../../assets/elogo.png";
+
+
 
 import {Formik} from "formik";
 import * as Yup from "yup";
@@ -72,7 +75,7 @@ const Login = () => {
                       <div>
                         <div className="text-center">
                           <div>
-                            <Link to="/" className="logo"></Link>
+                          <img className="mb-2 mt-0" src={logodark} height="35" alt="logo"/>
                           </div>
 
                           <h4 className="font-size-18 mt-4">Welcome Back !</h4>
