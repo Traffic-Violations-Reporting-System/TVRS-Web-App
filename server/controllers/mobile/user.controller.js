@@ -106,9 +106,6 @@ function register(req, res){
     });
 }
 
-
-
-
 function updateOrCreate (model, where, newItem) {
     // First try to find the record
     return model
@@ -130,9 +127,7 @@ function updateOrCreate (model, where, newItem) {
 module.exports = {
     register: register,
     login: login,
-    sendOTP: sendOTP,
-    verifyOTP: verifyOTP,
-    resendOTP: resendOTP
+
 }
 
 
