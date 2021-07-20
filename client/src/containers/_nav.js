@@ -20,6 +20,18 @@ const _nav =  [
     to: '/register',
     icon: 'cil-star',
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Users Table',
+    to: '/usertable',
+    icon: 'cil-star',
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Create User role',
+    to: '/userrolecreate',
+    icon: 'cil-star',
+  },
 
 
 

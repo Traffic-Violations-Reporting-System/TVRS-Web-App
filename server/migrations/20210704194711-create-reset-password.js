@@ -1,37 +1,27 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('webusers', {
+    await queryInterface.createTable('reset_passwords', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      first_name: {
-        type: Sequelize.STRING,
-        allowNull:false
-      },
-      last_name: {
-        type: Sequelize.STRING
+      user_id: {
+        type: Sequelize.INTEGER
       },
       email: {
         type: Sequelize.STRING
       },
-      password: {
+      auth_token: {
         type: Sequelize.STRING
       },
-      role_id: {
+      used: {
         type: Sequelize.INTEGER
       },
-      status: {
-        type: Sequelize.BOOLEAN
-      },
-      nic: {
-        type: Sequelize.STRING
-      },
-      service_id: {
-        type: Sequelize.STRING
+      expire: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -44,6 +34,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('webusers');
+    await queryInterface.dropTable('reset_passwords');
   }
 };

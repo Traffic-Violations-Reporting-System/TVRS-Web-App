@@ -30,7 +30,18 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
-
+db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+db.webusers = require("./webuser")(sequelize, Sequelize);
+db.webuserroles = require("./webuserrole")(sequelize, Sequelize);
+
+db.webuserroles.hasMany(db.webusers, { as: "webusers" });
+db.webusers.belongsTo(db.webuserroles, {
+  foreignKey: "role_id",
+  as: "role",
+});
+
 module.exports = db;
+
+
