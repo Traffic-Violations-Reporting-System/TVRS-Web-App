@@ -18,7 +18,7 @@ import {
 
 } from '@coreui/react'
 import {getAllUsers} from "../../../services/web/userService";
- 
+
 const UsersTable = () => {
 
   const history = useHistory();
@@ -34,9 +34,9 @@ const UsersTable = () => {
     setUsersAllData(users);
   };
 
- 
+
   const [details, setDetails] = useState([])
- 
+
 
   const toggleDetails = (index) => {
     const position = details.indexOf(index)
@@ -121,9 +121,9 @@ const UsersTable = () => {
                       <CCollapse show={details.includes(index)}>
                         <CCardBody>
                           <h4>
-                            {item.username}
+                            {item.name}
                           </h4>
-                          <p className="text-muted">User Name: {item.id}</p>
+                          <p className="text-muted">User serviceId: {item.serviceId}</p>
                           <CButton size="sm" color="primary" >
                             View User
                           </CButton>
