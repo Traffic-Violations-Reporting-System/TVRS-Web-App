@@ -9,29 +9,109 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Dashboard',
-    to: '/dashboard',
+    to: '/admin/dashboard',
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
-
+    role:'admin'
   },
 
   {
     _tag: 'CSidebarNavItem',
     name: 'User Register',
-    to: '/register',
+  to: '/admin/register',
     icon: 'cil-star',
+    role:'admin'
+
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Users Table',
-    to: '/usertable',
+    name: 'All Users',
+    to: '/admin/usertable',
     icon: 'cil-star',
+    role:'admin'
+
+ },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Create User Role',
+    to: '/admin/userrolecreate',
+    icon: 'cilPeople',
+    role:'admin'
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Create User role',
-    to: '/userrolecreate',
-    icon: 'cil-star',
+    name: 'User Role List',
+    to: '/admin/userrolecreate',
+    icon: 'cilPeople',
+    role:'admin'
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Setting',
+    to: '/admin/userrolecreate',
+    icon: 'cil-star',
+    role:'admin'
+  },
+   //level 1
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Dashbord',
+    to: '/level1/dashboard',
+    icon: 'cil-star',
+    role:'level1'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'New Companies',
+    to: '/level1/dashboard',
+    icon: 'cil-star',
+    role:'level1'
+  },
+
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Create Complaint',
+    to: '/level1/complaints',
+    icon: 'cil-star',
+    role:'level1'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Inquiry Companies',
+    to: '/level1/dashboard',
+    icon: 'cil-star',
+    role:'level1'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Chat',
+    to: '/level1/dashboard',
+    icon: 'cil-star',
+    role:'level1'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Report',
+    to: '/level1/dashboard',
+    icon: 'cil-star',
+    role:'level1'
+  },
+   //level 2
+   {
+    _tag: 'CSidebarNavItem',
+    name: 'Dashbord',
+    to: '/level2/dashboard',
+    icon: 'cil-star',
+    role:'level2'
+  },
+   //level 3
+   {
+    _tag: 'CSidebarNavItem',
+    name: 'Dashbord',
+    to: '/level3/dashboard',
+    icon: 'cil-star',
+    role:'level3'
+  },
+
 
 
 

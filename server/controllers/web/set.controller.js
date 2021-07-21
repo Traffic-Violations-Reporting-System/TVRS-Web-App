@@ -3,6 +3,7 @@ const { setValidate } = require('../../validation/web/reset.validations');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 exports.setController = async (req, res, next) => {
 
@@ -44,8 +45,10 @@ exports.setController = async (req, res, next) => {
          }
       });
       // console.log("fk3");
-      var newSalt = crypto.randomBytes(64).toString('hex');
-      var newPassword = crypto.pbkdf2Sync(newpassword, newSalt, 10000, 64, 'sha512').toString('base64');
+      
+        
+      var newSalt = await bcrypt.genSalt(10);
+      var newPassword = await bcrypt.hash(user.password, salt);
       // console.log("fk4");
       await webuser.update({
          password: newPassword,

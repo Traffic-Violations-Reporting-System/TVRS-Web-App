@@ -194,10 +194,6 @@ const BasicForms = (props) => {
                       </CForm>
                     )}</Formik>
 
-
-
-
-
               </CCollapse>
             </CCard>
           </CFade>

@@ -1,9 +1,9 @@
- feature/tvrs-external-reset-password
+ 
 const authRoute = require('./router/web/auth.route');
 const resetRoute =require('./router/web/reset.route');
 
 const {sequelize,webuser,webuserrole}=require('./models');
-const authRoute =require('./router/web/auth.route');
+
 const userRoute =require('./router/web/user/user.route');
 const userRoleRoute =require('./router/web/user/userRole.route');
 

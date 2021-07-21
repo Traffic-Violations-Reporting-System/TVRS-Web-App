@@ -6,15 +6,15 @@ import {
   TheHeader
 } from './index'
 
-const TheLayout = () => {
+const TheLayout = (props) => {
 
   return (
     <div className="c-app c-default-layout">
-      <TheSidebar/>
+      <TheSidebar currentUserRole={props.userrole}/>
       <div className="c-wrapper">
         <TheHeader/>
         <div className="c-body">
-          <TheContent/>
+          <TheContent currentUserRole={props.userrole}/>
         </div>
         <TheFooter/>
       </div>
