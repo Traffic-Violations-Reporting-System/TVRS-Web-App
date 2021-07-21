@@ -12,6 +12,7 @@ const complainRoute = require('./router/mobile/complain.route');
 const bodyParser = require('body-parser');
 const express  =require('express');  //return function
 let cors = require('cors');
+require("dotenv").config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,7 +29,7 @@ app.use("/api/v1/mobile/complain", complainRoute);
 app.use('/web/user', userRoute);
 app.use('/web/user', userRoleRoute);
 
-const port =process.env.PORT ||4000;
+const port = process.env.PORT ||4000;
 
 app.listen(port,async () => {
     console.log(`Listening on port ${port}...`);
