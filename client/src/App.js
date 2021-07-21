@@ -23,18 +23,42 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
 
 function App(){
   const [currentUserRole,setCurrentUserRole]=useState();
-  
+
   useEffect(() => {
     const user =getCurrentUser();
     console.log(user.role);
     setCurrentUserRole(user.role);
   });
-  
+
+  const PublicRoute = ({ currentUserRole, ...props }) => {
+    
+    return currentUserRole
+        ? (<Redirect to="/admin/dashboard" />)
+        : (<Route {...props} />)
+};
+
 return (
       <BrowserRouter>
           <React.Suspense fallback={loading}>
             <Switch>
-              <Route exact path="/login" name="Login Page" render={props => <Login {...props} />} />
+              {/* <Route  path="/login" name="Login Page" render={props => <Login {...props} />} /> */}
+              {/* <Route
+                path="/protected"
+              render={props =>
+                currentUserRole ? (
+                  <TheLayout {...props} userrole={currentUserRole}/>
+                ) : (
+                  <Login {...props} />
+                )
+              }
+            /> */}
+
+              <PublicRoute
+                userrole={currentUserRole}
+                path="/login"
+                component={Login}
+            />
+
               <Route exact path="/forgot" name="Forgot password page" render={props => <ForgotPassword {...props}/>} />
               <Route exact path="/set" name="Set Password Page" render={props => <SetPassword {...props} />} />
               <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />
@@ -49,7 +73,7 @@ return (
           </React.Suspense>
       </BrowserRouter>
     );
-  
+
 }
 
 export default App;

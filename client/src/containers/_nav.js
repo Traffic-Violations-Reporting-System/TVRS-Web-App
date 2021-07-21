@@ -39,9 +39,17 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'User Role',
-    to: '/admin/userrole',
-    icon: 'cilMagnifyingGlass',
+    name: 'User Role List',
+    to: '/admin/userrolecreate',
+    icon: 'cilPeople',
+    role:'admin'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Setting',
+    to: '/admin/userrolecreate',
+    icon: 'cil-star',
+    role:'admin'
   },
    //level 1
   {
@@ -51,11 +59,39 @@ const _nav =  [
     icon: 'cil-star',
     role:'level1'
   },
- 
   {
     _tag: 'CSidebarNavItem',
-    name: 'Video Feed',
-    to: '/level1/videofeed',
+    name: 'New Companies',
+    to: '/level1/dashboard',
+    icon: 'cil-star',
+    role:'level1'
+  },
+
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Create Complaint',
+    to: '/level1/complaints',
+    icon: 'cil-star',
+    role:'level1'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Inquiry Companies',
+    to: '/level1/dashboard',
+    icon: 'cil-star',
+    role:'level1'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Chat',
+    to: '/level1/dashboard',
+    icon: 'cil-star',
+    role:'level1'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Report',
+    to: '/level1/dashboard',
     icon: 'cil-star',
     role:'level1'
   },
