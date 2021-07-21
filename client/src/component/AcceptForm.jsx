@@ -82,6 +82,7 @@ const AcceptForm = () => {
                   <CFormGroup>
                     <CLabel htmlFor="name">Status</CLabel>
                     <CSelect custom name="ccmonth" id="ccmonth">
+                      <option value="0">Not selected</option>
                       <option value="victim">Victim</option>
                       <option value="suspect">Suspect</option>
                     </CSelect>
@@ -99,6 +100,7 @@ const AcceptForm = () => {
                 <CFormGroup>
                     <CLabel htmlFor="ageRange">Age Range</CLabel>
                     <CSelect custom name="ageRange" id="ageRange">
+                      <option value="0">Not selected</option>
                       <option value="1">Below 18</option>
                       <option value="2">18 - 30</option>
                       <option value="3">30-50</option>
@@ -122,8 +124,11 @@ const AcceptForm = () => {
                   <CFormGroup>
                     <CLabel htmlFor="skinColor">Skin Color</CLabel>
                     <CSelect custom name="skinColor" id="skinColor">
-                      <option value="victim">Victim</option>
-                      <option value="suspect">Suspect</option>
+                      <option value="fair">Fair</option>
+                      <option value="medium">Medium</option>
+                      <option value="olive">Olive</option>
+                      <option value="brown">Brown</option>
+                      <option value="black">Black</option>
                     </CSelect>
                   </CFormGroup>
                 </CCol>
@@ -141,58 +146,76 @@ const AcceptForm = () => {
               </CRow>
               <hr></hr>
 
+              <h6>Other Details</h6>
               <CRow>
-                <CCol xs="12">
-                  <CFormGroup>
-                    <CLabel htmlFor="ccnumber">Credit Card Number</CLabel>
-                    <CInput id="ccnumber" placeholder="0000 0000 0000 0000" required />
-                  </CFormGroup>
-                </CCol>
-              </CRow>
-              <CRow>
+
                 <CCol xs="4">
                   <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Month</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
+                    <CLabel htmlFor="policeRegion">Police Region</CLabel>
+                    <CSelect custom name="policeRegion" id="policeRegion">
+                      <option value="0">Not selected</option>
+                      <option value="1">Matara</option>
+                      <option value="2">Galle</option>
+                      <option value="3">Hambanthota</option>
+                      <option value="4">Hakmana</option>
                     </CSelect>
                   </CFormGroup>
                 </CCol>
+
                 <CCol xs="4">
                   <CFormGroup>
-                    <CLabel htmlFor="ccyear">Year</CLabel>
-                    <CSelect custom name="ccyear" id="ccyear">
-                      <option>2017</option>
-                      <option>2018</option>
-                      <option>2019</option>
-                      <option>2020</option>
-                      <option>2021</option>
-                      <option>2022</option>
-                      <option>2023</option>
-                      <option>2024</option>
-                      <option>2025</option>
-                      <option>2026</option>
+                    <CLabel htmlFor="violationType">Violation Type</CLabel>
+                    <CSelect custom name="violationType" id="violationType" >
+                      <option value="0">Not selected</option>
+                      <option value="1">Accident</option>
+                      <option value="2">Reckless Driving</option>
                     </CSelect>
                   </CFormGroup>
                 </CCol>
+
                 <CCol xs="4">
                   <CFormGroup>
-                    <CLabel htmlFor="cvv">CVV/CVC</CLabel>
-                    <CInput id="cvv" placeholder="123" required/>
+                    <CLabel htmlFor="policeRegion">Complaint Accuracy</CLabel>
+                    <CSelect custom name="policeRegion" id="policeRegion">
+                      <option value="0">Not selected</option>
+                      <option value="1">Low</option>
+                      <option value="2">Low Medium</option>
+                      <option value="3">Medium</option>
+                      <option value="3">Medium High</option>
+                      <option value="3">High</option>
+                    </CSelect>
                   </CFormGroup>
                 </CCol>
+
               </CRow>
+
+              <CRow>
+
+              <CCol xs="6">
+              <CFormGroup >
+                <CLabel htmlFor="policeRegion">Description</CLabel>
+                  
+                    <CTextarea 
+                      name="textarea-input" 
+                      id="textarea-input" 
+                      rows="4"
+                      placeholder="Description..." 
+                    />
+
+                  </CFormGroup>
+              </CCol>
+
+              
+                
+              </CRow>
+                <CCol col="2" sm="2" md="2" xl="2" style={{float:"right",marginRight:"5%"}} >
+                  <CButton block color="info">Submit</CButton>
+                </CCol>
+              <CRow>
+
+              </CRow>
+
+              
             </CCardBody>
           </CCard>
         </CCol>
