@@ -1,5 +1,5 @@
- feature/tvrs-external-reset-password
-const authRoute = require('./router/web/auth.route');
+ // feature/tvrs-external-reset-password
+// const authRoute = require('./router/web/auth.route');
 const resetRoute =require('./router/web/reset.route');
 
 const {sequelize,webuser,webuserrole}=require('./models');
@@ -8,6 +8,7 @@ const userRoute =require('./router/web/user/user.route');
 const userRoleRoute =require('./router/web/user/userRole.route');
 
 const mobileUsersRoute = require('./router/mobile/user');
+const complainRoute = require('./router/mobile/complain.route');
 const bodyParser = require('body-parser');
 const express  =require('express');  //return function
 let cors = require('cors');
@@ -21,6 +22,7 @@ app.use(express.urlencoded({extended: true}))
 app.use('/web', authRoute);
 app.use('/web', resetRoute);
 app.use("/api/v1/mobile/user", mobileUsersRoute);
+app.use("/api/v1/mobile/complain", complainRoute);
 
 
 app.use('/web/user', userRoute);

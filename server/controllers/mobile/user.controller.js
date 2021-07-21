@@ -1,8 +1,8 @@
 const models  = require('../../models');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-var otpGenerator = require('otp-generator');
-const axios = require('axios');
+// var otpGenerator = require('otp-generator');
+// const axios = require('axios');
 
 
 function register(req, res){
@@ -50,6 +50,7 @@ function register(req, res){
 }
 
  function login(req, res)  {
+
     models.mobile_user.findOne({where:{nic: req.body.nic}}).then(user => {
         if(user===null){
             res.status(401).json({
@@ -58,10 +59,7 @@ function register(req, res){
         }
         else{
             bcryptjs.compare(req.body.password, user.password, function(err, result){
-
-                
                 if(result){
-
                     jwt.sign({
                         nic: user.nic,
                         userId: user.id,
@@ -72,7 +70,6 @@ function register(req, res){
                               id: user.id
                             }
                           });
-
                         updateOrCreate(models.mobile_user_session, {id: user.id}, { token: token, user_id: user.id })
                             .then(function(result) {
                                 // result.item;  // the model
@@ -87,9 +84,6 @@ function register(req, res){
                                     message: "something went wrong!",
                                 });
                         });
-
-
-
                     });
 
                 }else{
@@ -127,7 +121,6 @@ function updateOrCreate (model, where, newItem) {
 module.exports = {
     register: register,
     login: login,
-
 }
 
 
