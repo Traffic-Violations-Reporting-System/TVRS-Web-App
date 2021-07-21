@@ -53,32 +53,41 @@ const Dashboard = () => {
           <CCardBody>
             <CTabs>
               <CNav variant="tabs">
+
                 <CNavItem>
                   <CNavLink>
-                    Accept
+                    <span text-color="green">Accept</span>
                   </CNavLink>
                 </CNavItem>
+
                 <CNavItem>
                   <CNavLink>
-                    Reject
+                  <span>Reject</span>
                   </CNavLink>
                 </CNavItem>
+
                 <CNavItem>
                   <CNavLink>
-                    Review
+                  <span>Review</span>
                   </CNavLink>
                 </CNavItem>
+
               </CNav>
+
               <CTabContent>
+
                 <CTabPane>
                   <AcceptForm />
                 </CTabPane>
+
                 <CTabPane>
                   <RejectForm />
                 </CTabPane>
+
                 <CTabPane>
                   <ReviewForm />
                 </CTabPane>
+                
               </CTabContent>
             </CTabs>
           </CCardBody>
