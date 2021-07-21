@@ -3,35 +3,18 @@ import {
   CButton,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardHeader,
   CCol,
-  CCollapse,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
-  CFade,
   CForm,
   CFormGroup,
-  CFormText,
-  CValidFeedback,
-  CInvalidFeedback,
   CTextarea,
   CInput,
-  CInputFile,
-  CInputCheckbox,
-  CInputRadio,
-  CInputGroup,
-  CInputGroupAppend,
-  CInputGroupPrepend,
-  CDropdown,
-  CInputGroupText,
   CLabel,
   CSelect,
   CRow,
-  CSwitch
+  CImg
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import plus from "../assets/plus.png";
 
 
 const AcceptForm = () => {
@@ -52,9 +35,15 @@ const AcceptForm = () => {
             </CCardHeader>
 
             <CCardBody>
-
-              <h6>Related Vehicles</h6>
-
+<CRow>
+                <p className="lead " style={{marginLeft:"15px",marginTop:"4px"}}><b>Related Vehicles</b></p>
+                <div className="c-avatar" style={{marginLeft:"15px"}}>
+                      <CImg src={plus} className="c-avatar-img" style={{width:"25px"}}></CImg>
+                    </div>
+               
+                
+                
+              </CRow>
               <CRow>
               
                 <CCol xs="3">
@@ -89,11 +78,19 @@ const AcceptForm = () => {
                   </CFormGroup>
                 </CCol>
 
+               
               </CRow>
               <hr></hr>
 
-              <h6>Related People</h6>
-
+              <CRow>
+                <p className="lead" style={{marginLeft:"15px",marginTop:"4px"}}><b>Related Vehicles</b></p>
+                <div className="c-avatar" style={{marginLeft:"15px"}}>
+                      <CImg src={plus} className="c-avatar-img" style={{width:"25px"}}/>
+                    </div>
+               
+                
+                
+              </CRow>
               <CRow>
               
                 <CCol xs="3">
@@ -143,10 +140,12 @@ const AcceptForm = () => {
                   </CFormGroup>
                 </CCol>
 
+                
+
               </CRow>
               <hr></hr>
 
-              <h6>Other Details</h6>
+              <h6><b>Other Details</b></h6>
               <CRow>
 
                 <CCol xs="4">
@@ -203,17 +202,17 @@ const AcceptForm = () => {
                     />
 
                   </CFormGroup>
-              </CCol>
-
-              
+              </CCol> 
                 
               </CRow>
-                <CCol col="2" sm="2" md="2" xl="2" style={{float:"right",marginRight:"5%"}} >
-                  <CButton block color="info">Submit</CButton>
-                </CCol>
-              <CRow>
 
-              </CRow>
+              <CCol col="2" sm="2" md="2" xl="2" style={{float:"right",marginRight:"5%"}} >
+                  <CButton block color="info">Submit</CButton>
+              </CCol>
+              <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
+                  <CButton block color="dark">Clear</CButton>
+              </CCol>
+              
 
               
             </CCardBody>
