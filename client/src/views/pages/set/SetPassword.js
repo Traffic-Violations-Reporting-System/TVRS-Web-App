@@ -53,13 +53,13 @@ const SetPassword = (props) => {
      return(false);
   }
   const email = getQueryVariable('email');
-  // console.log(email);
   const token = getQueryVariable('token');
-  // console.log(token);
+
   if (!email && !token) window.location = url;
   
 
-  const handleSubmit = async (values, { setSubmitting})=>{
+  const handleSubmit = async (values, { setSubmitting }) => {
+    
     try{
       await setPassword(values.newpassword,values.confirmpassword,token,email);
       setBackendErrStatus(false);
@@ -99,11 +99,8 @@ const SetPassword = (props) => {
                           {backendErr&&<CAlert color="danger">{backendErr}</CAlert>}
                         </div>
 
-
-
                         <div className="p-2 mt-5">
-
-
+                          
                           <Formik
                             initialValues={{newpassword:'',confirmpassword:''}}
                             validationSchema ={validationSchema}

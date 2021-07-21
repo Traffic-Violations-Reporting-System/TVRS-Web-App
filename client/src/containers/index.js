@@ -7,12 +7,14 @@ import TheHeaderDropdownNotif from './TheHeaderDropdownNotif'
 import TheHeaderDropdownTasks from './TheHeaderDropdownTasks'
 import TheLayout from './TheLayout'
 import TheSidebar from './TheSidebar'
+import TheHeaderCalender from './TheHeaderCalender'
 
 export {
   TheContent,
   TheFooter,
   TheHeader,
   TheHeaderDropdown,
+  TheHeaderCalender,
   TheHeaderDropdownMssg,
   TheHeaderDropdownNotif,
   TheHeaderDropdownTasks,
