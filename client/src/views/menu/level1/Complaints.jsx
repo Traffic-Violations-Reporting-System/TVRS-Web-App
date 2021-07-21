@@ -12,9 +12,7 @@ import {
 import React, {useState} from 'react';
 import { ReactVideo } from "reactjs-media";
 
-import location from "../../../assets/location.jpg";
-import user from "../../../assets/user.png";
-import clock from "../../../assets/clock.png";
+
 import DocsLink from "../../../reusable/DocsLink";
 import AcceptForm from "../../../component/AcceptForm";
 import RejectForm from "../../../component/RejectForm";
@@ -29,7 +27,7 @@ const Dashboard = () => {
     <>
     <h3>Complaint Reference Number - K7814596</h3>
 
-     <CRow >
+     <CRow>
        <CCol  sm="8">
          <div>
            <ReactVideo
