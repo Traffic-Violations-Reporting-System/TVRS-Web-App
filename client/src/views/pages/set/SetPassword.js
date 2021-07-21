@@ -16,6 +16,8 @@ import CIcon from '@coreui/icons-react'
 import {Formik} from "formik";
 import * as Yup from "yup";
 import { setPassword } from "../../../services/web/userService";
+import logodark from "../../../assets/elogo.png";
+import cover from "../../../assets/cover.jpg";
 
 
 const validationSchema = Yup.object().shape({
@@ -88,8 +90,8 @@ const SetPassword = (props) => {
                     <CCol lg={9}>
                       <div>
                         <div className="text-center">
-                          <div>
-                            <Link to="/" className="logo"></Link>
+                        <div>
+                          <img className="mb-2 mt-0" src={logodark} height="35" alt="logo"/>
                           </div>
 
                           <h4 className="font-size-18 mt-4">Set New Password</h4>
@@ -195,7 +197,7 @@ const SetPassword = (props) => {
               <div style={
                 {
                   backgroundColor:'#fff',
-                  backgroundImage:"url('https://wallpaperplay.com/walls/full/8/b/9/23581.jpg')",
+                  backgroundImage:`url(${cover})`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',

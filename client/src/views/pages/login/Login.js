@@ -104,11 +104,11 @@ const Login = () => {
                                       <CIcon name="cil-user" size={'xl'} className="mt-3"  />
                                     </div>
                                     <div className="col-10">
-                                      <CLabel htmlFor="username" className="mb-0">Username</CLabel>
+                                      <CLabel htmlFor="username" className="mb-0">Email</CLabel>
                                       <CInput
                                         id="email"
                                         name="email"
-                                        placeholder="Enter username"
+                                        placeholder="Enter user email"
                                         className="border-0 shadow-none pl-0 ml-0"
                                         value={values.email}
                                         onChange={handleChange("email")}
