@@ -11,6 +11,7 @@ const mobileUsersRoute = require('./router/mobile/user');
 const bodyParser = require('body-parser');
 const express  =require('express');  //return function
 let cors = require('cors');
+require("dotenv").config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,7 +27,7 @@ app.use("/api/v1/mobile/user", mobileUsersRoute);
 app.use('/web/user', userRoute);
 app.use('/web/user', userRoleRoute);
 
-const port =process.env.PORT ||4000;
+const port = process.env.PORT ||4000;
 
 app.listen(port,async () => {
     console.log(`Listening on port ${port}...`);

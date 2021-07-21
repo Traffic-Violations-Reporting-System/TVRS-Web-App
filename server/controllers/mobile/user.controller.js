@@ -22,10 +22,10 @@ function register(req, res){
                         nic: req.body.nic,
                         region_id: req.body.regionid,
                         password: hash
-                        
+
                     }
-                
-                
+
+
                     models.mobile_user.create(users).then(result => {
                         res.status(200).json({
                             message: "registration successfull",
@@ -59,7 +59,7 @@ function register(req, res){
         else{
             bcryptjs.compare(req.body.password, user.password, function(err, result){
 
-                
+
                 if(result){
 
                     jwt.sign({
@@ -106,6 +106,173 @@ function register(req, res){
     });
 }
 
+
+function sendOTP(req, res)  {
+    models.mobile_user.findOne({where:{nic: req.body.nic}}).then(user => {
+        if(user===null){
+            res.status(401).json({
+                message: "This user doesnt exist!",
+            });
+        }
+        else{
+            models.mobile_user.update({ mphone: req.body.mphone }, {
+                where: {
+                    id: user.id
+                }
+            }).then(result => {
+                //generate otp
+                var otp = otpGenerator.generate(6, { alphabets: false, upperCase: false, specialChars: false });
+
+                const data = {
+                    otp: otp,
+                    user_id: user.id
+                }
+
+                models.mobile_user_otp.create(data).then(result => {
+
+                    axios.post('https://smsapi.bitshifttech.com/api/v1/send/single', {
+                        "message": otp.toString() + " is your otp code from eTrafficComplainer. Use this code to verify your mobile number.",
+                        "phoneNumber": req.body.mphone
+                    }, {headers: {
+                            "Authorization": process.env.SMS_API_TOKEN
+                        }})
+                        .then(function (response) {
+                            console.log(response);
+                            res.status(200).json({
+                                message: "otp sent"
+                            });
+                        })
+                        .catch(function (error) {
+                            res.status(500).json({
+                                message: "Otp send error!",
+                                error: error
+                            });
+                            console.log(error);
+                        });
+
+                }).catch(error => {
+                    res.status(500).json({
+                        message: "database error",
+                        error: error
+                    });
+                });
+
+
+            }).catch(error => {
+                res.status(500).json({
+                    message: "database error!",
+                    error: error
+                });
+            });
+
+
+
+
+        }
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong!",
+        });
+    });
+}
+
+
+function resendOTP(req, res)  {
+    models.mobile_user.findOne({where:{nic: req.body.nic}}).then(user => {
+        if(user===null){
+            res.status(401).json({
+                message: "This user doesnt exist!",
+            });
+        }else{
+
+            //generate otp
+            var otp = otpGenerator.generate(6, { alphabets: false, upperCase: false, specialChars: false });
+
+
+            models.mobile_user_otp.update({otp: otp}, {
+                where: {
+                    user_id: user.id
+                }
+            }).then(result => {
+
+                axios.post('https://smsapi.bitshifttech.com/api/v1/send/single', {
+                    "message": otp.toString() + " is your otp code from eTrafficComplainer. Use this code to verify your mobile number.",
+                    "phoneNumber": user.mphone
+                }, {headers: {
+                        "Authorization": process.env.SMS_API_TOKEN
+                    }})
+                    .then(function (response) {
+                        console.log(response);
+                        res.status(200).json({
+                            message: "otp sent"
+                        });
+                    })
+                    .catch(function (error) {
+                        res.status(500).json({
+                            message: "Otp send error!",
+                            error: error
+                        });
+                        console.log(error);
+                    });
+
+            }).catch(error => {
+                res.status(500).json({
+                    message: "database error",
+                    error: error
+                });
+            });
+
+        }
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong!",
+        });
+    });
+}
+
+
+function verifyOTP(req, res)  {
+    models.mobile_user.findOne({where:{nic: req.body.nic}}).then(user => {
+        if(user===null){
+            res.status(401).json({
+                message: "This user doesnt exist!",
+            });
+        }
+        else{
+            models.mobile_user_otp.findOne({where:{user_id: user.id}}).then(data => {
+                var today = +new Date;
+                var otptime = new Date(data.updatedAt);
+                if(today-otptime < 1000 * 60 * 3){
+                    if(data.otp === req.body.otp){
+                        res.status(200).json({
+                            message: "verification successful",
+
+                        });
+                    }else{
+                        res.status(400).json({
+                            message: "verification failed",
+                        });
+                    }
+                }else{
+                    res.status(405).json({
+                        message: "otp expired!",
+                    });
+                }
+
+            }).catch(error => {
+                res.status(500).json({
+                    message: "database error",
+                    error: error
+                });
+            });
+        }
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong!",
+        });
+    });
+}
+
 function updateOrCreate (model, where, newItem) {
     // First try to find the record
     return model
@@ -127,7 +294,9 @@ function updateOrCreate (model, where, newItem) {
 module.exports = {
     register: register,
     login: login,
-
+    verifyOTP: verifyOTP,
+    sendOTP: sendOTP,
+    resendOTP: resendOTP
 }
 
 
