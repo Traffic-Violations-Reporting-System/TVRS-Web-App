@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {
   CButton,
   CCard,
@@ -15,11 +15,50 @@ import {
   CImg
 } from '@coreui/react'
 import plus from "../assets/plus.png";
+import minus from "../assets/minus.png";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const AcceptForm = () => {
-  const [collapsed, setCollapsed] = React.useState(true)
-  const [showElements, setShowElements] = React.useState(true)
+
+ 
+  const [inputFieldsVehicle, setInputFieldsVehicle] = useState([
+    { vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }
+  ]);
+  const [inputFieldsPerson, setInputFieldsPerson] = useState([
+    { ageRange: '', gender: '', skinColor: '', personStatus: '' },
+  ]);
+  const [inputFieldsOther, setInputFieldsOther] = useState({
+    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '' 
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //
+  };
+
+  const handleClear = (e) => {
+    e.preventDefault();
+    //
+  };
+  
+  const handleChangeInput = (index, event) => {
+
+  }
+
+  const vehiclePlusClick = () => {
+    console.log('vehiclePlusClick');
+  }
+  const vehicleMinusClick = () => {
+    console.log('vehicleMinusClick');
+  }
+  
+  const peoplePlusClick = () => {
+    console.log('peoplePlusClick');
+  }
+  const peopleMinusClick = () => {
+    console.log('peopleMinusClick');
+  } 
 
   
 
@@ -35,64 +74,116 @@ const AcceptForm = () => {
             </CCardHeader>
 
             <CCardBody>
-<CRow>
+              <CForm>
+              <CRow> 
+
                 <p className="lead " style={{marginLeft:"15px",marginTop:"4px"}}><b>Related Vehicles</b></p>
                 <div className="c-avatar" style={{marginLeft:"15px"}}>
-                      <CImg src={plus} className="c-avatar-img" style={{width:"25px"}}></CImg>
-                    </div>
-               
-                
+                  <CButton> <CImg
+                    src={plus}
+                    className="c-avatar-img"
+                    style={{ width: "25px" }}
+                    onClick={() => vehiclePlusClick()}
+                  /></CButton>
+                </div>
+                <div className="c-avatar" style={{marginLeft:"15px"}}>
+                  <CButton><CImg
+                    src={minus}
+                    className="c-avatar-img"
+                    style={{ width: "25px" }}
+                    onClick={() => vehicleMinusClick()}
+                  /></CButton>
+                </div>
                 
               </CRow>
-              <CRow>
-              
-                <CCol xs="3">
-                  <CFormGroup>
-                    <CLabel htmlFor="name">Vehicle Number</CLabel>
-                    <CInput id="name" placeholder="Enter Vehicle Number" required />
-                  </CFormGroup>
-                </CCol>
 
-                <CCol xs="3">
-                  <CFormGroup>
-                    <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>
-                    <CInput id="name" placeholder="Enter Vehicle Type" required />
-                  </CFormGroup>
-                </CCol>
+                {inputFieldsVehicle.map((inputField, index) => (
+                <div key={inputField.id}>
+                <CRow>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Vehicle Number</CLabel>
+                          <CInput
+                            id="vehicleNumber"
+                            name="vehicleNumber"
+                            placeholder="Enter Vehicle Number"
+                            value={inputField.vehicleNumber}
+                            onChange={ (e) => handleChangeInput(index,e)}
+                          />
+                    </CFormGroup>
+                  </CCol>
 
-                <CCol xs="3">
-                  <CFormGroup>
-                    <CLabel htmlFor="vehicleColor">Color</CLabel>
-                    <CInput id="name" placeholder="Enter Vehicle Color" required />
-                  </CFormGroup>
-                </CCol>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>
+                          <CInput
+                            id="vehicleType"
+                            name="vehicleType"
+                            placeholder="Enter Vehicle Type"
+                            value={inputField.vehicleType}
+                            onChange={ (e) => handleChangeInput(index,e)}
+                          />
+                    </CFormGroup>
+                  </CCol>
 
-                <CCol xs="3">
-                  <CFormGroup>
-                    <CLabel htmlFor="name">Status</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth">
-                      <option value="0">Not selected</option>
-                      <option value="victim">Victim</option>
-                      <option value="suspect">Suspect</option>
-                    </CSelect>
-                  </CFormGroup>
-                </CCol>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleColor">Color</CLabel>
+                          <CInput
+                            id="vehicleColor"
+                            name="vehicleColor"
+                            placeholder="Enter Vehicle Color" value={inputField.vehicleColor}
+                            onChange={ (e) => handleChangeInput(index,e)}
+                          />
+                    </CFormGroup>
+                  </CCol>
 
-               
-              </CRow>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleStatus">Status</CLabel>
+                        <CSelect custom
+                          name="vehicleStatus"
+                            id="vehicleStatus"
+                            onChange={ (e) => handleChangeInput(index,e)}
+                        >
+                        <option value="0">Not selected</option>
+                        <option value="victim">Victim Vehicle</option>
+                        <option value="suspect">Suspect Vehicle</option>
+                      </CSelect>
+                    </CFormGroup>
+                  </CCol>
+                  </CRow>
+                </div>
+
+                ))}
+                
               <hr></hr>
 
               <CRow>
-                <p className="lead" style={{marginLeft:"15px",marginTop:"4px"}}><b>Related Vehicles</b></p>
+
+                <p className="lead" style={{marginLeft:"15px",marginTop:"4px"}}><b>Related People</b></p>
+                <div className="c-avatar" style={{marginLeft:"25px"}}>
+                  <CButton><CImg
+                    src={plus}
+                    className="c-avatar-img"
+                    style={{ width: "25px" }}
+                    onClick={() => peoplePlusClick()}
+                  /></CButton>
+                </div>
                 <div className="c-avatar" style={{marginLeft:"15px"}}>
-                      <CImg src={plus} className="c-avatar-img" style={{width:"25px"}}/>
-                    </div>
-               
-                
-                
+                  <CButton><CImg
+                    src={minus}
+                    className="c-avatar-img"
+                    style={{ width: "25px" }}
+                    onClick={() => peopleMinusClick()}
+                  /></CButton>
+                </div>
               </CRow>
-              <CRow>
-              
+
+              {inputFieldsPerson.map((inputField, index) => (
+                <div key={index}>
+                  <CRow>
+                
                 <CCol xs="3">
                 <CFormGroup>
                     <CLabel htmlFor="ageRange">Age Range</CLabel>
@@ -132,8 +223,8 @@ const AcceptForm = () => {
 
                 <CCol xs="3">
                 <CFormGroup>
-                    <CLabel htmlFor="name">Status</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth">
+                    <CLabel htmlFor="personStatus">Status</CLabel>
+                    <CSelect custom name="personStatus" id="personStatus">
                       <option value="victim">Victim</option>
                       <option value="suspect">Suspect</option>
                     </CSelect>
@@ -143,6 +234,9 @@ const AcceptForm = () => {
                 
 
               </CRow>
+                </div>
+              ))}    
+              
               <hr></hr>
 
               <h6><b>Other Details</b></h6>
@@ -190,31 +284,28 @@ const AcceptForm = () => {
 
               <CRow>
 
-              <CCol xs="6">
+              <CCol xs="6">     
               <CFormGroup >
                 <CLabel htmlFor="policeRegion">Description</CLabel>
-                  
                     <CTextarea 
                       name="textarea-input" 
                       id="textarea-input" 
                       rows="4"
                       placeholder="Description..." 
                     />
-
-                  </CFormGroup>
+              </CFormGroup>
               </CCol> 
                 
               </CRow>
 
-              <CCol col="2" sm="2" md="2" xl="2" style={{float:"right",marginRight:"5%"}} >
-                  <CButton block color="info">Submit</CButton>
+              <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
+                  <CButton block color="info" onClick={handleSubmit}>Submit</CButton>
               </CCol>
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
-                  <CButton block color="dark">Clear</CButton>
+                  <CButton block color="dark" onClick={handleClear}>Clear</CButton>
               </CCol>
               
-
-              
+              </CForm>
             </CCardBody>
           </CCard>
         </CCol>
