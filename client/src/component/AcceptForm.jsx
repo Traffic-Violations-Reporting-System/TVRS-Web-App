@@ -23,10 +23,10 @@ const AcceptForm = () => {
 
  
   const [inputFieldsVehicle, setInputFieldsVehicle] = useState([
-    { vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }
+    { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }
   ]);
   const [inputFieldsPerson, setInputFieldsPerson] = useState([
-    { ageRange: '', gender: '', skinColor: '', personStatus: '' },
+    { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }
   ]);
   const [inputFieldsOther, setInputFieldsOther] = useState({
     policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '' 
@@ -42,22 +42,57 @@ const AcceptForm = () => {
     //
   };
   
-  const handleChangeInput = (index, event) => {
-
+  const handleChangeInputVehicle = (id, event) => {
+    const newInputFields = inputFieldsVehicle.map(i => {
+      if(id === i.id) {
+        i[event.target.name] = event.target.value
+      }
+      return i;
+    })
+    
+    setInputFieldsVehicle(newInputFields);
   }
+
+  const handleChangeInputPerson = (id, event) => {
+    const newInputFields = inputFieldsVehicle.map(i => {
+      if(id === i.id) {
+        i[event.target.name] = event.target.value
+      }
+      return i;
+    })
+    
+    setInputFieldsPerson(newInputFields);
+  }
+
+  const handleChangeInputOther = (id, event) => {
+    const newInputFields = inputFieldsPerson.map(i => {
+      if(id === i.id) {
+        i[event.target.name] = event.target.value
+      }
+      return i;
+    })
+    
+    setInputFieldsPerson(newInputFields);
+  }
+
+ 
 
   const vehiclePlusClick = () => {
-    console.log('vehiclePlusClick');
+    setInputFieldsVehicle([...inputFieldsVehicle, { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }])
   }
-  const vehicleMinusClick = () => {
-    console.log('vehicleMinusClick');
+  const vehicleMinusClick = (id) => {
+    const values  = [...inputFieldsVehicle];
+    values.splice(values.findIndex(value => value.id === id), 1);
+    setInputFieldsVehicle(values);
   }
   
-  const peoplePlusClick = () => {
-    console.log('peoplePlusClick');
+  const personPlusClick = () => {
+    setInputFieldsPerson([...inputFieldsPerson, { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }]);
   }
-  const peopleMinusClick = () => {
-    console.log('peopleMinusClick');
+  const personMinusClick = (id) => {
+    const values = [...inputFieldsPerson];
+    values.splice(values.findIndex(value => value.id === id), 1);
+    setInputFieldsPerson(values);
   } 
 
   
@@ -108,7 +143,7 @@ const AcceptForm = () => {
                             name="vehicleNumber"
                             placeholder="Enter Vehicle Number"
                             value={inputField.vehicleNumber}
-                            onChange={ (e) => handleChangeInput(index,e)}
+                            onChange={ (e) => handleChangeInputVehicle(index,e)}
                           />
                     </CFormGroup>
                   </CCol>
@@ -121,7 +156,7 @@ const AcceptForm = () => {
                             name="vehicleType"
                             placeholder="Enter Vehicle Type"
                             value={inputField.vehicleType}
-                            onChange={ (e) => handleChangeInput(index,e)}
+                            onChange={ (e) => handleChangeInputVehicle(index,e)}
                           />
                     </CFormGroup>
                   </CCol>
@@ -133,7 +168,7 @@ const AcceptForm = () => {
                             id="vehicleColor"
                             name="vehicleColor"
                             placeholder="Enter Vehicle Color" value={inputField.vehicleColor}
-                            onChange={ (e) => handleChangeInput(index,e)}
+                            onChange={ (e) => handleChangeInputVehicle(index,e)}
                           />
                     </CFormGroup>
                   </CCol>
@@ -144,7 +179,7 @@ const AcceptForm = () => {
                         <CSelect custom
                           name="vehicleStatus"
                             id="vehicleStatus"
-                            onChange={ (e) => handleChangeInput(index,e)}
+                            onChange={ (e) => handleChangeInputVehicle(index,e)}
                         >
                         <option value="0">Not selected</option>
                         <option value="victim">Victim Vehicle</option>
@@ -167,7 +202,7 @@ const AcceptForm = () => {
                     src={plus}
                     className="c-avatar-img"
                     style={{ width: "25px" }}
-                    onClick={() => peoplePlusClick()}
+                    onClick={() => personPlusClick()}
                   /></CButton>
                 </div>
                 <div className="c-avatar" style={{marginLeft:"15px"}}>
@@ -175,7 +210,7 @@ const AcceptForm = () => {
                     src={minus}
                     className="c-avatar-img"
                     style={{ width: "25px" }}
-                    onClick={() => peopleMinusClick()}
+                    onClick={() => personMinusClick()}
                   /></CButton>
                 </div>
               </CRow>
@@ -202,6 +237,7 @@ const AcceptForm = () => {
                 <CFormGroup>
                     <CLabel htmlFor="gender">Gender</CLabel>
                     <CSelect custom name="gender" id="gender">
+                      <option value="0">Not selected</option>
                       <option value="male">Male</option>
                       <option value="female">female</option>
                     </CSelect>
@@ -212,6 +248,7 @@ const AcceptForm = () => {
                   <CFormGroup>
                     <CLabel htmlFor="skinColor">Skin Color</CLabel>
                     <CSelect custom name="skinColor" id="skinColor">
+                      <option value="0">Not selected</option>
                       <option value="fair">Fair</option>
                       <option value="medium">Medium</option>
                       <option value="olive">Olive</option>
@@ -225,6 +262,7 @@ const AcceptForm = () => {
                 <CFormGroup>
                     <CLabel htmlFor="personStatus">Status</CLabel>
                     <CSelect custom name="personStatus" id="personStatus">
+                      <option value="0">Not selected</option>
                       <option value="victim">Victim</option>
                       <option value="suspect">Suspect</option>
                     </CSelect>
@@ -286,12 +324,14 @@ const AcceptForm = () => {
 
               <CCol xs="6">     
               <CFormGroup >
-                <CLabel htmlFor="policeRegion">Description</CLabel>
+                <CLabel htmlFor="description">Description</CLabel>
                     <CTextarea 
-                      name="textarea-input" 
-                      id="textarea-input" 
+                      name="description" 
+                      id="description" 
                       rows="4"
-                      placeholder="Description..." 
+                      placeholder="Description..."
+                      value={inputFieldsOther.description}
+                      onChange={ (e) => handleChangeInputOther(e)} 
                     />
               </CFormGroup>
               </CCol> 
