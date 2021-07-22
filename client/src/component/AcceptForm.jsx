@@ -64,15 +64,9 @@ const AcceptForm = () => {
     setInputFieldsPerson(newInputFields);
   }
 
-  const handleChangeInputOther = (id, event) => {
-    const newInputFields = inputFieldsPerson.map(i => {
-      if(id === i.id) {
-        i[event.target.name] = event.target.value
-      }
-      return i;
-    })
-    
-    setInputFieldsPerson(newInputFields);
+  const handleChangeInputOther = (event) => {
+  
+    setInputFieldsOther({ ...inputFieldsOther, [event.target.name]: event.target.value });
   }
 
  
@@ -132,7 +126,7 @@ const AcceptForm = () => {
                 
               </CRow>
 
-                {inputFieldsVehicle.map((inputField, index) => (
+                {inputFieldsVehicle.map((inputField) => (
                 <div key={inputField.id}>
                 <CRow>
                   <CCol xs="3">
@@ -143,7 +137,7 @@ const AcceptForm = () => {
                             name="vehicleNumber"
                             placeholder="Enter Vehicle Number"
                             value={inputField.vehicleNumber}
-                            onChange={ (e) => handleChangeInputVehicle(index,e)}
+                            onChange={ (e) => handleChangeInputVehicle(inputField.id, e)}
                           />
                     </CFormGroup>
                   </CCol>
@@ -156,7 +150,7 @@ const AcceptForm = () => {
                             name="vehicleType"
                             placeholder="Enter Vehicle Type"
                             value={inputField.vehicleType}
-                            onChange={ (e) => handleChangeInputVehicle(index,e)}
+                            onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                           />
                     </CFormGroup>
                   </CCol>
@@ -168,7 +162,7 @@ const AcceptForm = () => {
                             id="vehicleColor"
                             name="vehicleColor"
                             placeholder="Enter Vehicle Color" value={inputField.vehicleColor}
-                            onChange={ (e) => handleChangeInputVehicle(index,e)}
+                            onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                           />
                     </CFormGroup>
                   </CCol>
@@ -179,7 +173,7 @@ const AcceptForm = () => {
                         <CSelect custom
                           name="vehicleStatus"
                             id="vehicleStatus"
-                            onChange={ (e) => handleChangeInputVehicle(index,e)}
+                            onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                         >
                         <option value="0">Not selected</option>
                         <option value="victim">Victim Vehicle</option>
@@ -339,7 +333,7 @@ const AcceptForm = () => {
               </CRow>
 
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
-                  <CButton block color="info" onClick={handleSubmit}>Submit</CButton>
+                  <CButton block color="primary" onClick={handleSubmit}>Submit</CButton>
               </CCol>
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
                   <CButton block color="dark" onClick={handleClear}>Clear</CButton>

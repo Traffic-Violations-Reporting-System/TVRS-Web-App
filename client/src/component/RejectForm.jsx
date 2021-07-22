@@ -12,7 +12,7 @@ import {
   CSelect,
   CTextarea
 } from "@coreui/react";
-import DocsLink from "../reusable/DocsLink";
+
 
 const RejectForm = () => {
 
@@ -36,45 +36,40 @@ const RejectForm = () => {
               </CFormGroup>
             </CCol>
           </CRow>
-          <CRow>
-            <CCol xs="12">
-              <CFormGroup>
-                <CLabel htmlFor="ccyear">User Rating</CLabel>
-                <CSelect custom name="ccyear" id="ccyear">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </CSelect>
-              </CFormGroup>
-            </CCol>
-          </CRow>
+
           <CRow>
             <CCol xs="12">
               <CFormGroup>
                 <CLabel htmlFor="ccmonth">Reason</CLabel>
                 <CSelect custom name="ccmonth" id="ccmonth">
+                  <option value="0">Not selected</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
                   <option value="4">4</option>
                   <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-
+              
                 </CSelect>
               </CFormGroup>
             </CCol>
           </CRow>
+
+          <CRow>
+            <CCol xs="12">
+              <CFormGroup>
+                <CLabel htmlFor="ccyear">User Rating</CLabel>
+                <CSelect custom name="ccyear" id="ccyear">
+                  <option value="0">Not selected</option>
+                  <option value="1">Low</option>
+                  <option value="2">Low Medium</option>
+                  <option value="3">Medium</option>
+                  <option value="3">Medium High</option>
+                  <option value="3">High</option>
+                </CSelect>
+              </CFormGroup>
+            </CCol>
+          </CRow>
+          
           <CRow>
             <CCol xs="4">
               <CButton
