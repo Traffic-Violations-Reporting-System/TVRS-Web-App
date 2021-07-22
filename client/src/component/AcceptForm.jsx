@@ -271,7 +271,8 @@ const AcceptForm = () => {
               
               <hr></hr>
 
-              <h6><b>Other Details</b></h6>
+                {/* <h6><b>Other Details</b></h6> */}
+                <p className="lead" style={{marginTop:"4px"}}><b>Other Details</b></p>
               <CRow>
 
                 <CCol xs="4">
