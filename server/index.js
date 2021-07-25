@@ -1,18 +1,16 @@
-const {sequelize}=require('./models');
-const webRoute =require("./startup/web/routes");
-const mobileUsersRoute = require('./router/mobile/user');
-const bodyParser = require('body-parser');
 const express  =require('express');  //return function
-let cors = require('cors');
+const {sequelize}=require('./models');
 require("dotenv").config();
 
-const app = express();
-app.use(bodyParser.json());
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+const startupMiddleware = require("./startup/essentialMiddleware");
+const webRoute =require("./startup/web/routes");
+const mobileUsersRoute = require('./router/mobile/user');
 
+const app = express();
+startupMiddleware(app);
 webRoute(app);
+
+
 app.use("/api/v1/mobile/user", mobileUsersRoute);
 
 const port = process.env.PORT ||4000;
