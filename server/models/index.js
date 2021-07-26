@@ -42,6 +42,15 @@ db.webusers.belongsTo(db.webuserroles, {
   as: "role",
 });
 
+
+
+db.Accept =require("./accept.js")(sequelize, Sequelize);
+db.Person =require("./person.js")(sequelize, Sequelize);
+db.Accept_People =require("./accept_people.js")(sequelize, Sequelize);
+db.Vehicle =require("./vehicle.js")(sequelize, Sequelize);
+db.Accept_Vehicle =require("./accept_vehicle.js")(sequelize, Sequelize);
+db.Complaint =require("./complaint")(sequelize, Sequelize);
 module.exports = db;
+
 
 
