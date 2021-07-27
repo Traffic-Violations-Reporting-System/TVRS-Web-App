@@ -51,6 +51,7 @@ db.Vehicle =require("./vehicle.js")(sequelize, Sequelize);
 db.Accept_Vehicle =require("./accept_vehicle.js")(sequelize, Sequelize);
 db.Complaint =require("./complaint")(sequelize, Sequelize);
 db.Reject =require("./reject")(sequelize, Sequelize);
+db.Review =require("./review")(sequelize, Sequelize);
 
 
 module.exports = db;
