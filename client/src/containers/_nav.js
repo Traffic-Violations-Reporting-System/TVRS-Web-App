@@ -77,7 +77,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Inquiry Companies',
-    to: '/level1/dashboard',
+    to: '/level1/inquiryList',
     icon: 'cil-star',
     role:'level1'
   },
