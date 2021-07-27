@@ -4,7 +4,7 @@ exports.reviewComplainController = async (req, res) => {
     try{
         const {description,ComplaintId} = req.body;
 
-        const complaint =await Complaint.findByPk({description,ComplaintId});
+        const complaint =await Complaint.findByPk(ComplaintId);
         if (!complaint) return res.status(400).send("Not found Complaint!");
 
         const review = await Review.create({description,ComplaintId});

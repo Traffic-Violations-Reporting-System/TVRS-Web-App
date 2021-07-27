@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     complaint.init({
         description: DataTypes.STRING,
         location: DataTypes.STRING,
-        status: DataTypes.INTEGER,
+        status: DataTypes.STRING,
         user_id: DataTypes.INTEGER
     }, {
         sequelize,

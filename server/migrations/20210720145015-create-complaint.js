@@ -15,8 +15,8 @@ module.exports = {
                 type: Sequelize.STRING
             },
             status: {
-                type: Sequelize.INTEGER,
-                defaultValue: 0
+                type: Sequelize.STRING,
+                defaultValue: 'No Action'
             },
             user_id: {
                 type: Sequelize.INTEGER
