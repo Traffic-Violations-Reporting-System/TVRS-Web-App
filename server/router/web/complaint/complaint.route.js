@@ -12,7 +12,7 @@ const {findNewAllComplainController} =require('../../../controllers/web/complain
 router.post("/create", createComplainController);
 router.post("/reject", rejectComplainController);
 router.post("/review", reviewComplainController);
-router.post("/get", getComplainController);
+router.get("/get/:id", getComplainController);
 router.post("/all", findAllComplainController);
 router.post("/newAll", findNewAllComplainController);
 

@@ -22,7 +22,7 @@ import {getNewAllComplain} from "../../../services/web/complainService";
 const InquiryTable = () => {
 
   const history = useHistory();
-  const handleEditUser = (selectId) => history.push(`/admin/edituser/${selectId}`);
+  const handleComplain = (selectId) => history.push(`/level1/complaints/${selectId}`);
   // const handleEditUser = (selectId) =>alert(history));
   const [usersData, setUsersAllData] = useState([]);
   useEffect(() => {
@@ -126,7 +126,7 @@ const InquiryTable = () => {
                             {item.name}
                           </h4>
                           <p className="text-muted">Complain ID: MCID000{item.id}</p>
-                          <CButton size="sm" color="primary" >
+                          <CButton size="sm" color="primary" onClick={()=>handleComplain(item.id)}>
                             Take Action
                           </CButton>
                         </CCardBody>

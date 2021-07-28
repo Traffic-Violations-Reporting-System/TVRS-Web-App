@@ -9,7 +9,7 @@ import {
   CSelect, CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardHeader, CCardBody, CTabs,
 
 } from '@coreui/react';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { ReactVideo } from "reactjs-media";
 
 
@@ -18,14 +18,27 @@ import AcceptForm from "../../../component/AcceptForm";
 import RejectForm from "../../../component/RejectForm";
 import ReviewForm from "../../../component/ReviewForm";
 import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
+import {getComplain} from "../../../services/web/complainService";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const [active, setActive] = useState(1)
   const lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.'
+  const [complainDetails, setComplain] = useState();
 
+  useEffect(() => {
+    fetchUser(props);
+  }, []);
+
+  const fetchUser = async (props) => {
+    const userId = props.match.params.id;
+    const { data: complain } = await getComplain(userId);
+    setComplain(complain);
+
+    console.log(complain);
+  };
   return (
     <>
-    <h3>Complaint Reference Number - K7814596</h3>
+    <h3>CMID000{props.match.params.id}</h3>
 
      <CRow>
        <CCol  sm="8">
@@ -40,7 +53,7 @@ const Dashboard = () => {
          </div>
        </CCol>
        <CCol  sm="4">
-          <ComplainDetailsCard/>
+          <ComplainDetailsCard complainDetails={complainDetails} />
        </CCol>
      </CRow>
 
@@ -85,7 +98,7 @@ const Dashboard = () => {
                 <CTabPane>
                   <ReviewForm />
                 </CTabPane>
-                
+
               </CTabContent>
             </CTabs>
           </CCardBody>

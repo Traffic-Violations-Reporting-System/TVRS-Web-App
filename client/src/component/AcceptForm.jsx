@@ -21,7 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const AcceptForm = () => {
 
- 
+
   const [inputFieldsVehicle, setInputFieldsVehicle] = useState([
     { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }
   ]);
@@ -29,19 +29,22 @@ const AcceptForm = () => {
     { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }
   ]);
   const [inputFieldsOther, setInputFieldsOther] = useState({
-    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '' 
+    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: ''
   })
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //
+    console.log(inputFieldsVehicle);
+    console.log(inputFieldsPerson);
+    console.log(inputFieldsOther);
+
   };
 
   const handleClear = (e) => {
     e.preventDefault();
     //
   };
-  
+
   const handleChangeInputVehicle = (id, event) => {
     const newInputFields = inputFieldsVehicle.map(i => {
       if(id === i.id) {
@@ -49,7 +52,7 @@ const AcceptForm = () => {
       }
       return i;
     })
-    
+
     setInputFieldsVehicle(newInputFields);
   }
 
@@ -60,16 +63,16 @@ const AcceptForm = () => {
       }
       return i;
     })
-    
+
     setInputFieldsPerson(newInputFields);
   }
 
   const handleChangeInputOther = (event) => {
-  
+
     setInputFieldsOther({ ...inputFieldsOther, [event.target.name]: event.target.value });
   }
 
- 
+
 
   const vehiclePlusClick = () => {
     setInputFieldsVehicle([...inputFieldsVehicle, { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }])
@@ -79,7 +82,7 @@ const AcceptForm = () => {
     values.splice(values.findIndex(value => value.id === id), 1);
     setInputFieldsVehicle(values);
   }
-  
+
   const personPlusClick = () => {
     setInputFieldsPerson([...inputFieldsPerson, { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }]);
   }
@@ -87,9 +90,9 @@ const AcceptForm = () => {
     const values = [...inputFieldsPerson];
     values.splice(values.findIndex(value => value.id === id), 1);
     setInputFieldsPerson(values);
-  } 
+  }
 
-  
+
 
   return (
     <>
@@ -99,12 +102,12 @@ const AcceptForm = () => {
 
             <CCardHeader>
             <h5>Accept Complaint</h5>
-              
+
             </CCardHeader>
 
             <CCardBody>
               <CForm>
-              <CRow> 
+              <CRow>
 
                 <p className="lead " style={{marginLeft:"15px",marginTop:"4px"}}><b>Related Vehicles</b></p>
                 <div className="c-avatar" style={{marginLeft:"15px"}}>
@@ -123,7 +126,7 @@ const AcceptForm = () => {
                     onClick={() => vehicleMinusClick()}
                   /></CButton>
                 </div>
-                
+
               </CRow>
 
                 {inputFieldsVehicle.map((inputField) => (
@@ -185,7 +188,7 @@ const AcceptForm = () => {
                 </div>
 
                 ))}
-                
+
               <hr></hr>
 
               <CRow>
@@ -212,7 +215,7 @@ const AcceptForm = () => {
               {inputFieldsPerson.map((inputField, index) => (
                 <div key={index}>
                   <CRow>
-                
+
                 <CCol xs="3">
                 <CFormGroup>
                     <CLabel htmlFor="ageRange">Age Range</CLabel>
@@ -263,12 +266,12 @@ const AcceptForm = () => {
                   </CFormGroup>
                 </CCol>
 
-                
+
 
               </CRow>
                 </div>
-              ))}    
-              
+              ))}
+
               <hr></hr>
 
                 {/* <h6><b>Other Details</b></h6> */}
@@ -317,20 +320,20 @@ const AcceptForm = () => {
 
               <CRow>
 
-              <CCol xs="6">     
+              <CCol xs="6">
               <CFormGroup >
                 <CLabel htmlFor="description">Description</CLabel>
-                    <CTextarea 
-                      name="description" 
-                      id="description" 
+                    <CTextarea
+                      name="description"
+                      id="description"
                       rows="4"
                       placeholder="Description..."
                       value={inputFieldsOther.description}
-                      onChange={ (e) => handleChangeInputOther(e)} 
+                      onChange={ (e) => handleChangeInputOther(e)}
                     />
               </CFormGroup>
-              </CCol> 
-                
+              </CCol>
+
               </CRow>
 
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
@@ -339,13 +342,13 @@ const AcceptForm = () => {
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
                   <CButton block color="dark" onClick={handleClear}>Clear</CButton>
               </CCol>
-              
+
               </CForm>
             </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-    </>  
+    </>
   )
 }
 

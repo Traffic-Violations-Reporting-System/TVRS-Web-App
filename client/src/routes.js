@@ -32,7 +32,7 @@ const routes = [
 
   //level1
   { path: '/level1/dashboard', name: 'Dashboard', component: DashboardLvel1 ,role:'level1' },
-  { path: '/level1/complaints', name: 'Complaints', component: Complaints ,role:'level1' },
+  { path: '/level1/complaints/:id', name: 'Complaints', component: Complaints,exact: true,role:'level1' },
   { path: '/level1/inquiryList', name: 'Inquiry Complain', component: InquiryComplain ,role:'level1' },
   { path: '/level1/newInquiryList', name: 'New Complain', component: NewComplainList ,role:'level1' },
 
