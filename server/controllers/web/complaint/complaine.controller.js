@@ -1,4 +1,4 @@
-const {Accept,Person,Vehicle,Accept_People,Accept_Vehicle,Complaint}=require('../../../models');
+const {Accept,Person,Vehicle,Accept_People,Accept_Vehicle,Complaint,Complain_Police}=require('../../../models');
 
 exports.createComplainController = async (req, res) => {
     try{
@@ -21,7 +21,11 @@ exports.createComplainController = async (req, res) => {
         let vehicleResult = vehicle.map(data => ({ acceptId: accept.id, vehicleId: data.id }));
         const accept_vehicle_result = await Accept_Vehicle.bulkCreate(vehicleResult);
 
-        return res.status(200).send("successfully created");
+        let complainPolice =await Complain_Police.create({
+            complaineId :accepts.ComplaintId,
+            userId:accepts.UserId,
+            status:'accept'});
+        return res.status(200).send("successfully Added");
 
     }catch (e) {
         return res.status(500).send("Internal Server Error");

@@ -12,7 +12,8 @@ exports.getComplainController = async (req, res) => {
             description:complaint.description,
             location: complaint.location,
             status: complaint.status,
-            date:complaint.createdAt
+            date:complaint.createdAt.toISOString().slice(0, 10),
+            time:complaint.createdAt.toISOString().slice(11, 16)
         });
 
     }catch (e) {
