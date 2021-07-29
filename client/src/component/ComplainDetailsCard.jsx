@@ -6,7 +6,7 @@ import clock from "../assets/clock.png";
 import description from "../assets/description.png";
 import { CIcon } from '@coreui/icons-react';
 
-const ComplainDetailsCard = ({complainDetails}) => {
+const ComplainDetailsCard = (props) => {
 
   return (
     <>
@@ -22,7 +22,7 @@ const ComplainDetailsCard = ({complainDetails}) => {
             </div>
             <div className="col-8">
               <CLabel htmlFor="username" className="mb-0 font-weight-bold">Detected location</CLabel>
-              <p>{complainDetails.location}</p>
+              {/*<p>{props.complainDetails.location}</p>*/}
             </div>
           </div>
 
@@ -34,7 +34,7 @@ const ComplainDetailsCard = ({complainDetails}) => {
             </div>
             <div className="col-8">
               <CLabel htmlFor="username" className="mb-0 font-weight-bold">Date</CLabel>
-              <p>{complainDetails.date}</p>
+              {/*<p>{complainDetails.date}</p>*/}
             </div>
           </div>
 
@@ -44,7 +44,7 @@ const ComplainDetailsCard = ({complainDetails}) => {
             </div>
             <div className="col-8">
               <CLabel htmlFor="username" className="mb-0 font-weight-bold">Time</CLabel>
-              <p>{complainDetails.time}</p>
+              {/*<p>{complainDetails.time}</p>*/}
             </div>
           </div>
 
@@ -54,7 +54,7 @@ const ComplainDetailsCard = ({complainDetails}) => {
             </div>
             <div className="col-8">
               <CLabel htmlFor="username" className="mb-0 font-weight-bold">Description</CLabel>
-              <p>{complainDetails.description}</p>
+              {/*<p>{complainDetails.description}</p>*/}
             </div>
           </div>
         </CCardBody>

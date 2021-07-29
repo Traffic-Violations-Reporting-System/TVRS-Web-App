@@ -1,12 +1,7 @@
 import {
   CRow,
-  CButton,
-  CForm,
-  CLabel,
-  CInput,
-  CTextarea,
   CCol,
-  CSelect, CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardHeader, CCardBody, CTabs,
+  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs,
 
 } from '@coreui/react';
 import React, {useEffect, useState} from 'react';
@@ -21,20 +16,20 @@ import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
 import {getComplain} from "../../../services/web/complainService";
 
 const Dashboard = (props) => {
-  const [active, setActive] = useState(1)
-  const lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.'
-  const [complainDetails, setComplain] = useState();
+ const [complainDetails, setComplain] = useState();
 
-  useEffect(() => {
-    fetchUser(props);
-  }, []);
+  useEffect (() => {
+    fetchComplain(props);
+  },[]);
 
-  const fetchUser = async (props) => {
-    const userId = props.match.params.id;
-    const { data: complain } = await getComplain(userId);
-    setComplain(complain);
+  const fetchComplain = async (props) => {
+    const complainId = props.match.params.id;
+    const { data: complain } = await getComplain(complainId);
+    if(complain)  setComplain(complain);
 
-    console.log(complain);
+
+    console.log("complainDetails :");
+    console.log(complainDetails);
   };
   return (
     <>
@@ -53,7 +48,7 @@ const Dashboard = (props) => {
          </div>
        </CCol>
        <CCol  sm="4">
-          <ComplainDetailsCard complainDetails={complainDetails} />
+          <ComplainDetailsCard complainDetails={complainDetails}  />
        </CCol>
      </CRow>
 
