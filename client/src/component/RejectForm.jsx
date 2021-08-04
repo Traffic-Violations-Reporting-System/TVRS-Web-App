@@ -12,44 +12,59 @@ import {InsertReject} from "../services/web/complainService";
 import CoreTextArea from "../common/CoreUI.textarea";
 import CoreTextSelect from "../common/CoreUI.select";
 import {Formik} from "formik";
+import * as Yup from "yup";
+const validationSchema = Yup.object().shape({
 
+  description: Yup.string()
+    .required("description is required")
+    .min(3)
+    .max(50)
+    .label("description"),
+  userRating: Yup.string()
+    .required("User Rating is required")
+    .label("role"),
+  reason: Yup.string()
+    .required("Reason is required")
+    .label("role"),
+
+});
 const RejectForm = () => {
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
   const [UserRating, setUserRating] = useState([
     {
       "id": 1,
-      "role": "admin"
+      "value": "1"
     },
     {
       "id": 2,
-      "role": "level1"
+      "value": "2"
     },
     {
       "id": 3,
-      "role": "level2"
+      "value": "3"
     },
     {
       "id": 4,
-      "role": "level3"
+      "value": "4"
     }
   ]);
   const [Reason, setReason] = useState([
     {
       "id": 1,
-      "role": "admin"
+      "value": "not clear"
     },
     {
       "id": 2,
-      "role": "level1"
+      "value": "bad"
     },
     {
       "id": 3,
-      "role": "level2"
+      "value": "dark"
     },
     {
       "id": 4,
-      "role": "level3"
+      "value": "other"
     }
   ]);
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
@@ -89,6 +104,7 @@ const RejectForm = () => {
             reason:'',
             userRating:'',
           }}
+          validationSchema ={validationSchema}
           onSubmit={handleSubmit}
 
         >

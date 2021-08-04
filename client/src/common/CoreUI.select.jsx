@@ -8,12 +8,12 @@ const CoreSelect =({ name,error, label,value, options,visible, ...rest })=> {
           <CFormGroup>
             <CLabel htmlFor="name">{label}</CLabel>
             <CSelect value={value} name={name}  {...rest} className={visible && error?"is-invalid":""}>
-              <option value="">Select user levels</option>
+              <option value="">Select option</option>
               {options.map(option =>
                 <option
                   key={option['id']}
                   value={option['id']}
-                >{option['role']}</option>
+                >{option['value']}</option>
               )}
             </CSelect>
           </CFormGroup>
