@@ -13,7 +13,11 @@ exports.reviewComplainController = async (req, res) => {
         let complainPolice =await Complain_Police.create({
             complaineId :ComplaintId,
             userId:UserId,
-            status:'review'});
+            status:'Review'});
+        await Complaint.update(
+            { status:'Review'},
+            { where: { id: ComplaintId } }
+        );
         return res.status(200).send("successfully Added!");
 
     }catch (e) {
