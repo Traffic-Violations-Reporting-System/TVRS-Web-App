@@ -2,7 +2,7 @@ const {Accept,Person,Vehicle,Accept_People,Accept_Vehicle,Complaint,Complain_Pol
 
 exports.createComplainController = async (req, res) => {
     try{
-
+        
         const {accepts,vehicles,people} = req.body;
 
         if(vehicles.length==0 && people.length==0) return res.status(400).send("Incomplete Complaint Details!");

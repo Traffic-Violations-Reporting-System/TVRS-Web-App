@@ -12,31 +12,56 @@ import {
   CLabel,
   CSelect,
   CRow,
-  CImg
+  CImg, CAlert
 } from '@coreui/react'
 import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
 
-
+import {InsertAccept, InsertReview} from "../services/web/complainService";
 const AcceptForm = () => {
-
+  const [alert, setAlert] = useState('');
+  const [success, setSuccess] = useState('');
 
   const [inputFieldsVehicle, setInputFieldsVehicle] = useState([
-    { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }
+    { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: ''}
   ]);
   const [inputFieldsPerson, setInputFieldsPerson] = useState([
     { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }
   ]);
   const [inputFieldsOther, setInputFieldsOther] = useState({
-    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: ''
+    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '',ComplaintId:'',UserId:''
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+
+    const jsonObj={
+      "accepts":"",
+      "vehicles":"",
+      "people":""
+
+    };
     e.preventDefault();
-    console.log(inputFieldsVehicle);
-    console.log(inputFieldsPerson);
-    console.log(inputFieldsOther);
+    inputFieldsOther.ComplaintId="2";
+    inputFieldsOther.UserId="2";
+    inputFieldsVehicle.forEach(function(v){ delete v.id });
+    inputFieldsPerson.forEach(function(v){ delete v.id });
+
+    jsonObj.accepts=inputFieldsOther;
+    jsonObj.vehicles=inputFieldsVehicle;
+    jsonObj.people=inputFieldsPerson;
+
+    try {
+      const result = await InsertAccept(jsonObj);
+      if(result.status==200) setSuccess(result.data);
+      else setSuccess('')
+      console.log(result);
+      setAlert(result.data);
+    } catch (e) {
+      setAlert(e.response.data);
+      console.log(e);
+    }
+
 
   };
 
@@ -104,7 +129,7 @@ const AcceptForm = () => {
             <h5>Accept Complaint</h5>
 
             </CCardHeader>
-
+            {alert&&<CAlert color={success ? "success" : "danger"}>{alert}</CAlert>}
             <CCardBody>
               <CForm>
               <CRow>
