@@ -12,6 +12,17 @@ import {InsertReview} from "../services/web/complainService";
 import CoreTextArea from "../common/CoreUI.textarea";
 import {Formik} from "formik";
 
+import * as Yup from "yup";
+const validationSchema = Yup.object().shape({
+
+  description: Yup.string()
+    .required("description is required")
+    .min(3)
+    .max(50)
+    .label("description"),
+});
+
+
 const ReviewForm = () => {
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
@@ -50,6 +61,7 @@ const ReviewForm = () => {
           initialValues={{
             description:'',
           }}
+          validationSchema ={validationSchema}
           onSubmit={handleSubmit}
         >
           {({
