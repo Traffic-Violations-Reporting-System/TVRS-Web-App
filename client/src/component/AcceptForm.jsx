@@ -19,7 +19,11 @@ import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
 import {UserContext} from '../App'
 import {InsertAccept, InsertReview} from "../services/web/complainService";
+import { useHistory } from 'react-router-dom';
+
+
 const AcceptForm = ({complainId}) => {
+  const history = useHistory();
   const currentUserId = useContext(UserContext);
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
@@ -58,6 +62,7 @@ const AcceptForm = ({complainId}) => {
       else setSuccess('')
 
       setAlert(result.data);
+      history.push(`/level1/newInquiryList`);
     } catch (e) {
       setAlert(e.response.data);
 

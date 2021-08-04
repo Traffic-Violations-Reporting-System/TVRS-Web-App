@@ -14,6 +14,7 @@ import {Formik} from "formik";
 
 import * as Yup from "yup";
 import {UserContext} from "../App";
+import {useHistory} from "react-router-dom";
 const validationSchema = Yup.object().shape({
 
   description: Yup.string()
@@ -25,6 +26,8 @@ const validationSchema = Yup.object().shape({
 
 
 const ReviewForm = ({complainId}) => {
+
+  const history = useHistory();
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
   const currentUserId = useContext(UserContext);
@@ -42,6 +45,7 @@ const ReviewForm = ({complainId}) => {
 
       setAlert(result.data);
       resetForm({})
+      history.push(`/level1/newInquiryList`);
     } catch (e) {
       setAlert(e.response.data);
       setSubmitting(false);

@@ -14,6 +14,8 @@ import CoreTextSelect from "../common/CoreUI.select";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import {UserContext} from "../App";
+import { useHistory } from 'react-router-dom';
+
 const validationSchema = Yup.object().shape({
 
   description: Yup.string()
@@ -30,6 +32,7 @@ const validationSchema = Yup.object().shape({
 
 });
 const RejectForm = ({complainId}) => {
+  const history = useHistory();
   const currentUserId = useContext(UserContext);
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
@@ -58,6 +61,7 @@ const RejectForm = ({complainId}) => {
 
       setAlert(result.data);
       resetForm({})
+      history.push(`/level1/newInquiryList`);
     } catch (e) {
       setAlert(e.response.data);
       setSubmitting(false);
