@@ -17,6 +17,7 @@ import {getComplain} from "../../../services/web/complainService";
 
 const Dashboard = (props) => {
  const [complainDetails, setComplain] = useState();
+  const [complainId, setComplainId] = useState();
 
   useEffect (() => {
     fetchComplain(props);
@@ -24,6 +25,7 @@ const Dashboard = (props) => {
 
   const fetchComplain = async (props) => {
     const complainId = props.match.params.id;
+    setComplainId(complainId);
     const { data: complain } = await getComplain(complainId);
     if(complain)  setComplain(complain);
 
@@ -83,15 +85,15 @@ const Dashboard = (props) => {
               <CTabContent>
 
                 <CTabPane>
-                  <AcceptForm />
+                  <AcceptForm complainId={complainId} />
                 </CTabPane>
 
                 <CTabPane>
-                  <RejectForm />
+                  <RejectForm complainId={complainId} />
                 </CTabPane>
 
                 <CTabPane>
-                  <ReviewForm />
+                  <ReviewForm complainId={complainId} />
                 </CTabPane>
 
               </CTabContent>

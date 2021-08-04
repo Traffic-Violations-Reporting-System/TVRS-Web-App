@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   CAlert,
   CButton,
@@ -13,6 +13,7 @@ import CoreTextArea from "../common/CoreUI.textarea";
 import CoreTextSelect from "../common/CoreUI.select";
 import {Formik} from "formik";
 import * as Yup from "yup";
+import {UserContext} from "../App";
 const validationSchema = Yup.object().shape({
 
   description: Yup.string()
@@ -28,48 +29,25 @@ const validationSchema = Yup.object().shape({
     .label("role"),
 
 });
-const RejectForm = () => {
+const RejectForm = ({complainId}) => {
+  const currentUserId = useContext(UserContext);
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
   const [UserRating, setUserRating] = useState([
-    {
-      "id": 1,
-      "value": "1"
-    },
-    {
-      "id": 2,
-      "value": "2"
-    },
-    {
-      "id": 3,
-      "value": "3"
-    },
-    {
-      "id": 4,
-      "value": "4"
-    }
+    { "id": 1, "value": "1"},
+    { "id": 2, "value": "2"},
+    { "id": 3, "value": "3"},
+    { "id": 4, "value": "4"}
   ]);
   const [Reason, setReason] = useState([
-    {
-      "id": 1,
-      "value": "not clear"
-    },
-    {
-      "id": 2,
-      "value": "bad"
-    },
-    {
-      "id": 3,
-      "value": "dark"
-    },
-    {
-      "id": 4,
-      "value": "other"
-    }
+    { "id": 1, "value": "not clear"},
+    { "id": 2, "value": "bad"},
+    { "id": 3, "value": "dark"},
+    { "id": 4, "value": "other"}
   ]);
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
-    values.userId="2";
-    values.ComplaintId="2";
+    values.userId=currentUserId;
+    values.ComplaintId=complainId;
 
     console.log(values);
     setAlert('');

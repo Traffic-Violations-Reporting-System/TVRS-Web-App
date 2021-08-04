@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   CAlert,
   CButton,
@@ -13,6 +13,7 @@ import CoreTextArea from "../common/CoreUI.textarea";
 import {Formik} from "formik";
 
 import * as Yup from "yup";
+import {UserContext} from "../App";
 const validationSchema = Yup.object().shape({
 
   description: Yup.string()
@@ -23,13 +24,14 @@ const validationSchema = Yup.object().shape({
 });
 
 
-const ReviewForm = () => {
+const ReviewForm = ({complainId}) => {
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
+  const currentUserId = useContext(UserContext);
 
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
-    values.userId="2";
-    values.ComplaintId="2";
+    values.userId=currentUserId;
+    values.ComplaintId=complainId;
 
     console.log(values);
     setAlert('');

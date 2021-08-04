@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {
   CButton,
   CCard,
@@ -17,9 +17,10 @@ import {
 import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
-
+import {UserContext} from '../App'
 import {InsertAccept, InsertReview} from "../services/web/complainService";
-const AcceptForm = () => {
+const AcceptForm = ({complainId}) => {
+  const currentUserId = useContext(UserContext);
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -42,8 +43,8 @@ const AcceptForm = () => {
 
     };
     e.preventDefault();
-    inputFieldsOther.ComplaintId="2";
-    inputFieldsOther.UserId="2";
+    inputFieldsOther.ComplaintId=complainId;
+    inputFieldsOther.UserId=currentUserId;
     inputFieldsVehicle.forEach(function(v){ delete v.id });
     inputFieldsPerson.forEach(function(v){ delete v.id });
 
@@ -55,11 +56,11 @@ const AcceptForm = () => {
       const result = await InsertAccept(jsonObj);
       if(result.status==200) setSuccess(result.data);
       else setSuccess('')
-      console.log(result);
+
       setAlert(result.data);
     } catch (e) {
       setAlert(e.response.data);
-      console.log(e);
+
     }
 
 
