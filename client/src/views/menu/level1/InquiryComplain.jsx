@@ -19,11 +19,11 @@ import {
 } from '@coreui/react'
 import {getAllComplain} from "../../../services/web/complainService";
 
+
 const InquiryTable = () => {
 
   const history = useHistory();
-  const handleEditUser = (selectId) => history.push(`/admin/edituser/${selectId}`);
-  // const handleEditUser = (selectId) =>alert(history));
+  const viewComplainDetails = (selectId) => history.push(`/level1/complaintmore/${selectId}`);
   const [usersData, setUsersAllData] = useState([]);
   useEffect(() => {
     fetchUserData();
@@ -126,8 +126,8 @@ const InquiryTable = () => {
                             {item.name}
                           </h4>
                           <p className="text-muted">Complain ID: MCID000{item.id}</p>
-                          <CButton size="sm" color="primary" >
-                            View Complain
+                          <CButton size="sm" color="primary" onClick={()=>viewComplainDetails(item.id)}>
+                            View Details
                           </CButton>
                         </CCardBody>
                       </CCollapse>

@@ -13,6 +13,7 @@ const DashboardLvel1 = React.lazy(() => import('./views/dashboard/DashboardLevel
 const Complaints = React.lazy(() => import('./views/menu/level1/Complaints.jsx'));
 const InquiryComplain = React.lazy(() => import('./views/menu/level1/InquiryComplain'));
 const NewComplainList = React.lazy(() => import('./views/menu/level1/NewComplainList'));
+const ComplaintsDetails = React.lazy(() => import('./views/menu/level1/ComplaintsDetails'));
 
 //level2
 const DashboardLvel2 = React.lazy(() => import('./views/dashboard/DashboardLevel2'));
@@ -35,6 +36,7 @@ const routes = [
   { path: '/level1/complaints/:id', name: 'Complaints', component: Complaints,exact: true,role:'level1' },
   { path: '/level1/inquiryList', name: 'Inquiry Complain', component: InquiryComplain ,role:'level1' },
   { path: '/level1/newInquiryList', name: 'New Complain', component: NewComplainList ,role:'level1' },
+  { path: '/level1/complaintmore/:id', name: 'Complain Details', component: ComplaintsDetails ,role:'level1' },
 
   //level2
   { path: '/level2/dashboard', name: 'Dashboard', component: DashboardLvel2 ,role:'level2' },

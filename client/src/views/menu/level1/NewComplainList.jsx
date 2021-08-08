@@ -23,7 +23,6 @@ const InquiryTable = () => {
 
   const history = useHistory();
   const handleComplain = (selectId) => history.push(`/level1/complaints/${selectId}`);
-  // const handleEditUser = (selectId) =>alert(history));
   const [usersData, setUsersAllData] = useState([]);
   useEffect(() => {
     fetchUserData();
