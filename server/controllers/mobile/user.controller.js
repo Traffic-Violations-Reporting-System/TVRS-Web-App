@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 var otpGenerator = require('otp-generator');
 const axios = require('axios');
 
-
 function register(req, res){
 
     models.mobile_user.findOne({where:{nic:req.body.nic}}).then(result => {
@@ -273,6 +272,156 @@ function verifyOTP(req, res)  {
     });
 }
 
+function forgotPasswordSendOTP(req, res){
+    models.mobile_user.findOne({where:{mphone:req.body.mphone}}).then(user => {
+
+        if(user==null){
+            res.status(401).json({
+                message: "This user doesnt exist!",
+            });
+        }
+        else{
+
+            //generate otp
+            var otp = otpGenerator.generate(6, { alphabets: false, upperCase: false, specialChars: false });
+
+
+            models.mobile_user_otp.update({otp: otp}, {
+                where: {
+                    user_id: user.id
+                }
+            }).then(result => {
+
+                axios.post('https://smsapi.bitshifttech.com/api/v1/send/single', {
+                    "message": otp.toString() + " is your otp code from eTrafficComplainer. Use this code to verify your mobile number.",
+                    "phoneNumber": user.mphone
+                }, {headers: {
+                        "Authorization": process.env.SMS_API_TOKEN
+                    }})
+                    .then(function (response) {
+                        console.log(response);
+                        res.status(200).json({
+                            message: "otp sent"
+                        });
+                    })
+                    .catch(function (error) {
+                        res.status(500).json({
+                            message: "Otp send error!",
+                            error: error
+                        });
+                        console.log(error);
+                    });
+
+            }).catch(error => {
+                res.status(500).json({
+                    message: "database error",
+                    error: error
+                });
+            });
+        }
+    } ).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error
+        });
+    })
+
+}
+
+function resendforgotPasswordOTP(req, res)  {
+    models.mobile_user.findOne({where:{mphone:req.body.mphone}}).then(user => {
+        if(user===null){
+            res.status(401).json({
+                message: "This user doesnt exist!",
+            });
+        }else{
+
+            //generate otp
+            var otp = otpGenerator.generate(6, { alphabets: false, upperCase: false, specialChars: false });
+
+
+            models.mobile_user_otp.update({otp: otp}, {
+                where: {
+                    user_id: user.id
+                }
+            }).then(result => {
+
+                axios.post('https://smsapi.bitshifttech.com/api/v1/send/single', {
+                    "message": otp.toString() + " is your otp code from eTrafficComplainer. Use this code to verify your mobile number.",
+                    "phoneNumber": user.mphone
+                }, {headers: {
+                        "Authorization": process.env.SMS_API_TOKEN
+                    }})
+                    .then(function (response) {
+                        console.log(response);
+                        res.status(200).json({
+                            message: "otp sent"
+                        });
+                    })
+                    .catch(function (error) {
+                        res.status(500).json({
+                            message: "Otp send error!",
+                            error: error
+                        });
+                        console.log(error);
+                    });
+
+            }).catch(error => {
+                res.status(500).json({
+                    message: "database error",
+                    error: error
+                });
+            });
+
+        }
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong!",
+        });
+    });
+}
+
+function verifyForgotPasswordOTP(req, res)  {
+    models.mobile_user.findOne({where:{mphone: req.body.mphone}}).then(user => {
+        if(user===null){
+            res.status(401).json({
+                message: "This user doesnt exist!",
+            });
+        }
+        else{
+            models.mobile_user_otp.findOne({where:{user_id: user.id}}).then(data => {
+                var today = +new Date;
+                var otptime = new Date(data.updatedAt);
+                if(today-otptime < 1000 * 60 * 3){
+                    if(data.otp === req.body.otp){
+                        res.status(200).json({
+                            message: "verification successful",
+
+                        });
+                    }else{
+                        res.status(400).json({
+                            message: "verification failed",
+                        });
+                    }
+                }else{
+                    res.status(405).json({
+                        message: "otp expired!",
+                    });
+                }
+
+            }).catch(error => {
+                res.status(500).json({
+                    message: "database error",
+                    error: error
+                });
+            });
+        }
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong!",
+        });
+    });
+}
 function updateOrCreate (model, where, newItem) {
     // First try to find the record
     return model
@@ -291,12 +440,17 @@ function updateOrCreate (model, where, newItem) {
         });
 }
 
+
+
 module.exports = {
     register: register,
     login: login,
     verifyOTP: verifyOTP,
     sendOTP: sendOTP,
-    resendOTP: resendOTP
+    resendOTP: resendOTP,
+    forgotPasswordSendOTP: forgotPasswordSendOTP,
+    resendforgotPasswordOTP: resendforgotPasswordOTP,
+    verifyForgotPasswordOTP: verifyForgotPasswordOTP
 }
 
 
