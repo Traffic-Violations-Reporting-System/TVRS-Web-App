@@ -39,14 +39,14 @@ const AcceptForm = ({complainId}) => {
   })
 
   const handleSubmit = async (e) => {
-
+    e.preventDefault();
     const jsonObj={
       "accepts":"",
       "vehicles":"",
       "people":""
 
     };
-    e.preventDefault();
+
     inputFieldsOther.ComplaintId=complainId;
     inputFieldsOther.UserId=currentUserId;
     inputFieldsVehicle.forEach(function(v){ delete v.id });
@@ -55,7 +55,6 @@ const AcceptForm = ({complainId}) => {
     jsonObj.accepts=inputFieldsOther;
     jsonObj.vehicles=inputFieldsVehicle;
     jsonObj.people=inputFieldsPerson;
-
     try {
       const result = await InsertAccept(jsonObj);
       if(result.status==200) setSuccess(result.data);
@@ -88,7 +87,7 @@ const AcceptForm = ({complainId}) => {
   }
 
   const handleChangeInputPerson = (id, event) => {
-    const newInputFields = inputFieldsVehicle.map(i => {
+    const newInputFields = inputFieldsPerson.map(i => {
       if(id === i.id) {
         i[event.target.name] = event.target.value
       }
@@ -205,7 +204,7 @@ const AcceptForm = ({complainId}) => {
                     <CFormGroup>
                       <CLabel htmlFor="vehicleStatus">Status</CLabel>
                         <CSelect custom
-                          name="vehicleStatus"
+                            name="vehicleStatus"
                             id="vehicleStatus"
                             onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                         >
@@ -250,13 +249,18 @@ const AcceptForm = ({complainId}) => {
                 <CCol xs="3">
                 <CFormGroup>
                     <CLabel htmlFor="ageRange">Age Range</CLabel>
-                    <CSelect custom name="ageRange" id="ageRange">
+
+                      <CSelect custom
+                               name="ageRange"
+                               id="ageRange"
+                               onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
+                      >
                       <option value="0">Not selected</option>
-                      <option value="1">Below 18</option>
-                      <option value="2">18 - 30</option>
-                      <option value="3">30-50</option>
-                      <option value="4">50-70</option>
-                      <option value="6">Above 70</option>
+                      <option value="Below 18">Below 18</option>
+                      <option value="18-30">18 - 30</option>
+                      <option value="30-50">30-50</option>
+                      <option value="50-70">50-70</option>
+                      <option value="Above 70">Above 70</option>
                     </CSelect>
                   </CFormGroup>
                 </CCol>
@@ -264,7 +268,11 @@ const AcceptForm = ({complainId}) => {
                 <CCol xs="3">
                 <CFormGroup>
                     <CLabel htmlFor="gender">Gender</CLabel>
-                    <CSelect custom name="gender" id="gender">
+                      <CSelect custom
+                               name="gender"
+                               id="gender"
+                               onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
+                      >
                       <option value="0">Not selected</option>
                       <option value="male">Male</option>
                       <option value="female">female</option>
@@ -275,7 +283,11 @@ const AcceptForm = ({complainId}) => {
                 <CCol xs="3">
                   <CFormGroup>
                     <CLabel htmlFor="skinColor">Skin Color</CLabel>
-                    <CSelect custom name="skinColor" id="skinColor">
+                      <CSelect custom
+                               name="skinColor"
+                               id="skinColor"
+                               onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
+                      >
                       <option value="0">Not selected</option>
                       <option value="fair">Fair</option>
                       <option value="medium">Medium</option>
@@ -289,7 +301,11 @@ const AcceptForm = ({complainId}) => {
                 <CCol xs="3">
                 <CFormGroup>
                     <CLabel htmlFor="personStatus">Status</CLabel>
-                    <CSelect custom name="personStatus" id="personStatus">
+                      <CSelect custom
+                               name="personStatus"
+                               id="personStatus"
+                               onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
+                      >
                       <option value="0">Not selected</option>
                       <option value="victim">Victim</option>
                       <option value="suspect">Suspect</option>
@@ -312,7 +328,11 @@ const AcceptForm = ({complainId}) => {
                 <CCol xs="4">
                   <CFormGroup>
                     <CLabel htmlFor="policeRegion">Police Region</CLabel>
-                    <CSelect custom name="policeRegion" id="policeRegion">
+                    <CSelect custom
+                             name="policeRegion"
+                             id="policeRegion"
+                             onChange={ (e) => handleChangeInputOther(e)}
+                    >
                       <option value="0">Not selected</option>
                       <option value="1">Matara</option>
                       <option value="2">Galle</option>
@@ -325,7 +345,11 @@ const AcceptForm = ({complainId}) => {
                 <CCol xs="4">
                   <CFormGroup>
                     <CLabel htmlFor="violationType">Violation Type</CLabel>
-                    <CSelect custom name="violationType" id="violationType" >
+                      <CSelect custom
+                               name="violationType"
+                               id="violationType"
+                               onChange={ (e) => handleChangeInputOther(e)}
+                      >
                       <option value="0">Not selected</option>
                       <option value="1">Accident</option>
                       <option value="2">Reckless Driving</option>
@@ -335,14 +359,18 @@ const AcceptForm = ({complainId}) => {
 
                 <CCol xs="4">
                   <CFormGroup>
-                    <CLabel htmlFor="policeRegion">Complaint Accuracy</CLabel>
-                    <CSelect custom name="policeRegion" id="policeRegion">
+                    <CLabel htmlFor="ComplaintAccuracy">Complaint Accuracy</CLabel>
+                      <CSelect custom
+                               name="ComplaintAccuracy"
+                               id="ComplaintAccuracy"
+                               onChange={ (e) => handleChangeInputOther(e)}
+                      >
                       <option value="0">Not selected</option>
-                      <option value="1">Low</option>
-                      <option value="2">Low Medium</option>
-                      <option value="3">Medium</option>
-                      <option value="3">Medium High</option>
-                      <option value="3">High</option>
+                      <option value="Low">Low</option>
+                      <option value="Low Medium">Low Medium</option>
+                      <option value="Low Medium">Medium</option>
+                      <option value="Medium High">Medium High</option>
+                      <option value="High">High</option>
                     </CSelect>
                   </CFormGroup>
                 </CCol>
