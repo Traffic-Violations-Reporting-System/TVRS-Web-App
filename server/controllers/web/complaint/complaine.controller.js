@@ -11,12 +11,13 @@ exports.createComplainController = async (req, res) => {
         if (!complaint) return res.status(400).send("Not found Complaint!");
 
         const accept = await Accept.create(accepts);
-        const person = await Person.bulkCreate(vehicles);
+        let personArr = people.map(data => (data));
+        const person = await Person.bulkCreate(personArr);
 
         let personResult = person.map(data => ({ acceptId: accept.id, peopleId: data.id }));
         const accept_people_result = await Accept_People.bulkCreate(personResult);
 
-        const vehicle = await Vehicle.bulkCreate(people);
+        const vehicle = await Vehicle.bulkCreate(vehicles);
 
         let vehicleResult = vehicle.map(data => ({ acceptId: accept.id, vehicleId: data.id }));
         const accept_vehicle_result = await Accept_Vehicle.bulkCreate(vehicleResult);

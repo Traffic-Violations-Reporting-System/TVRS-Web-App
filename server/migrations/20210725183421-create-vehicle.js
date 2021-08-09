@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      VehicleColor: {
+      vehicleColor: {
         type: Sequelize.STRING
       },
       vehicleNumber: {

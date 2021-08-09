@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Vehicle.init({
-    VehicleColor: DataTypes.STRING,
+    vehicleColor: DataTypes.STRING,
     vehicleNumber: DataTypes.STRING,
     vehicleStatus: DataTypes.STRING,
     vehicleType: DataTypes.STRING
