@@ -54,6 +54,16 @@ db.Reject =require("./reject")(sequelize, Sequelize);
 db.Review =require("./review")(sequelize, Sequelize);
 db.Complain_Police =require("./complain_invoive_police")(sequelize, Sequelize);
 
+db.Accept.belongsToMany(db.Person, { through: db.Accept_People, foreignKey: 'acceptId' });
+db.Person.belongsToMany(db.Accept, { through: db.Accept_People, foreignKey: 'peopleId' });
+
+db.Accept.belongsToMany(db.Vehicle, { through: db.Accept_Vehicle, foreignKey: 'acceptId' });
+db.Vehicle.belongsToMany(db.Accept, { through: db.Accept_Vehicle, foreignKey: 'vehicleId' });
+
+db.Police = require("./webuser")(sequelize, Sequelize);
+db.Complaint.belongsToMany(db.Police, { through: db.Complain_Police, foreignKey: 'complaineId' });
+db.Police.belongsToMany(db.Complaint, { through: db.Complain_Police, foreignKey: 'userId' });
+
 
 module.exports = db;
 
