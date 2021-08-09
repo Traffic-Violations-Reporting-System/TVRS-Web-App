@@ -7,6 +7,7 @@ const {reviewComplainController} =require('../../../controllers/web/complaint/co
 const {getComplainController} =require('../../../controllers/web/complaint/mobile.complain.get.details.controller');
 const {findAllComplainController} =require('../../../controllers/web/complaint/mobile.complain.findAll.details.controller');
 const {findNewAllComplainController} =require('../../../controllers/web/complaint/mobile.new.complain.findAll.details.controller');
+const {getComplainActionDetailsController} =require('../../../controllers/web/complaint/complaine.get.action.details.controller');
 
 
 router.post("/create", createComplainController);
@@ -15,5 +16,5 @@ router.post("/review", reviewComplainController);
 router.get("/get/:id", getComplainController);
 router.post("/all", findAllComplainController);
 router.post("/newAll", findNewAllComplainController);
-
+router.get("/action/:id", getComplainActionDetailsController);
 module.exports =router;

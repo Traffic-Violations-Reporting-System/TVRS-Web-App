@@ -2,12 +2,10 @@ const {Complaint}=require('../../../models');
 const {fn,col} = require('sequelize');
 exports.getComplainController = async (req, res) => {
     try{
-
         const complaint =await Complaint.findByPk(req.params.id);
         if (!complaint) return res.status(400).send("Not found Complaint!");
 
         return res.status(200).send({
-
             description:complaint.description,
             location: complaint.location,
             status: complaint.status,
@@ -19,3 +17,4 @@ exports.getComplainController = async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 }
+
