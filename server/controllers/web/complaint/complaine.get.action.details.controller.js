@@ -49,10 +49,11 @@ exports.getComplainActionDetailsController = async (req, res) => {
             });
             acceptArr.push({"updateDate":acceptArr[0].updatedAt.toISOString().slice(0, 10)});
             acceptArr.push({"status":"on Going"});
+            acceptArr.push({"userAction":"accept"});
             return res.status(200).send(acceptArr);
         }else{
 
-            return res.status(200).send([{"status":"Reject"}]);
+            return res.status(200).send([{"userAction":"review"}]);
         }
 
 

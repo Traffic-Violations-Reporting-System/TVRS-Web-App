@@ -20,3 +20,6 @@ export function InsertReject(data){
 export function InsertReview(data){
   return  http.post(`${config["BASEURL"]}`+'/'+'web/complaine/review',data);
 }
+export function getComplainAction(id){
+  return  http.get(`${config["BASEURL"]}`+'/'+'web/complaine/action'+'/'+id);
+}
