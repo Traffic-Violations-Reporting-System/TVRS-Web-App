@@ -422,6 +422,38 @@ function verifyForgotPasswordOTP(req, res)  {
         });
     });
 }
+
+function forgotPasswordReset(req, res){
+    models.mobile_user.findOne({whare:{mphone:req.body.mphone}}).then(user => {
+        if(user==null){
+            res.status(401).json({
+                message: "This user doesnt exist!",
+            });
+        }
+        else{
+            bcryptjs.genSalt(10, function(err, salt){
+                bcryptjs.hash(req.body.password, salt, function(err, hash){
+
+                    models.mobile_user.update({password: hash}, {
+                        where: {
+                            id: user.id
+                        }
+                    }).then(result => {
+                        res.status(200).json({
+                            message: "password reset successfull",
+                            // users: result
+                        });
+                    }).catch(error => {
+                        res.status(500).json({
+                            message: "Something went wrong!",
+                            error: error
+                        });
+                    });
+                });
+            });
+        }
+    })
+}
 function updateOrCreate (model, where, newItem) {
     // First try to find the record
     return model
@@ -450,7 +482,8 @@ module.exports = {
     resendOTP: resendOTP,
     forgotPasswordSendOTP: forgotPasswordSendOTP,
     resendforgotPasswordOTP: resendforgotPasswordOTP,
-    verifyForgotPasswordOTP: verifyForgotPasswordOTP
+    verifyForgotPasswordOTP: verifyForgotPasswordOTP,
+    forgotPasswordReset: forgotPasswordReset
 }
 
 
