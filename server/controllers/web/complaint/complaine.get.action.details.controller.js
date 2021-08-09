@@ -5,17 +5,18 @@ exports.getComplainActionDetailsController = async (req, res) => {
     try{
         const complainId = req.params.id;
 
-        const isAvailable =await Complaint.findOne({
+        const isAvailable =await Complain_Police.findOne({
             where: {
-                id: complainId,
+                complaineId: complainId,
             },
         });
-        if(!isAvailable) return res.status(401).send("Access denidated");
+
+        if(!isAvailable) return res.status(401).send("not access");
 
         let policeComplaint =await Complaint.findAll({
             where: {
                        id: complainId,
-                       status: ['accept','review']
+                       status: ['accept','review','complete']
             },
             include: [{
                 model: Police,
@@ -25,7 +26,7 @@ exports.getComplainActionDetailsController = async (req, res) => {
                 required: true
             }]
         });
-        const type =policeComplaint[0].status ==="accept"? "accept":"review";
+        const type =isAvailable.status ==="accept"? "accept":"review";
 
 
         if(type === "accept"){
@@ -49,6 +50,9 @@ exports.getComplainActionDetailsController = async (req, res) => {
             acceptArr.push({"updateDate":acceptArr[0].updatedAt.toISOString().slice(0, 10)});
             acceptArr.push({"status":"on Going"});
             return res.status(200).send(acceptArr);
+        }else{
+
+            return res.status(200).send([{"status":"Reject"}]);
         }
 
 
