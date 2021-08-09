@@ -25,9 +25,9 @@ exports.createComplainController = async (req, res) => {
         let complainPolice =await Complain_Police.create({
             complaineId :accepts.ComplaintId,
             userId:accepts.UserId,
-            status:'Accept'});
+            status:'accept'});
         await Complaint.update(
-            { status:'Accept'},
+            { status:'accept'},
             { where: { id: accepts.ComplaintId } }
         );
         return res.status(200).send("successfully Added");
