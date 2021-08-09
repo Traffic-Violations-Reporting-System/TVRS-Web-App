@@ -40,7 +40,8 @@ const ComplaintsDetails = (props) => {
     getComplainAction(complainId)
       .then(response => {
         setLoading(true);
-        if("accept" ===response.data[3]){
+        console.log(response.data);
+        if("accept" ===response.data[3].userAction) {
           setComplain(response.data[0]);
           setLastUpdateDate(response.data[1]);
           setStatus(response.data[2]);
@@ -50,7 +51,7 @@ const ComplaintsDetails = (props) => {
 
 
         setError('');
-        console.log(peopleList);
+
       })
       .catch(error => {
         setLoading(false);
@@ -164,40 +165,19 @@ const ComplaintsDetails = (props) => {
               <div key={inputField.id} style={{marginTop:"5px"}}>
                 <CRow>
                   <CCol xs="3">
-                    <CInput
-                      id="vehicleNumber"
-                      value={inputField.vehicleNumber}
-                      readOnly
-                      disabled={true}
-
-                    />
+                    <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleNumber}</div>
                   </CCol>
 
                   <CCol xs="3">
-                    <CInput
-                      id="vehicleType"
-                      value={inputField.vehicleType}
-                      readOnly
-                      disabled={true}
-                    />
+                    <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleType}</div>
                   </CCol>
 
                   <CCol xs="3">
-                    <CInput
-                      id="vehicleType"
-                      value={inputField.vehicleColor}
-                      readOnly
-                      disabled={true}
-                    />
+                    <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleColor}</div>
                   </CCol>
 
                   <CCol xs="3">
-                    <CInput
-                      id="vehicleType"
-                      value={inputField.vehicleStatus}
-                      readOnly
-                      disabled={true}
-                    />
+                    <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleStatus}</div>
                   </CCol>
                 </CRow>
               </div>
@@ -232,41 +212,20 @@ const ComplaintsDetails = (props) => {
             { peopleList ? peopleList.map((inputField) => (
               <div key={inputField.id} style={{marginTop:"3px"}}>
                 <CRow>
-                  <CCol xs="3">
-                    <CInput
-                      id="ageRange"
-                      value={inputField.ageRange}
-                      readOnly
-                      disabled={true}
-
-                    />
+                  <CCol xs="3" >
+                    <div style={{height:'100%', backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.ageRange}</div>
                   </CCol>
 
                   <CCol xs="3">
-                    <CInput
-                      id="gender"
-                      value={inputField.gender}
-                      readOnly
-                      disabled={true}
-                    />
+                    <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.gender}</div>
                   </CCol>
 
                   <CCol xs="3">
-                    <CInput
-                      id="skinColor"
-                      value={inputField.skinColor}
-                      readOnly
-                      disabled={true}
-                    />
+                    <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.skinColor}</div>
                   </CCol>
 
                   <CCol xs="3">
-                    <CInput
-                      id="personStatus"
-                      value={inputField.personStatus}
-                      readOnly
-                      disabled={true}
-                    />
+                    <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.personStatus}</div>
                   </CCol>
                 </CRow>
               </div>
