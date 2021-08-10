@@ -10,6 +10,7 @@ exports.findAllComplainController = async (req, res) => {
 
             attributes: [
                 'id',
+                'description',
                 'location',
                 'status',
                 [fn('DATE', col('createdAt')), 'date']
