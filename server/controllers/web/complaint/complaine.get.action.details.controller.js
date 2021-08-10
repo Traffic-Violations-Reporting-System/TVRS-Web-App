@@ -3,8 +3,9 @@ const {fn,col} = require('sequelize');
 
 exports.getComplainActionDetailsController = async (req, res) => {
     try{
+        const {userId} =req.user;
+        // return res.status(401).send(userId.toString());
         const complainId = req.params.id;
-
         const isAvailable =await Complain_Police.findOne({
             where: {
                 complaineId: complainId,
@@ -21,11 +22,12 @@ exports.getComplainActionDetailsController = async (req, res) => {
             include: [{
                 model: Police,
                 where: {
-                    id:'2'
+                    id:userId.toString()
                 },
                 required: true
             }]
         });
+
         const type =isAvailable.status ==="accept"? "accept":"review";
 
 

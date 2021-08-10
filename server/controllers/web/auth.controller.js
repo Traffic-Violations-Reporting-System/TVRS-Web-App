@@ -25,3 +25,8 @@ exports.loginController = async (req, res) => {
         return res.status(500).send("Internal Server Error")
     }
 }
+
+exports.currentUserController =async (req,res) =>{
+    const user = await webuser.findByPk(req.user.userId);
+    res.send(user);
+}
