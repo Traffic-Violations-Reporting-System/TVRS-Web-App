@@ -20,39 +20,34 @@ const ForgotPassword = React.lazy(() => import('./views/pages/forgot/ForgotPassw
 const SetPassword = React.lazy(() => import('./views/pages/set/SetPassword'));
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
+export const UserContext = React.createContext();
 
 function App(){
   const [currentUserRole,setCurrentUserRole]=useState();
+  const [currentUserId,setCurrentUserId]=useState();
+
+
 
   useEffect(() => {
     const user =getCurrentUser();
     console.log(user.role);
     setCurrentUserRole(user.role);
-  });
+    setCurrentUserId(user.userId);
+  },[]);
 
   const PublicRoute = ({ currentUserRole, ...props }) => {
-    
+
     return currentUserRole
         ? (<Redirect to="/admin/dashboard" />)
         : (<Route {...props} />)
 };
 
 return (
-      <BrowserRouter>
+      <UserContext.Provider value={currentUserId}>
+
+        <BrowserRouter>
           <React.Suspense fallback={loading}>
             <Switch>
-              {/* <Route  path="/login" name="Login Page" render={props => <Login {...props} />} /> */}
-              {/* <Route
-                path="/protected"
-              render={props =>
-                currentUserRole ? (
-                  <TheLayout {...props} userrole={currentUserRole}/>
-                ) : (
-                  <Login {...props} />
-                )
-              }
-            /> */}
-
               <PublicRoute
                 userrole={currentUserRole}
                 path="/login"
@@ -67,11 +62,12 @@ return (
               <Route  path="/level1" name="Home" render={props => <TheLayout {...props} userrole={currentUserRole}/>} />
               <Route  path="/level2" name="Home" render={props => <TheLayout {...props} userrole={currentUserRole}/>} />
               <Route  path="/level3" name="Home" render={props => <TheLayout {...props} userrole={currentUserRole}/>} />
-             
+
              <Redirect from="/" to="/login" />
             </Switch>
           </React.Suspense>
       </BrowserRouter>
+      </UserContext.Provider>
     );
 
 }

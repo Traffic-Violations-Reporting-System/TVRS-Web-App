@@ -1,104 +1,106 @@
 import {
   CRow,
-  CButton,
-  CForm,
-  CLabel,
-  CInput,
-  CTextarea,
   CCol,
-  CSelect,
+  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs,
 
 } from '@coreui/react';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { ReactVideo } from "reactjs-media";
 
 
-import location from "../../../assets/location.jpg";
-import user from "../../../assets/user.png";
-import clock from "../../../assets/clock.png";
+import DocsLink from "../../../reusable/DocsLink";
+import AcceptForm from "../../../component/AcceptForm";
+import RejectForm from "../../../component/RejectForm";
+import ReviewForm from "../../../component/ReviewForm";
+import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
+import {getComplain} from "../../../services/web/complainService";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+ const [complainDetails, setComplain] = useState();
+  const [complainId, setComplainId] = useState();
+
+  useEffect (() => {
+    fetchComplain(props);
+  },[]);
+
+  const fetchComplain = async (props) => {
+    const complainId = props.match.params.id;
+    setComplainId(complainId);
+    const { data: complain } = await getComplain(complainId);
+    if(complain)  setComplain(complain);
+
+
+    console.log("complainDetails :");
+    console.log(complainDetails);
+  };
   return (
     <>
-    <h3>Complaint reference number - K7814596</h3>
+    <h3>CMID000{props.match.params.id}</h3>
 
-     <CRow className="mb-3">
-       <CCol>
-         <div className="embed-responsive embed-responsive-4by3"  style={{width:"100%", height:"300px"}}>
-           <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/UduRBqNqphI"
-                   allowFullScreen></iframe>
+     <CRow>
+       <CCol  sm="8">
+         <div>
+           <ReactVideo
+             style={{height: '200px'}}
+             src="https://www.example.com/url_to_video.mp4"
+             poster="https://www.example.com/poster.png"
+             primaryColor="blue"
+             // other props
+           />
          </div>
+       </CCol>
+       <CCol  sm="4">
+          <ComplainDetailsCard complainDetails={complainDetails}  />
        </CCol>
      </CRow>
 
-    <CRow className="justify-content-center pt-2">
-        <CButton color="success" className="w-md waves-effect waves-light mr-2"style={{width:"15%"}}>ACCEPT</CButton>
-        <CButton color="danger" className="w-md waves-effect waves-light mr-2"style={{width:"15%"}}>REJECT</CButton>
-        <CButton color="warning" className="w-md waves-effect waves-light mr-2"style={{width:"15%"}}>SEND TO LEVEL 2</CButton>
-        <CButton color="primary" className="w-md waves-effect waves-light mr-2"style={{width:"15%"}}>RATE USER</CButton>
-    </CRow>
 
-    <CRow className="mt-6">
+      <CRow className="mt-5">
+        <CCard style={{width:"100%"}}>
 
-       <CCol lg={8}>
+          <CCardBody>
+            <CTabs>
+              <CNav variant="tabs">
 
-        <CForm>
-          <div className="mb-3">
-              <CLabel>Complain Type</CLabel>
-            <CSelect>
-              <option>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </CSelect>
-          </div>
-          <div className="mb-3">
-              <CLabel>Description </CLabel>
-              <CTextarea
-              component="textarea"
-              id="exampleFormControlTextarea1"
-              rows="3"
-              value="This vehicle numbered KV - 7272 did an improper passing on 11th July
-              2021 at Marive Drive. they nearly hit the three wheeler on the opposite
-              side. "
-              />
-          </div>
-          <CButton  color="primary" className="w-md waves-effect waves-light" href="#">Submit</CButton>
-        </CForm>
+                <CNavItem>
+                  <CNavLink>
+                    <span text-color="green">Accept</span>
+                  </CNavLink>
+                </CNavItem>
 
-      </CCol>
+                <CNavItem>
+                  <CNavLink>
+                  <span>Reject</span>
+                  </CNavLink>
+                </CNavItem>
 
-      <CCol lg={4} className="mt-5">
-        <div className="row m-md-1">
-            <div className="col" >
-              <img className="mb-2 mt-0" src={location} height="45" />
-             </div>
-              <div className="col-8">
-                    <CLabel htmlFor="username" className="mb-0 font-weight-bold">Detected location</CLabel>
-                    <p>Mount Lavinia, Sri Lanka</p>
-              </div>
-        </div>
+                <CNavItem>
+                  <CNavLink>
+                  <span>Review</span>
+                  </CNavLink>
+                </CNavItem>
 
-        <div className="row m-md-1">
-          <div className="col " >
-            <img className="mb-2 mt-0" src={user} height="45" />
-          </div>
-          <div className="col-8">
-            <CLabel htmlFor="username" className="mb-0 font-weight-bold">Complainant</CLabel>
-            <p>Sandaru Anuththara De SIlva</p>
-          </div>
-        </div>
+              </CNav>
 
-        <div className="row m-md-1">
-          <div className="col " >
-            <img className="mb-2 mt-0" src={clock} height="45" />
-          </div>
-          <div className="col-8">
-            <CLabel htmlFor="username" className="mb-0 font-weight-bold">Time</CLabel>
-            <p>10.12 AM</p>
-          </div>
-        </div>
-        </CCol>
-    </CRow>
+              <CTabContent>
+
+                <CTabPane>
+                  <AcceptForm complainId={complainId} />
+                </CTabPane>
+
+                <CTabPane>
+                  <RejectForm complainId={complainId} />
+                </CTabPane>
+
+                <CTabPane>
+                  <ReviewForm complainId={complainId} />
+                </CTabPane>
+
+              </CTabContent>
+            </CTabs>
+          </CCardBody>
+        </CCard>
+      </CRow>
 
     </>
   )

@@ -49,6 +49,7 @@
     "redux": "^4.0.5",
     "remixicon": "^2.5.0",
     "sass": "^1.32.8",
+    "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {

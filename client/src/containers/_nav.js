@@ -62,22 +62,14 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'New Companies',
-    to: '/level1/dashboard',
-    icon: 'cil-star',
-    role:'level1'
-  },
-
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Create Complaint',
-    to: '/level1/complaints',
+    to: '/level1/newInquiryList',
     icon: 'cil-star',
     role:'level1'
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Inquiry Companies',
-    to: '/level1/dashboard',
+    to: '/level1/inquiryList',
     icon: 'cil-star',
     role:'level1'
   },
