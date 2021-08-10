@@ -40,7 +40,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'User Role List',
-    to: '/admin/userrolecreate',
+    to: '/admin/rolelist',
     icon: 'cilPeople',
     role:'admin'
   },

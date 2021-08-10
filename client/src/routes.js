@@ -7,6 +7,8 @@ const UserRegister = React.lazy(() => import('./views/menu/admin/UserRegistratio
 const UserTable = React.lazy(() => import('./views/menu/admin/UserTable'));
 const UserEdit = React.lazy(() => import('./views/menu/admin/UserEdit'));
 const UserRoleAdd = React.lazy(() => import('./views/menu/admin/UserRoleAdd'));
+const UserRoleList = React.lazy(() => import('./views/menu/admin/UserRoleList'));
+const UserView = React.lazy(() => import('./views/menu/admin/UserView'));
 
 //level1
 const DashboardLvel1 = React.lazy(() => import('./views/dashboard/DashboardLevel1'));
@@ -29,7 +31,9 @@ const routes = [
   { path: '/admin/usertable', name: 'Users', component: UserTable, exact: true ,role:'admin'},
   { path: '/admin/edituser/:id', name: 'EditUsers', component: UserEdit,exact: true,role:'admin' },
   { path: '/admin/userrolecreate', name: 'Create User Role', component: UserRoleAdd, exact: true, role: 'admin' },
-  { path: '/admin/userrolecreate', name: 'Create User Role', component: UserRoleAdd, exact: true,role:'admin' },
+  { path: '/admin/rolelist', name: 'User Role List', component: UserRoleList, exact: true,role:'admin' },
+  { path: '/admin/viewuser/:id', name: 'View Users', component: UserView,exact: true,role:'admin' },
+
 
   //level1
   { path: '/level1/dashboard', name: 'Dashboard', component: DashboardLvel1 ,role:'level1' },
