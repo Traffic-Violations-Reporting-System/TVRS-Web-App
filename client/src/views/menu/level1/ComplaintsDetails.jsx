@@ -21,8 +21,8 @@ const ComplaintsDetails = (props) => {
     //{ id: '2', vehicleNumber: '1', vehicleType: '1', vehicleColor: '1', vehicleStatus: '1'}
   ]);
   const [inputFieldsPerson, setInputFieldsPerson] = useState([
-    { id: '1', ageRange: 'w', gender: '', skinColor: '', personStatus: '' },
-    { id: '2', ageRange: 'w', gender: '', skinColor: '', personStatus: '' }
+    // { id: '1', ageRange: 'w', gender: '', skinColor: '', personStatus: '' },
+    // { id: '2', ageRange: 'w', gender: '', skinColor: '', personStatus: '' }
   ]);
 
 

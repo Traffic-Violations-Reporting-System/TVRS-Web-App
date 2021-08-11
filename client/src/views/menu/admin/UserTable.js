@@ -23,7 +23,8 @@ const UsersTable = () => {
 
   const history = useHistory();
   const handleEditUser = (selectId) => history.push(`/admin/edituser/${selectId}`);
- // const handleEditUser = (selectId) =>alert(history));
+  const handleViewUser = (selectId) => history.push(`/admin/viewuser/${selectId}`);
+  // const handleEditUser = (selectId) =>alert(history));
   const [usersData, setUsersAllData] = useState([]);
   useEffect(() => {
     fetchUserData();
@@ -124,7 +125,7 @@ const UsersTable = () => {
                             {item.name}
                           </h4>
                           <p className="text-muted">User serviceId: {item.serviceId}</p>
-                          <CButton size="sm" color="primary" >
+                          <CButton size="sm" color="primary" onClick={()=>handleViewUser(item.id)}>
                             View User
                           </CButton>
                           <CButton size="sm" color="info" className="ml-1" onClick={()=>handleEditUser(item.id)}>
