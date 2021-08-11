@@ -1,8 +1,8 @@
 import http from '../httpService';
-
+const config = require("../../config.json");
 
 
 
 export function createUserRole(userRole){
-  return  http.post('http://localhost:4000/web/user/rolesadd',userRole);
+  return  http.post(`${config["BASEURL"]}`+'/'+'web/user/rolesadd',userRole);
 }

@@ -16,8 +16,8 @@ import CIcon from '@coreui/icons-react'
 
 // sidebar nav config
 import navigation from './_nav'
-
-const TheSidebar = () => {
+import logodark from "../assets/logolight.png";
+const TheSidebar = ({currentUserRole}) => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.sidebarShow)
 
@@ -28,17 +28,16 @@ const TheSidebar = () => {
       onShowChange={(val) => dispatch({type: 'set', sidebarShow: val })}
     >
       <CSidebarBrand className="d-md-down-none" to="/">
-        <CIcon
-          className="c-sidebar-brand-minimized"
-          name="sygnet"
-          height={35}
-        />
+      <div>
+          <img  src={logodark} height="40" alt="logo"/>
+          </div>
+        
       </CSidebarBrand>
       <CSidebarNav>
 
         <CCreateElement
 
-          items={navigation}
+          items={navigation.filter(({role})=>role===currentUserRole)}
           components={{
             CSidebarNavDivider,
             CSidebarNavDropdown,

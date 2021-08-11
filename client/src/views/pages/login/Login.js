@@ -2,22 +2,19 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
   CCol,
   CContainer,
   CForm,
   CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CFormGroup,
   CRow,
-  CLabel, CDropdownItem, CAlert, CInvalidFeedback,
+  CLabel, 
+  CAlert,
 
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import logodark from "../../../assets/elogo.png";
+import cover from "../../../assets/cover.jpg";
 
 import {Formik} from "formik";
 import * as Yup from "yup";
@@ -35,16 +32,18 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const url =window.location.origin+'/'+'dashboard';
+  const url =window.location.origin+'/auth'+'/dashboard';
   const [backendErrStatus,setBackendErrStatus] =useState(false);
   const [backendErr,setBackendErr] =useState('');
 
   const handleSubmit=async (values, { setSubmitting})=>{
     try{
-      const result= await login(values.email,values.password);
+      const role= await login(values.email,values.password);
       setBackendErrStatus(false);
       setBackendErr('');
-      window.location =url
+      const url =window.location.origin+'/'+`${role}`+'/dashboard';
+      window.location =url;
+     
     }catch (e) {
       console.log(e)
       setBackendErrStatus(true);
@@ -70,7 +69,7 @@ const Login = () => {
                       <div>
                         <div className="text-center">
                           <div>
-                            <Link to="/" className="logo"></Link>
+                          <img className="mb-2 mt-0" src={logodark} height="35" alt="logo"/>
                           </div>
 
                           <h4 className="font-size-18 mt-4">Welcome Back !</h4>
@@ -105,11 +104,11 @@ const Login = () => {
                                       <CIcon name="cil-user" size={'xl'} className="mt-3"  />
                                     </div>
                                     <div className="col-10">
-                                      <CLabel htmlFor="username" className="mb-0">Username</CLabel>
+                                      <CLabel htmlFor="username" className="mb-0">Email</CLabel>
                                       <CInput
                                         id="email"
                                         name="email"
-                                        placeholder="Enter username"
+                                        placeholder="Enter user email"
                                         className="border-0 shadow-none pl-0 ml-0"
                                         value={values.email}
                                         onChange={handleChange("email")}
@@ -183,18 +182,20 @@ const Login = () => {
               </div>
             </CCol>
             <CCol lg={8}>
-
+           
               <div style={
                 {
-                  backgroundColor:'#fff',
-                  backgroundImage:"url('https://wallpaperplay.com/walls/full/8/b/9/23581.jpg')",
+                  
+                  backgroundImage:  `url(${cover})`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                   width: '70vw',
                   height: '100vh'
 
-                }}>
+                }}
+                
+                >
               </div>
 
             </CCol>

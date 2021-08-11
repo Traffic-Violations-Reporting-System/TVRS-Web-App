@@ -70,11 +70,11 @@ const BasicForms = (props) => {
     const userId = props.match.params.id;
     setSelectedUser(userId)
     const { data: user } = await getUser(userId);
-    
 
-      const newMessageObj = { 
-        first_name: user.first_name, 
-        last_name:user.last_name, 
+
+      const newMessageObj = {
+        first_name: user.first_name,
+        last_name:user.last_name,
         email:user.email,
         role_id:user.role_id,
     };
@@ -87,7 +87,7 @@ const BasicForms = (props) => {
 
     console.log(values);
     console.log(selectedUser);
-    
+
     setAlert('');
     try {
 
@@ -95,8 +95,8 @@ const BasicForms = (props) => {
       if(result.status==200) setSuccess(result.data);
       else setSuccess('')
       setAlert(result.data);
-      
-      
+
+
     } catch (e) {
       setAlert(e.response.data);
       setSubmitting(false);
@@ -119,7 +119,7 @@ const BasicForms = (props) => {
 
 
                   <Formik
-                    enableReinitialize 
+                    enableReinitialize
                     initialValues={initialValues}
                     validationSchema ={validationSchema}
 
@@ -193,10 +193,6 @@ const BasicForms = (props) => {
                         </CCardFooter>
                       </CForm>
                     )}</Formik>
-
-
-
-
 
               </CCollapse>
             </CCard>

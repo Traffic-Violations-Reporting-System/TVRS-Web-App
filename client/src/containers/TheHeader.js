@@ -20,7 +20,6 @@ import {
   TheHeaderDropdown,
   TheHeaderDropdownMssg,
   TheHeaderDropdownNotif,
-  TheHeaderDropdownTasks
 }  from './index'
 
 const TheHeader = () => {
