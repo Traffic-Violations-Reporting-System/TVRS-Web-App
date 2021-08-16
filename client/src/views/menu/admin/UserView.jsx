@@ -57,7 +57,7 @@ const BasicForms = (props) => {
 
               <CCard>
                 <CCardHeader>
-                  Bio Graph
+                  User Profile
                 </CCardHeader>
                 <CCardBody>
                   <div className="bd-example">
