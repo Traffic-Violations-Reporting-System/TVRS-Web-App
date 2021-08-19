@@ -13,6 +13,7 @@ import {
 
 import {viewUser} from "../../../services/web/userService";
 import ChartLineSimple from "../../charts/ChartLineSimple";
+import policeImg from "../../../assets/police.png";
 
 const BasicForms = (props) => {
   const [loading, setLoading] = useState(false);
@@ -24,10 +25,9 @@ const BasicForms = (props) => {
     viewUser(Id)
       .then(response => {
           setLoading(true);
-          setUserDetails(response.data['action']);
-          setAction(response.data['user']);
-          console.log(actionData);
-          console.log(userDetails);
+          setAction(response.data['action']);
+          setUserDetails(response.data['user']);
+
       })
       .catch(error => {
         setLoading(false);
@@ -44,7 +44,19 @@ const BasicForms = (props) => {
             <CCol xs="12" sm="6" md="4">
               <CCard>
                 <CCardBody className="p-0">
-                  <div style={{height:"200px",backgroundColor:"blue"}}></div>
+                  <div
+                    style={{
+                      padding:"2px",
+                      height:"200px",
+                      width:"100%",
+                      backgroundImage:  `url(${policeImg})`,
+                      backgroundPosition: 'center',
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+
+                    }}>
+
+                  </div>
                   <CListGroup>
                     <CListGroupItem href="#" >Profile</CListGroupItem>
                     <CListGroupItem href="#">Reason Activity</CListGroupItem>
@@ -63,7 +75,7 @@ const BasicForms = (props) => {
                   <div className="bd-example">
                     <dl className="row">
                       <dt className="col-sm-3">First Name</dt>
-                      <dd className="col-sm-9">a{userDetails.first_name}</dd>
+                      <dd className="col-sm-9">{userDetails.first_name}</dd>
 
                       <dt className="col-sm-3">Last Name</dt>
                       <dd className="col-sm-9">{userDetails.last_name}</dd>
@@ -81,7 +93,7 @@ const BasicForms = (props) => {
                       <dd className="col-sm-9">{userDetails.service_id}</dd>
 
                       <dt className="col-sm-3">Member Sence</dt>
-                      {/*<dd className="col-sm-9">{userDetails['member_since']}</dd>*/}
+                      <dd className="col-sm-9">{userDetails['member_since']}</dd>
                     </dl>
                   </div>
                 </CCardBody>
@@ -90,28 +102,15 @@ const BasicForms = (props) => {
           </CRow>
 
           {actionData ?
+            // {status: "accept", count: 2}
               <CRow>
-                <CCol sm="6" lg="6">
-                  <CWidgetSimple header="Accept" text="32">
-                    <ChartLineSimple style={{ height: '40px' }} borderColor="primary"/>
-                  </CWidgetSimple>
-                </CCol>
-
-                <CCol sm="6" lg="6">
-                  <CWidgetSimple header="Review" text="12">
-                    <ChartLineSimple style={{ height: '40px' }} borderColor="secondary"/>
-                  </CWidgetSimple>
-                </CCol>
-                <CCol sm="6" lg="6">
-                  <CWidgetSimple header="Reject" text="54">
-                    <ChartLineSimple style={{ height: '40px' }} borderColor="danger"/>
-                  </CWidgetSimple>
-                </CCol>
-                <CCol sm="6" lg="6">
-                  <CWidgetSimple header="Complete" text="14">
-                    <ChartLineSimple style={{ height: '40px' }} borderColor="success"/>
-                  </CWidgetSimple>
-                </CCol>
+                {actionData.map(({status,count})=>(
+                  <CCol sm="6" lg="6" key={`${status}`}>
+                    <CWidgetSimple header={`${status}`} text={`${count}`}>
+                      <ChartLineSimple style={{ height: '40px' }} borderColor="primary"/>
+                    </CWidgetSimple>
+                  </CCol>
+                ))}
                 </CRow>
             :"no"}
 
