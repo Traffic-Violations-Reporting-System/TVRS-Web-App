@@ -14,6 +14,7 @@ import {
 import {viewUser} from "../../../services/web/userService";
 import ChartLineSimple from "../../charts/ChartLineSimple";
 import policeImg from "../../../assets/police.png";
+import {useHistory} from "react-router-dom";
 
 const BasicForms = (props) => {
   const [loading, setLoading] = useState(false);
@@ -34,7 +35,8 @@ const BasicForms = (props) => {
 
       })
   },[]);
-
+  const history = useHistory();
+  const handleEditUser = (selectId) => history.push(`/admin/edituser/${selectId}`);
 
   return (
     <>
@@ -60,7 +62,7 @@ const BasicForms = (props) => {
                   <CListGroup>
                     <CListGroupItem href="#" >Profile</CListGroupItem>
                     <CListGroupItem href="#">Reason Activity</CListGroupItem>
-                    <CListGroupItem href="#">Edit Profile</CListGroupItem>
+                    <CListGroupItem href="#" onClick={()=>handleEditUser(props.match.params.id)}>Edit Profile</CListGroupItem>
                   </CListGroup>
                 </CCardBody>
               </CCard>
@@ -116,7 +118,7 @@ const BasicForms = (props) => {
 
 
         </div>
-        :"no out" }
+        :"null" }
 
 
     </>
