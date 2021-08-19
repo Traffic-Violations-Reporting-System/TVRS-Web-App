@@ -24,9 +24,9 @@ const BasicForms = (props) => {
     const Id = props.match.params.id;
     viewUser(Id)
       .then(response => {
-          setLoading(true);
-          setAction(response.data['action']);
-          setUserDetails(response.data['user']);
+        setLoading(true);
+        setAction(response.data['action']);
+        setUserDetails(response.data['user']);
 
       })
       .catch(error => {
@@ -103,15 +103,15 @@ const BasicForms = (props) => {
 
           {actionData ?
             // {status: "accept", count: 2}
-              <CRow>
-                {actionData.map(({status,count})=>(
-                  <CCol sm="6" lg="6" key={`${status}`}>
-                    <CWidgetSimple header={`${status}`} text={`${count}`}>
-                      <ChartLineSimple style={{ height: '40px' }} borderColor="primary"/>
-                    </CWidgetSimple>
-                  </CCol>
-                ))}
-                </CRow>
+            <CRow>
+              {actionData.map(({status,count})=>(
+                <CCol sm="6" lg="6" key={`${status}`}>
+                  <CWidgetSimple header={`${status}`} text={`${count}`}>
+                    <ChartLineSimple style={{ height: '40px' }} borderColor="primary"/>
+                  </CWidgetSimple>
+                </CCol>
+              ))}
+            </CRow>
             :"no"}
 
 
