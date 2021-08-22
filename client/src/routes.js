@@ -2,7 +2,6 @@ import React from 'react';
 
 //admin
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
-
 const UserRegister = React.lazy(() => import('./views/menu/admin/UserRegistration'));
 const UserTable = React.lazy(() => import('./views/menu/admin/UserTable'));
 const UserEdit = React.lazy(() => import('./views/menu/admin/UserEdit'));
@@ -17,6 +16,8 @@ const DashboardLvel2 = React.lazy(() => import('./views/dashboard/DashboardLevel
 
 //level3
 const DashboardLvel3 = React.lazy(() => import('./views/dashboard/DashboardLevel3'));
+const ComplaintList = React.lazy(() => import('./views/menu/level3/ComplaintList'));
+const UpdateComplaints = React.lazy(() => import('./views/menu/level3/UpdateComplaints'));
 
 
 const routes = [
@@ -37,10 +38,9 @@ const routes = [
 
 
   //level3
-  { path: '/level3/dashboard', name: 'Dashboard', component: DashboardLvel3,role:'level3' },
-
-
-
+  { path: '/level3/dashboard', name: 'Dashboard', component: DashboardLvel3, role: 'level3' },
+  { path: '/level3/complaintList', name: 'Complaint List', component: ComplaintList, role: 'level3' },
+  { path: '/level3/updateComplaint', name: 'Update Complaints', component: UpdateComplaints,role:'level3' },
 
 ];
 
