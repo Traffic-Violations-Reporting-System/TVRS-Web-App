@@ -2,14 +2,15 @@
 const authRoute = require('./router/web/auth.route');
 const resetRoute =require('./router/web/reset.route');
 
-const {sequelize,webuser,webuserrole}=require('./models');
-
+// const {sequelize,webuser,webuserrole}=require('./models');
+const {sequelize}=require('./models');
 const userRoute =require('./router/web/user/user.route');
 const userRoleRoute =require('./router/web/user/userRole.route');
 
 const mobileUsersRoute = require('./router/mobile/user');
 const bodyParser = require('body-parser');
-const express  =require('express');  //return function
+const express = require('express');  //return function
+
 let cors = require('cors');
 require("dotenv").config();
 
