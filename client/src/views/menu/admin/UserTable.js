@@ -52,7 +52,7 @@ const UsersTable = () => {
 
 
   const fields = [
-    { key: 'name', _style: { width: '20%'} },
+    { key: 'first_name', _style: { width: '20%'} },
     { key: 'serviceId', _style: { width: '20%'} },
     { key: 'email', _style: { width: '20%'} },
     { key: 'role', _style: { width: '10%'} },
