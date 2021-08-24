@@ -23,3 +23,6 @@ export function InsertReview(data){
 export function getComplainAction(id){
   return  http.get(`${config["BASEURL"]}`+'/'+'web/complaine/action'+'/'+id);
 }
+export function getInCompleteComplain(data){
+  return  http.post(`${config["BASEURL"]}`+'/'+'web/complaine/incompleteComplain',data);
+}
