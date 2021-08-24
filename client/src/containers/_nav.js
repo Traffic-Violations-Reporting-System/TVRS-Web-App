@@ -61,22 +61,22 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'New Companies',
+    name: 'New Complaint',
     to: '/level1/newInquiryList',
     icon: 'cil-star',
     role:'level1'
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Inquiry Companies',
+    name: 'Inquiry Complaint',
     to: '/level1/inquiryList',
     icon: 'cil-star',
     role:'level1'
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Chat',
-    to: '/level1/dashboard',
+    name: 'Incomplete Complaint',
+    to: '/level1/draftList',
     icon: 'cil-star',
     role:'level1'
   },
