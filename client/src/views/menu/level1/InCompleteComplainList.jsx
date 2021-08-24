@@ -17,20 +17,27 @@ import {
 
 
 } from '@coreui/react'
-import {getNewAllComplain} from "../../../services/web/complainService";
+import {getInCompleteComplain} from "../../../services/web/complainService";
+import {getCurrentUser} from "../../../services/web/userService";
 
 const InquiryTable = () => {
-
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const handleComplain = (selectId) => history.push(`/level1/complaints/${selectId}`);
-  const [usersData, setUsersAllData] = useState([]);
+  const [complaintData, setUsersAllData] = useState([]);
   useEffect(() => {
     fetchUserData();
   }, []);
 
   const fetchUserData = async () => {
-    const { data: complain } = await getNewAllComplain();
-    setUsersAllData(complain);
+    try{
+      const { data: complain } = await getInCompleteComplain({'currentUserId':getCurrentUser().userId});
+      if(!complain) setLoading(false);
+      setUsersAllData(complain);
+      setLoading(true);
+    }catch (e) {
+      if(e.response.status==400) setLoading(false);
+    }
   };
 
 
@@ -73,86 +80,73 @@ const InquiryTable = () => {
 
   return (
 
-    <CRow>
-      <CCol>
-        <CCard>
-          <CCardHeader>
-            All New Inquiry Complain are here
-          </CCardHeader>
-          <CCardBody>
-            <CDataTable
-              items={usersData}
-              fields={fields}
-              columnFilter
-              tableFilter
-              footer
-              itemsPerPageSelect
-              itemsPerPage={10}
-              hover
-              sorter
-              pagination
-              scopedSlots = {{
-                'status':
-                  (item)=>(
-                    <td>
-                      <CBadge color={getBadge(item.status)} style={{width:60}}>
-                        {item.status}
-                      </CBadge>
-                    </td>
-                  ),
-                'show_details':
-                  (item, index)=>{
-                    return (
-                      <td className="py-2">
-                        <CButton
-                          color="primary"
-                          variant="outline"
-
-                          size="sm"
-                          onClick={()=>{toggleDetails(index)}}
-                        >
-                          {details.includes(index) ? 'Hide' : 'Show'}
-                        </CButton>
+    <>
+      { loading? <CRow>
+        <CCol>
+          <CCard>
+            <CCardHeader>
+              All The Uncompleted Complain are here
+            </CCardHeader>
+            <CCardBody>
+              <CDataTable
+                items={complaintData}
+                fields={fields}
+                columnFilter
+                tableFilter
+                footer
+                itemsPerPageSelect
+                itemsPerPage={10}
+                hover
+                sorter
+                pagination
+                scopedSlots = {{
+                  'status':
+                    (item)=>(
+                      <td>
+                        <CBadge color={getBadge(item.status)} style={{width:60}}>
+                          {item.status}
+                        </CBadge>
                       </td>
-                    )
-                  },
-                'details':
-                  (item, index)=>{
-                    return (
-                      <CCollapse show={details.includes(index)}>
-                        <CCardBody>
-                          <h4>
-                            {item.name}
-                          </h4>
-                          <p className="text-muted">Complain ID: MCID000{item.id}</p>
-                          <CButton size="sm" color="primary" onClick={()=>handleComplain(item.id)}>
-                            Take Action
+                    ),
+                  'show_details':
+                    (item, index)=>{
+                      return (
+                        <td className="py-2">
+                          <CButton
+                            color="primary"
+                            variant="outline"
+
+                            size="sm"
+                            onClick={()=>{toggleDetails(index)}}
+                          >
+                            {details.includes(index) ? 'Hide' : 'Show'}
                           </CButton>
-                        </CCardBody>
-                      </CCollapse>
-                    )
-                  }
-              }}
-            />
-          </CCardBody>
-        </CCard>
-      </CCol>
-    </CRow>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        </td>
+                      )
+                    },
+                  'details':
+                    (item, index)=>{
+                      return (
+                        <CCollapse show={details.includes(index)}>
+                          <CCardBody>
+                            <h4>
+                              {item.name}
+                            </h4>
+                            <p className="text-muted">Complain ID: MCID000{item.id}</p>
+                            <CButton size="sm" color="primary" onClick={()=>handleComplain(item.id)}>
+                              Take Action
+                            </CButton>
+                          </CCardBody>
+                        </CCollapse>
+                      )
+                    }
+                }}
+              />
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>:<h2>No Uncompleted Complaint Here</h2>}
+    </>
 
 
   )
