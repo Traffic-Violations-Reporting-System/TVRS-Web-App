@@ -11,4 +11,4 @@ router.post('/view',ViewController);
 router.put('/update/:id',EditController);
 router.get('/select/:id',getSelectedUserController);
 
-module.exports =router;
+module.exports = router;

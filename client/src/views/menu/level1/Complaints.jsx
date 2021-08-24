@@ -1,19 +1,14 @@
 import {
   CRow,
-  CButton,
-  CForm,
-  CLabel,
-  CInput,
-  CTextarea,
   CCol,
-  CSelect, CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardHeader, CCardBody, CTabs,
+  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs,
 
 } from '@coreui/react';
 import React, {useState} from 'react';
 import { ReactVideo } from "reactjs-media";
 
 
-import DocsLink from "../../../reusable/DocsLink";
+
 import AcceptForm from "../../../component/AcceptForm";
 import RejectForm from "../../../component/RejectForm";
 import ReviewForm from "../../../component/ReviewForm";
@@ -21,7 +16,7 @@ import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
 
 const Dashboard = () => {
   const [active, setActive] = useState(1)
-  const lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.'
+  
 
   return (
     <>
