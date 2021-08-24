@@ -13,7 +13,7 @@ const level1 =require('../../../middleware/web/level1');
 router.post("/create", createComplainController);
 router.post("/reject", rejectComplainController);
 router.post("/review", reviewComplainController);
-router.get("/get/:id", getComplainController);
+router.put("/get/:id", getComplainController);
 router.post("/all", findAllComplainController);
 router.post("/newAll", findNewAllComplainController);
 router.get("/action/:id",[auth,level1], getComplainActionDetailsController);
