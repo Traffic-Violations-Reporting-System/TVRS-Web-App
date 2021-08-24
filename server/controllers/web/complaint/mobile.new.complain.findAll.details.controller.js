@@ -1,11 +1,16 @@
 const {Complaint}=require('../../../models');
 
-const {fn,col} = require('sequelize');
+const {fn,col,Op} = require('sequelize');
 exports.findNewAllComplainController = async (req, res) => {
     try{
         const allComplaint =await Complaint.findAll({
 
-            where: { status: 'No Action' },
+            where: {
+                [Op.and]: [
+                    { status: 'pending' },
+                    {take:false}
+                ]
+            },
 
 
             attributes: [
