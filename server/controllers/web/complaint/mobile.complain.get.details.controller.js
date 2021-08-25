@@ -9,11 +9,21 @@ exports.getComplainController = async (req, res) => {
         // if (!complaint) return res.status(400).send("Not found Complaint!");
         const complaint =await Complaint.findOne({
             where: {
-                [Op.and]: [
-                    { id: req.params.id },
-                    { status: 'pending' },
-                    {take:false}
-                ]
+                [Op.or]: {
+                    [Op.and]: [
+                        { id: req.params.id },
+                        { status: 'pending' },
+                        {take:false}
+                    ],
+                    [Op.or]: [
+                        { id: req.params.id },
+                        { status: 'pending' },
+                        {take:true},
+                        {user_id:currentUserId}
+
+                    ]
+                }
+
             }
         });
         if (!complaint) return res.status(400).send("Not found Complaint!");
