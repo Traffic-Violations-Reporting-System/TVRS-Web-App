@@ -20,16 +20,16 @@ const InquiryTable = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const handleComplain = (selectId) => history.push(`/level1/complaints/${selectId}`);
-  const [complaintData, setUsersAllData] = useState([]);
+  const [complaintData, setComplaintData] = useState([]);
   useEffect(() => {
-    fetchUserData();
+    fetchComplaintData();
   }, []);
 
-  const fetchUserData = async () => {
+  const fetchComplaintData = async () => {
     try{
       const { data: complain } = await getInCompleteComplain({'currentUserId':getCurrentUser().userId});
       if(!complain) setLoading(false);
-      setUsersAllData(complain);
+      setComplaintData(complain);
       setLoading(true);
     }catch (e) {
       if(e.response.status==400) setLoading(false);

@@ -15,7 +15,7 @@ import ReviewForm from "../../../component/ReviewForm";
 import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
 import {getComplain} from "../../../services/web/complainService";
 import {getCurrentUser} from "../../../services/web/userService";
-
+import loadingImage from "../../../assets/loading.gif";
 const Dashboard = (props) => {
   const [complainDetails, setComplain] = useState();
   const [complainId, setComplainId] = useState();
@@ -48,8 +48,8 @@ const Dashboard = (props) => {
             <div>
               <ReactVideo
                 style={{height: '200px'}}
-                src="https://www.example.com/url_to_video.mp4"
-                poster="https://www.example.com/poster.png"
+                src="https://d2h5qwe6z6swy7.cloudfront.net/docker.mp4"
+                poster={loadingImage}
                 primaryColor="blue"
                 // other props
               />
