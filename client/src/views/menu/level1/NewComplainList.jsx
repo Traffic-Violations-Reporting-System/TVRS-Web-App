@@ -1,30 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom';
 import {
+  CAlert,
   CButton,
   CCard,
   CCardBody,
+  CCardFooter,
   CCardHeader,
   CCol,
   CCollapse,
+  CFade,
+  CForm, CInput,
   CRow,
   CDataTable,
   CBadge
-} from '@coreui/react'
-import {getAllUsers} from "../../../services/web/userService";
 
-const ComplaintList = () => {
+
+} from '@coreui/react'
+import {getNewAllComplain} from "../../../services/web/complainService";
+
+const InquiryTable = () => {
 
   const history = useHistory();
-  const handleEditUser = (selectId) => history.push(`/admin/edituser/${selectId}`);
+  const handleComplain = (selectId) => history.push(`/level1/complaints/${selectId}`);
   const [usersData, setUsersAllData] = useState([]);
   useEffect(() => {
     fetchUserData();
   }, []);
 
   const fetchUserData = async () => {
-    const { data: users } = await getAllUsers();
-    setUsersAllData(users);
+    const { data: complain } = await getNewAllComplain();
+    setUsersAllData(complain);
   };
 
 
@@ -44,10 +50,9 @@ const ComplaintList = () => {
 
 
   const fields = [
-    { key: 'name', _style: { width: '20%'} },
-    { key: 'serviceId', _style: { width: '20%'} },
-    { key: 'email', _style: { width: '20%'} },
-    { key: 'role', _style: { width: '10%'} },
+    { key: 'date', _style: { width: '20%'} },
+    { key: 'location', _style: { width: '20%'} },
+    { key: 'description', _style: { width: '30%'} },
     { key: 'status', _style: { width: '10%'} },
     {
       key: 'show_details',
@@ -59,8 +64,11 @@ const ComplaintList = () => {
   ]
 
   const getBadge = (status)=>{
-    if (status) return 'primary'
-      return 'danger'
+    if (status=="No Action") return 'primary'
+    else if(status=="Reject") return 'danger'
+    else if(status=="Review") return 'secondary'
+    else if(status=="Complete") return 'success'
+    return 'secondary'
   }
 
   return (
@@ -69,7 +77,7 @@ const ComplaintList = () => {
       <CCol>
         <CCard>
           <CCardHeader>
-            All Users are here
+            All New Inquiry Complain are here
           </CCardHeader>
           <CCardBody>
             <CDataTable
@@ -88,7 +96,7 @@ const ComplaintList = () => {
                   (item)=>(
                     <td>
                       <CBadge color={getBadge(item.status)} style={{width:60}}>
-                        {item.status ? "Active" : "Not"}
+                        {item.status}
                       </CBadge>
                     </td>
                   ),
@@ -116,15 +124,9 @@ const ComplaintList = () => {
                           <h4>
                             {item.name}
                           </h4>
-                          <p className="text-muted">User serviceId: {item.serviceId}</p>
-                          <CButton size="sm" color="primary" >
-                            View User
-                          </CButton>
-                          <CButton size="sm" color="info" className="ml-1" onClick={()=>handleEditUser(item.id)}>
-                            Edit User
-                          </CButton>
-                          <CButton size="sm" color="danger" className="ml-1">
-                            Deactivate
+                          <p className="text-muted">Complain ID: MCID000{item.id}</p>
+                          <CButton size="sm" color="primary" onClick={()=>handleComplain(item.id)}>
+                            Take Action
                           </CButton>
                         </CCardBody>
                       </CCollapse>
@@ -136,7 +138,26 @@ const ComplaintList = () => {
         </CCard>
       </CCol>
     </CRow>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   )
+
+
 }
 
-export default ComplaintList;
+export default InquiryTable;

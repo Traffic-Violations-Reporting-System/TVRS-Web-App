@@ -1,94 +1,153 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {
+  CAlert,
   CButton,
   CCard,
-  CCardBody,
+  CCardBody, CCardFooter,
   CCardHeader,
-  CCol,
-  CFormGroup,
-  CInput,
-  CLabel,
-  CRow,
-  CSelect,
-  CTextarea
+  CCol, CCollapse, CForm,
 } from "@coreui/react";
+import {InsertReject} from "../services/web/complainService";
 
+import CoreTextArea from "../common/CoreUI.textarea";
+import CoreTextSelect from "../common/CoreUI.select";
+import {Formik} from "formik";
+import * as Yup from "yup";
+import {UserContext} from "../App";
+import { useHistory } from 'react-router-dom';
 
-const RejectForm = () => {
+const validationSchema = Yup.object().shape({
+
+  description: Yup.string()
+    .required("description is required")
+    .min(3)
+    .max(50)
+    .label("description"),
+  userRating: Yup.string()
+    .required("User Rating is required")
+    .label("role"),
+  reason: Yup.string()
+    .required("Reason is required")
+    .label("role"),
+
+});
+const RejectForm = ({complainId}) => {
+  const history = useHistory();
+  const currentUserId = useContext(UserContext);
+  const [alert, setAlert] = useState('');
+  const [success, setSuccess] = useState('');
+  const [UserRating, setUserRating] = useState([
+    { "id": 1, "value": "1"},
+    { "id": 2, "value": "2"},
+    { "id": 3, "value": "3"},
+    { "id": 4, "value": "4"}
+  ]);
+  const [Reason, setReason] = useState([
+    { "id": 1, "value": "not clear"},
+    { "id": 2, "value": "bad"},
+    { "id": 3, "value": "dark"},
+    { "id": 4, "value": "other"}
+  ]);
+  const handleSubmit=async (values, { setSubmitting, resetForm })=> {
+    values.userId=currentUserId;
+    values.ComplaintId=complainId;
+
+    console.log(values);
+    setAlert('');
+    try {
+      const result = await InsertReject(values);
+      if(result.status==200) setSuccess(result.data);
+      else setSuccess('')
+
+      setAlert(result.data);
+      resetForm({})
+      history.push(`/level1/newInquiryList`);
+    } catch (e) {
+      setAlert(e.response.data);
+      setSubmitting(false);
+      console.log(e.response.data);
+    }
+  };
 
   return (
     <div>
       <CCard>
-        <CCardHeader>
-          <h5>Reject Details Update Form</h5>
+        <CCardHeader className="font-weight-bold">
+          User Registration
+          <div className="card-header-actions">
+          </div>
         </CCardHeader>
-        <CCardBody>
-          <CRow>
-            <CCol xs="12">
-              <CFormGroup>
-                <CLabel htmlFor="name">Description</CLabel>
-                <CTextarea
-                  name="textarea-input"
-                  id="textarea-input"
-                  rows="6"
-                  placeholder="Content..."
+        {alert&&<CAlert color={success ? "success" : "danger"}>{alert}</CAlert>}
+
+
+        <Formik
+          initialValues={{
+            description:'',
+            reason:'',
+            userRating:'',
+          }}
+          validationSchema ={validationSchema}
+          onSubmit={handleSubmit}
+
+        >
+          {({
+              values,
+              errors,
+              handleChange,
+              handleSubmit,
+              touched,
+              dirty,
+              isValid
+
+            })=>(
+            <CForm className="form-horizontal"  onSubmit={handleSubmit}>
+              <CCardBody>
+                <CoreTextArea
+                  type="text"
+                  name="description"
+                  label="Description"
+                  placeholder="Enter Description"
+                  value={values.description}
+                  onChange={handleChange("description")}
+                  visible={touched.description}
+                  error={errors.description}
                 />
-              </CFormGroup>
-            </CCol>
-          </CRow>
+                <CoreTextSelect
+                  name="reason"
+                  label="Reason"
+                  options={Reason}
+                  onChange={handleChange("reason")}
+                  value={values.reason}
+                  visible={touched.reason}
+                  error={errors.reason}
+                />
 
-          <CRow>
-            <CCol xs="12">
-              <CFormGroup>
-                <CLabel htmlFor="ccmonth">Reason</CLabel>
-                <CSelect custom name="ccmonth" id="ccmonth">
-                  <option value="0">Not selected</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-              
-                </CSelect>
-              </CFormGroup>
-            </CCol>
-          </CRow>
+                <CoreTextSelect
+                  name="userRating"
+                  label="User Rating"
+                  options={UserRating}
+                  onChange={handleChange("userRating")}
+                  value={values.userRating}
+                  visible={touched.userRating}
+                  error={errors.userRating}
+                />
 
-          <CRow>
-            <CCol xs="12">
-              <CFormGroup>
-                <CLabel htmlFor="ccyear">User Rating</CLabel>
-                <CSelect custom name="ccyear" id="ccyear">
-                  <option value="0">Not selected</option>
-                  <option value="1">Low</option>
-                  <option value="2">Low Medium</option>
-                  <option value="3">Medium</option>
-                  <option value="3">Medium High</option>
-                  <option value="3">High</option>
-                </CSelect>
-              </CFormGroup>
-            </CCol>
-          </CRow>
-          
-          <CRow>
-            <CCol xs="4">
-              <CButton
-                color="primary"
-                className="w-md waves-effect waves-light"
-                style={{width:"35%"}}
-                type="submit"
-              >
-                Submit
-              </CButton>
-            </CCol>
-          </CRow>
-        </CCardBody>
+              </CCardBody>
+              <CCardFooter>
+                <CButton
+                  type="submit"
+                  style={{width:"105",height:"38"}}
+                  color="primary"
+                  disabled={!(dirty && isValid)}
+                >Submit</CButton>
+
+              </CCardFooter>
+            </CForm>
+          )}</Formik>
       </CCard>
-
-
     </div>
-  )
-}
+  );
+};
 
 export default RejectForm
 

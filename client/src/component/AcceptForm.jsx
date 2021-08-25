@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {
   CButton,
   CCard,
@@ -12,36 +12,69 @@ import {
   CLabel,
   CSelect,
   CRow,
-  CImg
+  CImg, CAlert
 } from '@coreui/react'
 import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
+import {UserContext} from '../App'
+import {InsertAccept, InsertReview} from "../services/web/complainService";
+import { useHistory } from 'react-router-dom';
 
 
-const AcceptForm = () => {
+const AcceptForm = ({complainId}) => {
+  const history = useHistory();
+  const currentUserId = useContext(UserContext);
+  const [alert, setAlert] = useState('');
+  const [success, setSuccess] = useState('');
 
- 
   const [inputFieldsVehicle, setInputFieldsVehicle] = useState([
-    { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }
+    { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: ''}
   ]);
   const [inputFieldsPerson, setInputFieldsPerson] = useState([
     { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }
   ]);
   const [inputFieldsOther, setInputFieldsOther] = useState({
-    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '' 
+    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '',ComplaintId:'',UserId:''
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //
+    const jsonObj={
+      "accepts":"",
+      "vehicles":"",
+      "people":""
+
+    };
+
+    inputFieldsOther.ComplaintId=complainId;
+    inputFieldsOther.UserId=currentUserId;
+    inputFieldsVehicle.forEach(function(v){ delete v.id });
+    inputFieldsPerson.forEach(function(v){ delete v.id });
+
+    jsonObj.accepts=inputFieldsOther;
+    jsonObj.vehicles=inputFieldsVehicle;
+    jsonObj.people=inputFieldsPerson;
+    try {
+      const result = await InsertAccept(jsonObj);
+      if(result.status==200) setSuccess(result.data);
+      else setSuccess('')
+
+      setAlert(result.data);
+      history.push(`/level1/newInquiryList`);
+    } catch (e) {
+      setAlert(e.response.data);
+
+    }
+
+
   };
 
   const handleClear = (e) => {
     e.preventDefault();
     //
   };
-  
+
   const handleChangeInputVehicle = (id, event) => {
     const newInputFields = inputFieldsVehicle.map(i => {
       if(id === i.id) {
@@ -49,27 +82,27 @@ const AcceptForm = () => {
       }
       return i;
     })
-    
+
     setInputFieldsVehicle(newInputFields);
   }
 
   const handleChangeInputPerson = (id, event) => {
-    const newInputFields = inputFieldsVehicle.map(i => {
+    const newInputFields = inputFieldsPerson.map(i => {
       if(id === i.id) {
         i[event.target.name] = event.target.value
       }
       return i;
     })
-    
+
     setInputFieldsPerson(newInputFields);
   }
 
   const handleChangeInputOther = (event) => {
-  
+
     setInputFieldsOther({ ...inputFieldsOther, [event.target.name]: event.target.value });
   }
 
- 
+
 
   const vehiclePlusClick = () => {
     setInputFieldsVehicle([...inputFieldsVehicle, { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }])
@@ -79,7 +112,7 @@ const AcceptForm = () => {
     values.splice(values.findIndex(value => value.id === id), 1);
     setInputFieldsVehicle(values);
   }
-  
+
   const personPlusClick = () => {
     setInputFieldsPerson([...inputFieldsPerson, { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }]);
   }
@@ -87,9 +120,9 @@ const AcceptForm = () => {
     const values = [...inputFieldsPerson];
     values.splice(values.findIndex(value => value.id === id), 1);
     setInputFieldsPerson(values);
-  } 
+  }
 
-  
+
 
   return (
     <>
@@ -99,12 +132,12 @@ const AcceptForm = () => {
 
             <CCardHeader>
             <h5>Accept Complaint</h5>
-              
-            </CCardHeader>
 
+            </CCardHeader>
+            {alert&&<CAlert color={success ? "success" : "danger"}>{alert}</CAlert>}
             <CCardBody>
               <CForm>
-              <CRow> 
+              <CRow>
 
                 <p className="lead " style={{marginLeft:"15px",marginTop:"4px"}}><b>Related Vehicles</b></p>
                 <div className="c-avatar" style={{marginLeft:"15px"}}>
@@ -123,7 +156,7 @@ const AcceptForm = () => {
                     onClick={() => vehicleMinusClick()}
                   /></CButton>
                 </div>
-                
+
               </CRow>
 
                 {inputFieldsVehicle.map((inputField) => (
@@ -171,7 +204,7 @@ const AcceptForm = () => {
                     <CFormGroup>
                       <CLabel htmlFor="vehicleStatus">Status</CLabel>
                         <CSelect custom
-                          name="vehicleStatus"
+                            name="vehicleStatus"
                             id="vehicleStatus"
                             onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                         >
@@ -185,7 +218,7 @@ const AcceptForm = () => {
                 </div>
 
                 ))}
-                
+
               <hr></hr>
 
               <CRow>
@@ -212,17 +245,22 @@ const AcceptForm = () => {
               {inputFieldsPerson.map((inputField, index) => (
                 <div key={index}>
                   <CRow>
-                
+
                 <CCol xs="3">
                 <CFormGroup>
                     <CLabel htmlFor="ageRange">Age Range</CLabel>
-                    <CSelect custom name="ageRange" id="ageRange">
+
+                      <CSelect custom
+                               name="ageRange"
+                               id="ageRange"
+                               onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
+                      >
                       <option value="0">Not selected</option>
-                      <option value="1">Below 18</option>
-                      <option value="2">18 - 30</option>
-                      <option value="3">30-50</option>
-                      <option value="4">50-70</option>
-                      <option value="6">Above 70</option>
+                      <option value="Below 18">Below 18</option>
+                      <option value="18-30">18 - 30</option>
+                      <option value="30-50">30-50</option>
+                      <option value="50-70">50-70</option>
+                      <option value="Above 70">Above 70</option>
                     </CSelect>
                   </CFormGroup>
                 </CCol>
@@ -230,7 +268,11 @@ const AcceptForm = () => {
                 <CCol xs="3">
                 <CFormGroup>
                     <CLabel htmlFor="gender">Gender</CLabel>
-                    <CSelect custom name="gender" id="gender">
+                      <CSelect custom
+                               name="gender"
+                               id="gender"
+                               onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
+                      >
                       <option value="0">Not selected</option>
                       <option value="male">Male</option>
                       <option value="female">female</option>
@@ -241,7 +283,11 @@ const AcceptForm = () => {
                 <CCol xs="3">
                   <CFormGroup>
                     <CLabel htmlFor="skinColor">Skin Color</CLabel>
-                    <CSelect custom name="skinColor" id="skinColor">
+                      <CSelect custom
+                               name="skinColor"
+                               id="skinColor"
+                               onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
+                      >
                       <option value="0">Not selected</option>
                       <option value="fair">Fair</option>
                       <option value="medium">Medium</option>
@@ -255,7 +301,11 @@ const AcceptForm = () => {
                 <CCol xs="3">
                 <CFormGroup>
                     <CLabel htmlFor="personStatus">Status</CLabel>
-                    <CSelect custom name="personStatus" id="personStatus">
+                      <CSelect custom
+                               name="personStatus"
+                               id="personStatus"
+                               onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
+                      >
                       <option value="0">Not selected</option>
                       <option value="victim">Victim</option>
                       <option value="suspect">Suspect</option>
@@ -263,12 +313,12 @@ const AcceptForm = () => {
                   </CFormGroup>
                 </CCol>
 
-                
+
 
               </CRow>
                 </div>
-              ))}    
-              
+              ))}
+
               <hr></hr>
 
                 {/* <h6><b>Other Details</b></h6> */}
@@ -278,7 +328,11 @@ const AcceptForm = () => {
                 <CCol xs="4">
                   <CFormGroup>
                     <CLabel htmlFor="policeRegion">Police Region</CLabel>
-                    <CSelect custom name="policeRegion" id="policeRegion">
+                    <CSelect custom
+                             name="policeRegion"
+                             id="policeRegion"
+                             onChange={ (e) => handleChangeInputOther(e)}
+                    >
                       <option value="0">Not selected</option>
                       <option value="1">Matara</option>
                       <option value="2">Galle</option>
@@ -291,7 +345,11 @@ const AcceptForm = () => {
                 <CCol xs="4">
                   <CFormGroup>
                     <CLabel htmlFor="violationType">Violation Type</CLabel>
-                    <CSelect custom name="violationType" id="violationType" >
+                      <CSelect custom
+                               name="violationType"
+                               id="violationType"
+                               onChange={ (e) => handleChangeInputOther(e)}
+                      >
                       <option value="0">Not selected</option>
                       <option value="1">Accident</option>
                       <option value="2">Reckless Driving</option>
@@ -301,14 +359,18 @@ const AcceptForm = () => {
 
                 <CCol xs="4">
                   <CFormGroup>
-                    <CLabel htmlFor="policeRegion">Complaint Accuracy</CLabel>
-                    <CSelect custom name="policeRegion" id="policeRegion">
+                    <CLabel htmlFor="ComplaintAccuracy">Complaint Accuracy</CLabel>
+                      <CSelect custom
+                               name="ComplaintAccuracy"
+                               id="ComplaintAccuracy"
+                               onChange={ (e) => handleChangeInputOther(e)}
+                      >
                       <option value="0">Not selected</option>
-                      <option value="1">Low</option>
-                      <option value="2">Low Medium</option>
-                      <option value="3">Medium</option>
-                      <option value="3">Medium High</option>
-                      <option value="3">High</option>
+                      <option value="Low">Low</option>
+                      <option value="Low Medium">Low Medium</option>
+                      <option value="Low Medium">Medium</option>
+                      <option value="Medium High">Medium High</option>
+                      <option value="High">High</option>
                     </CSelect>
                   </CFormGroup>
                 </CCol>
@@ -317,20 +379,20 @@ const AcceptForm = () => {
 
               <CRow>
 
-              <CCol xs="6">     
+              <CCol xs="6">
               <CFormGroup >
                 <CLabel htmlFor="description">Description</CLabel>
-                    <CTextarea 
-                      name="description" 
-                      id="description" 
+                    <CTextarea
+                      name="description"
+                      id="description"
                       rows="4"
                       placeholder="Description..."
                       value={inputFieldsOther.description}
-                      onChange={ (e) => handleChangeInputOther(e)} 
+                      onChange={ (e) => handleChangeInputOther(e)}
                     />
               </CFormGroup>
-              </CCol> 
-                
+              </CCol>
+
               </CRow>
 
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
@@ -339,13 +401,13 @@ const AcceptForm = () => {
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
                   <CButton block color="dark" onClick={handleClear}>Clear</CButton>
               </CCol>
-              
+
               </CForm>
             </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-    </>  
+    </>
   )
 }
 

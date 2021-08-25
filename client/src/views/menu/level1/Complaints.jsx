@@ -4,23 +4,38 @@ import {
   CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs,
 
 } from '@coreui/react';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { ReactVideo } from "reactjs-media";
 
 
-
+import DocsLink from "../../../reusable/DocsLink";
 import AcceptForm from "../../../component/AcceptForm";
 import RejectForm from "../../../component/RejectForm";
 import ReviewForm from "../../../component/ReviewForm";
 import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
+import {getComplain} from "../../../services/web/complainService";
 
-const Dashboard = () => {
-  const [active, setActive] = useState(1)
-  
+const Dashboard = (props) => {
+ const [complainDetails, setComplain] = useState();
+  const [complainId, setComplainId] = useState();
 
+  useEffect (() => {
+    fetchComplain(props);
+  },[]);
+
+  const fetchComplain = async (props) => {
+    const complainId = props.match.params.id;
+    setComplainId(complainId);
+    const { data: complain } = await getComplain(complainId);
+    if(complain)  setComplain(complain);
+
+
+    console.log("complainDetails :");
+    console.log(complainDetails);
+  };
   return (
     <>
-    <h3>Complaint Reference Number - K7814596</h3>
+    <h3>CMID000{props.match.params.id}</h3>
 
      <CRow>
        <CCol  sm="8">
@@ -35,7 +50,7 @@ const Dashboard = () => {
          </div>
        </CCol>
        <CCol  sm="4">
-          <ComplainDetailsCard/>
+          <ComplainDetailsCard complainDetails={complainDetails}  />
        </CCol>
      </CRow>
 
@@ -70,17 +85,17 @@ const Dashboard = () => {
               <CTabContent>
 
                 <CTabPane>
-                  <AcceptForm />
+                  <AcceptForm complainId={complainId} />
                 </CTabPane>
 
                 <CTabPane>
-                  <RejectForm />
+                  <RejectForm complainId={complainId} />
                 </CTabPane>
 
                 <CTabPane>
-                  <ReviewForm />
+                  <ReviewForm complainId={complainId} />
                 </CTabPane>
-                
+
               </CTabContent>
             </CTabs>
           </CCardBody>

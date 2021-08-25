@@ -39,6 +39,11 @@ export function updateUser(user,selectedUser){
   return  http.put(`${config["BASEURL"]}`+'/'+'web/user/update'+'/'+selectedUser,user);
 }
 
+export function viewUser(id){
+
+  return  http.get(`${config["BASEURL"]}`+'/'+'web/user/profile'+'/'+id);
+}
+
 export function getCurrentUser(){
 
   const jwt =localStorage.getItem('token');
@@ -47,4 +52,7 @@ export function getCurrentUser(){
 }
 export function logout(){
   localStorage.removeItem('token');
+}
+export function getJwt(){
+  return localStorage.getItem('token');
 }

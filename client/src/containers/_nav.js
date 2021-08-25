@@ -40,38 +40,36 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'User Role List',
-    to: '/admin/userrolecreate',
+    to: '/admin/rolelist',
     icon: 'cilPeople',
     role:'admin'
   },
-
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Setting',
+    to: '/admin/userrolecreate',
+    icon: 'cil-star',
+    role:'admin'
+  },
    //level 1
   {
     _tag: 'CSidebarNavItem',
     name: 'Dashbord',
     to: '/level1/dashboard',
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+    icon: 'cil-star',
     role:'level1'
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'New Companies',
-    to: '/level1/dashboard',
-    icon: 'cil-star',
-    role:'level1'
-  },
-
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Create Complaint',
-    to: '/level1/complaints',
+    to: '/level1/newInquiryList',
     icon: 'cil-star',
     role:'level1'
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Inquiry Companies',
-    to: '/level1/dashboard',
+    to: '/level1/inquiryList',
     icon: 'cil-star',
     role:'level1'
   },
@@ -94,7 +92,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Dashbord',
     to: '/level2/dashboard',
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+    icon: 'cil-star',
     role:'level2'
   },
    //level 3
@@ -114,11 +112,12 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Update Complaints',
-    to: '/level3/updateComplaint',
+    name: 'New Complaints',
+    to: '/level3/newComplaints',
     icon: 'cil-task',
     role:'level3'
   },
+
 
 
 
