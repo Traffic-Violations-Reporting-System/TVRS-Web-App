@@ -114,7 +114,46 @@ async function viewMyComplaints(req, res) {
 
 }
 
+function viewSelectedComplaint(req, res){
+    models.complaint.belongsTo(models.mobile_user, {foreignKey: 'user_id'});
+    models.mobile_user.hasMany(models.complaint, {foreignKey: 'user_id'});
+
+    models.mobile_user_session.belongsTo(models.mobile_user, {foreignKey: 'user_id'});
+    models.mobile_user.hasMany(models.mobile_user_session, {foreignKey: 'user_id'});
+
+    models.mobile_user_session.findAll({
+        attributes: [],
+        include: [{
+            model: models.mobile_user,
+            attributes: ['full_name'],
+            required: true,
+            include: [{
+                model: models.complaint,
+                attributes: ['description', 'location'],
+                required: true,
+                where: {
+                    id: req.body.complaint_id
+                }
+            }],
+        }],
+        where: {
+            token : req.body.token,
+
+        }
+    }).then(result=>{
+        res.status(200).json({
+            message: "done",
+            result: result
+
+        });
+
+    })
+
+
+}
+
 module.exports = {
     createComplain: createComplain,
-    viewMyComplaints: viewMyComplaints
+    viewMyComplaints: viewMyComplaints,
+    viewSelectedComplaint: viewSelectedComplaint
 }
