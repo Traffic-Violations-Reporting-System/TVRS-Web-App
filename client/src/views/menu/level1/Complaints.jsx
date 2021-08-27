@@ -14,94 +14,101 @@ import RejectForm from "../../../component/RejectForm";
 import ReviewForm from "../../../component/ReviewForm";
 import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
 import {getComplain} from "../../../services/web/complainService";
-
+import {getCurrentUser} from "../../../services/web/userService";
+import loadingImage from "../../../assets/loading.gif";
 const Dashboard = (props) => {
- const [complainDetails, setComplain] = useState();
+  const [complainDetails, setComplain] = useState();
   const [complainId, setComplainId] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect (() => {
     fetchComplain(props);
   },[]);
 
   const fetchComplain = async (props) => {
-    const complainId = props.match.params.id;
-    setComplainId(complainId);
-    const { data: complain } = await getComplain(complainId);
-    if(complain)  setComplain(complain);
+    try{
+      const complainId = props.match.params.id;
+      setComplainId(complainId);
+      const { data: complain} = await getComplain(complainId,{'currentUserId':getCurrentUser().userId});
+      if(complain)  setComplain(complain);
+      setLoading(true);
+      console.log(complainDetails);
+    }catch (e) {
+      if(e.response.status==400) setLoading(false);
 
-
-    console.log("complainDetails :");
-    console.log(complainDetails);
+    }
   };
   return (
     <>
-    <h3>CMID000{props.match.params.id}</h3>
+      {loading ? <div>
+        <h3>CMID000{props.match.params.id}</h3>
 
-     <CRow>
-       <CCol  sm="8">
-         <div>
-           <ReactVideo
-             style={{height: '200px'}}
-             src="https://www.example.com/url_to_video.mp4"
-             poster="https://www.example.com/poster.png"
-             primaryColor="blue"
-             // other props
-           />
-         </div>
-       </CCol>
-       <CCol  sm="4">
-          <ComplainDetailsCard complainDetails={complainDetails}  />
-       </CCol>
-     </CRow>
+        <CRow>
+          <CCol  sm="8">
+            <div>
+              <ReactVideo
+                style={{height: '200px'}}
+                src="https://d2h5qwe6z6swy7.cloudfront.net/docker.mp4"
+                poster={loadingImage}
+                primaryColor="blue"
+                // other props
+              />
+            </div>
+          </CCol>
+          <CCol  sm="4">
+            <ComplainDetailsCard complainDetails={complainDetails}  />
+          </CCol>
+        </CRow>
 
 
-      <CRow className="mt-5">
-        <CCard style={{width:"100%"}}>
+        <CRow className="mt-5">
+          <CCard style={{width:"100%"}}>
 
-          <CCardBody>
-            <CTabs>
-              <CNav variant="tabs">
+            <CCardBody>
+              <CTabs>
+                <CNav variant="tabs">
 
-                <CNavItem>
-                  <CNavLink>
-                    <span text-color="green">Accept</span>
-                  </CNavLink>
-                </CNavItem>
+                  <CNavItem>
+                    <CNavLink>
+                      <span text-color="green">Accept</span>
+                    </CNavLink>
+                  </CNavItem>
 
-                <CNavItem>
-                  <CNavLink>
-                  <span>Reject</span>
-                  </CNavLink>
-                </CNavItem>
+                  <CNavItem>
+                    <CNavLink>
+                      <span>Reject</span>
+                    </CNavLink>
+                  </CNavItem>
 
-                <CNavItem>
-                  <CNavLink>
-                  <span>Review</span>
-                  </CNavLink>
-                </CNavItem>
+                  <CNavItem>
+                    <CNavLink>
+                      <span>Review</span>
+                    </CNavLink>
+                  </CNavItem>
 
-              </CNav>
+                </CNav>
 
-              <CTabContent>
+                <CTabContent>
 
-                <CTabPane>
-                  <AcceptForm complainId={complainId} />
-                </CTabPane>
+                  <CTabPane>
+                    <AcceptForm complainId={complainId} />
+                  </CTabPane>
 
-                <CTabPane>
-                  <RejectForm complainId={complainId} />
-                </CTabPane>
+                  <CTabPane>
+                    <RejectForm complainId={complainId} />
+                  </CTabPane>
 
-                <CTabPane>
-                  <ReviewForm complainId={complainId} />
-                </CTabPane>
+                  <CTabPane>
+                    <ReviewForm complainId={complainId} />
+                  </CTabPane>
 
-              </CTabContent>
-            </CTabs>
-          </CCardBody>
-        </CCard>
-      </CRow>
+                </CTabContent>
+              </CTabs>
+            </CCardBody>
+          </CCard>
+        </CRow>
 
+      </div> : <h2>This Complaint Already taken</h2> }
     </>
   )
 }

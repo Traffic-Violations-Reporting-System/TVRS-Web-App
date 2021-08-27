@@ -8,8 +8,8 @@ export async function getNewAllComplain() {
   return await http.post(`${config["BASEURL"]}`+'/'+'web/complaine/NewAll');
 }
 
-export function getComplain(id){
-  return  http.get(`${config["BASEURL"]}`+'/'+'web/complaine/get'+'/'+id);
+export function getComplain(id,data){
+  return  http.put(`${config["BASEURL"]}`+'/'+'web/complaine/get'+'/'+id,data);
 }
 export function InsertAccept(data){
   return  http.post(`${config["BASEURL"]}`+'/'+'web/complaine/create',data);
@@ -22,4 +22,7 @@ export function InsertReview(data){
 }
 export function getComplainAction(id){
   return  http.get(`${config["BASEURL"]}`+'/'+'web/complaine/action'+'/'+id);
+}
+export function getInCompleteComplain(data){
+  return  http.post(`${config["BASEURL"]}`+'/'+'web/complaine/incompleteComplain',data);
 }
