@@ -41,7 +41,7 @@ const TheHeader = () => {
       <CToggler
         inHeader
         className="ml-md-3 d-lg-none"
-        onClick={toggleSidebarMobile}
+        //onClick={toggleSidebarMobile}
       />
       <CToggler
         inHeader
