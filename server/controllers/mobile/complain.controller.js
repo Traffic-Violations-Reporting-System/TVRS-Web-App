@@ -152,8 +152,13 @@ function viewSelectedComplaint(req, res){
 
 }
 
+function viewComplaintStatus(req, res){
+
+}
+
 module.exports = {
     createComplain: createComplain,
     viewMyComplaints: viewMyComplaints,
-    viewSelectedComplaint: viewSelectedComplaint
+    viewSelectedComplaint: viewSelectedComplaint,
+    viewComplaintStatus: viewComplaintStatus
 }
