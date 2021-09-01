@@ -48,7 +48,7 @@ const Dashboard = (props) => {
             <div>
               <ReactVideo
                 style={{height: '200px'}}
-                src="https://d2h5qwe6z6swy7.cloudfront.net/docker.mp4"
+                src={complainDetails ?"https://d2h5qwe6z6swy7.cloudfront.net/"+complainDetails.reference :null}
                 poster={loadingImage}
                 primaryColor="blue"
                 // other props
