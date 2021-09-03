@@ -49,6 +49,9 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
      
     },
+    region: {
+      type:DataTypes.INTEGER, 
+    },
 
   }, {
     sequelize,
