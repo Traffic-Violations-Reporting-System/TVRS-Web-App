@@ -11,49 +11,26 @@ import {
   CPagination
 } from '@coreui/react'
 
+import {getCurrentUser} from "../../../services/web/userService";
 import {getNewComplaints} from "../../../services/web/level3UserService";
 //import usersData from './UsersData'
-const usersData = [
-   {id: 0, name: 'John Doe', registered: '2018/01/01', role: 'Guest', status: 'Pending'},
-   {id: 1, name: 'Samppa Nori', registered: '2018/01/01', role: 'Member', status: 'Active'},
-   {id: 2, name: 'Estavan Lykos', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-   {id: 3, name: 'Chetan Mohamed', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-   {id: 4, name: 'Derick Maximinus', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-   {id: 5, name: 'Friderik Dávid', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-   {id: 6, name: 'Yiorgos Avraamu', registered: '2018/01/01', role: 'Member', status: 'Active'},
-   {id: 7, name: 'Avram Tarasios', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-   {id: 8, name: 'Quintin Ed', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-   {id: 9, name: 'Enéas Kwadwo', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-   {id: 10, name: 'Agapetus Tadeáš', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-   {id: 11, name: 'Carwyn Fachtna', registered: '2018/01/01', role: 'Member', status: 'Active'},
-   {id: 12, name: 'Nehemiah Tatius', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-   {id: 13, name: 'Ebbe Gemariah', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-   {id: 14, name: 'Eustorgios Amulius', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-   {id: 15, name: 'Leopold Gáspár', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-   {id: 16, name: 'Pompeius René', registered: '2018/01/01', role: 'Member', status: 'Active'},
-   {id: 17, name: 'Paĉjo Jadon', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-   {id: 18, name: 'Micheal Mercurius', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-   {id: 19, name: 'Ganesha Dubhghall', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-   {id: 20, name: 'Hiroto Šimun', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-   {id: 21, name: 'Vishnu Serghei', registered: '2018/01/01', role: 'Member', status: 'Active'},
-   {id: 22, name: 'Zbyněk Phoibos', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-   {id: 23, name: 'Aulus Agmundr', registered: '2018/01/01', role: 'Member', status: 'Pending'},
-   {id: 42, name: 'Ford Prefect', registered: '2001/05/25', role: 'Alien', status: 'Don\'t panic!'}
-]
- 
-const getBadge = status => {
-  switch (status) {
-    case 'Active': return 'success'
-    case 'Inactive': return 'secondary'
-    case 'Pending': return 'warning'
-    case 'Banned': return 'danger'
+
+
+const getBadge = ComplaintAccuracy => {
+  switch (ComplaintAccuracy) {
+    case 'Very Low': return 'danger'
+    case 'Low': return 'warning'
+    case 'Acceptable': return 'secondary'
+    case 'High': return 'info'
+    case 'Very High': return 'success'
     default: return 'primary'
   }
 }
 
 const NewComplaints = () => {
+
   const history = useHistory()
-  
+
   //paginations and tracking pages
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
@@ -66,59 +43,56 @@ const NewComplaints = () => {
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
   }, [currentPage, page])
-   
+  
+
   //handle table data
   const [complaintsData, setComplaintsData] = useState([]);
+   
   useEffect(() => {
-    fetchUserData();
-  }, []);
+    const user = getCurrentUser();
+    fetchComplaintsData(user.region);
+  },[]);
 
-  const fetchUserData = async () => {
-    const { data: complain } = await getNewComplaints();
-    setComplaintsData(complain);
+  const fetchComplaintsData = async (userRegion) => {
+    const { data: complaints } = await getNewComplaints(userRegion);
+    setComplaintsData(complaints);
   };
-
-
-  const [details, setDetails] = useState([])
-
-  const toggleDetails = (index) => {
-    const position = details.indexOf(index)
-    let newDetails = details.slice()
-    if (position !== -1) {
-      newDetails.splice(position, 1)
-    } else {
-      newDetails = [...details, index]
-    }
-    setDetails(newDetails)
-  }
+//
 
   return (
     <CRow>
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
-            Users
-            <small className="text-muted"> example</small>
+            New Complaints
+            <small className="text-muted"> click to select</small>
           </CCardHeader>
           <CCardBody>
           <CDataTable
-            items={usersData}
+            items={complaintsData} //complaintsData
             fields={[
-              { key: 'name', _classes: 'font-weight-bold' },
-              'registered', 'role', 'status'
+              { key: 'id', _classes: 'font-weight-bold' },
+              'violationType', 'createdAt', 'ComplaintAccuracy'
             ]}
             hover
             striped
             itemsPerPage={10}
             activePage={page}
             clickableRows
-            onRowClick={(item) => history.push(`/users/${item.id}`)}
+            onRowClick={(item) => history.push(`/level3/complaint/${item.id}/`)}
+            //level3/newComplaints/:id
             scopedSlots = {{
-              'status':
+              'createdAt':
+                (item) => (
+                  <td>
+                    {item.createdAt.split('T')[0]}
+                  </td>
+                ),
+              'ComplaintAccuracy':
                 (item)=>(
                   <td>
-                    <CBadge color={getBadge(item.status)}>
-                      {item.status}
+                    <CBadge color={getBadge(item.ComplaintAccuracy)}>
+                      {item.ComplaintAccuracy}
                     </CBadge>
                   </td>
                 )
