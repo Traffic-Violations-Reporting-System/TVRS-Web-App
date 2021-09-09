@@ -46,7 +46,7 @@ export function viewUser(id){
 
 export function getCurrentUser(){
 
-  const jwt =localStorage.getItem('token');
+  const jwt = localStorage.getItem('token');
   if(jwt) return jwtDecode(jwt);
   return false;
 }
