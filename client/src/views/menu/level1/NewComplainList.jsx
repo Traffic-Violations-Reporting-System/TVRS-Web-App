@@ -82,7 +82,7 @@ const InquiryTable = () => {
               tableFilter
               footer
               itemsPerPageSelect
-              itemsPerPage={10}
+              itemsPerPage={5}
               hover
               sorter
               pagination
