@@ -8,7 +8,6 @@ import React, {useEffect, useState} from 'react';
 import { ReactVideo } from "reactjs-media";
 
 
-import DocsLink from "../../../reusable/DocsLink";
 import AcceptForm from "../../../component/AcceptForm";
 import RejectForm from "../../../component/RejectForm";
 import ReviewForm from "../../../component/ReviewForm";
