@@ -1,7 +1,7 @@
 import {
   CRow,
   CCol,
-  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs,
+  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs, CSpinner,
 
 } from '@coreui/react';
 import React, {useEffect, useState} from 'react';
@@ -41,14 +41,14 @@ const Dashboard = (props) => {
   return (
     <>
       {loading ? <div>
-        <h3>CMID000{props.match.params.id}</h3>
+        <h3>Complaint id :{props.match.params.id}</h3>
 
         <CRow>
           <CCol  sm="8">
             <div>
               <ReactVideo
                 style={{height: '200px'}}
-                src={complainDetails ?"https://d2h5qwe6z6swy7.cloudfront.net/"+complainDetails.reference :null}
+                src={complainDetails ?"https://dev9aj0eiuvoo.cloudfront.net/"+complainDetails.reference :null}
                 poster={loadingImage}
                 primaryColor="blue"
                 // other props
@@ -108,10 +108,10 @@ const Dashboard = (props) => {
           </CCard>
         </CRow>
 
-      </div> : <h2>This Complaint Already taken</h2> }
-    </>
+      </div> : <h2></h2> }
+      </>
   )
 }
 
-export default Dashboard
+export default Dashboard;
 
