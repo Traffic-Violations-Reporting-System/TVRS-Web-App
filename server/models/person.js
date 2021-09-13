@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     skinColor: DataTypes.STRING,
     nic: DataTypes.STRING,
     address: DataTypes.STRING,
-    contactNo: DataTypes.STRING(12)
+    contactNo: DataTypes.STRING(12),
+    acceptId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Person',
