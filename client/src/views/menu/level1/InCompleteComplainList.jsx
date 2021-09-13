@@ -9,7 +9,8 @@ import {
   CCollapse,
   CRow,
   CDataTable,
-  CBadge
+  CBadge,
+CSpinner
 
 
 } from '@coreui/react'
@@ -128,7 +129,7 @@ const InquiryTable = () => {
                             <h4>
                               {item.name}
                             </h4>
-                            <p className="text-muted">Complain ID: MCID000{item.id}</p>
+                            <p className="text-muted">Complain ID:{item.id}</p>
                             <CButton size="sm" color="primary" onClick={()=>handleComplain(item.id)}>
                               Take Action
                             </CButton>
@@ -141,7 +142,7 @@ const InquiryTable = () => {
             </CCardBody>
           </CCard>
         </CCol>
-      </CRow>:<h2>No Uncompleted Complaint Here</h2>}
+      </CRow>:<h1>Loading</h1>}
     </>
 
 
