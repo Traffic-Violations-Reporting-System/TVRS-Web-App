@@ -1,7 +1,5 @@
 const Op = require('sequelize').Op;
 const { Accept, Complaint } = require('../../../models');
-Accept.hasOne(Complaint, { foreignKey: 'ComplaintId' });
-Complaint.belongsTo(Accept, { foreignKey: 'ComplaintId', targetKey: 'id' });
 
 exports.getallComplaintsController = async (req, res) => {
 
@@ -22,11 +20,12 @@ exports.getallComplaintsController = async (req, res) => {
          include: [{
             model: Complaint,
             attributes: [
-               'status',
+               'complaint_status',
+               'description'
             ],
             where: {
-               [Op.or]: [  { status: 'ongoing' },
-                           {status: 'completed'}
+               [Op.or]: [  { complaint_status: 'ongoing' },
+                           {complaint_status: 'completed'}
                ]
             },
             required: true
