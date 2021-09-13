@@ -12,9 +12,9 @@ import {
   CLabel,
   CSelect,
   CRow,
-  CImg, CAlert
+  CImg, CAlert, CInputGroup, CInputGroupPrepend, CInputGroupText, CInputGroupAppend
 } from '@coreui/react'
-
+import CIcon from '@coreui/icons-react'
 import { ReactVideo } from "reactjs-media";
 
 import plus from "../../../assets/plus.png";
@@ -27,18 +27,19 @@ const Complaint = ({ match }) => {
   const history = useHistory();
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
-  const [result, setResult] = useState({})
-  const complaintId = match.params.id;
+  const complaintId = parseInt(match.params.id);
 
   const [inputFieldsVehicle, setInputFieldsVehicle] = useState([
-    { id: uuidv4(), vehicleNumber: '',ownerNic: '', vehicleType: '', vehicleColor: '', vehicleStatus: ''}
+    { id: uuidv4(), vehicleNumber: '',ownerNic: '', vehicleType: '', vehicleColor: '', vehicleStatus: '', acceptId: complaintId}
   ]);
   const [inputFieldsPerson, setInputFieldsPerson] = useState([
-    { id: uuidv4(), nic:'' , contactNo:'' ,ageRange: '', gender: '', skinColor: '', personStatus: '' }
+    { id: uuidv4(), nic:'' , contactNo:'' ,ageRange: '', gender: '', skinColor: '', personStatus: '', acceptId: complaintId}
   ]);
   const [inputFieldsOther, setInputFieldsOther] = useState({
     violationType: '', userDescription: '', officerDescription: '', complaintStatus:'', progress: ''
   })
+  const [complainer, setComplainer] = useState({full_name:'', nic:'', mphone:''})
+
 
   useEffect(() => {
     fetchComplaintData(complaintId);  
@@ -48,26 +49,28 @@ const Complaint = ({ match }) => {
     getFullComplaint(complaintId)
       .then((res) => {
         setInputFieldsOther({
-          'userDescription': res.data[0].userDescription,
-          'complaintStatus': res.data[1].status,
-          'officerDescription': res.data[2].officerDescription,
+          'userDescription': res.data[0].userDescription ? res.data[0].userDescription : "",
+          'complaintStatus':  res.data[1].status ? res.data[1].status : "",
+          'officerDescription': res.data[2].officerDescription ? res.data[2].officerDescription : "",
           'violationType': res.data[3].violationType,
-          'progress': res.data[4].progress
+          'progress': res.data[4].progress ? res.data[4].progress : "" //
         });
         const people = res.data[5].peopleList;
         const vehicles = res.data[6].vehicleList;
+        const complainer = res.data[7].mobileUser;
+
         setInputFieldsPerson(people);
         setInputFieldsVehicle(vehicles);
-        
+        setComplainer(complainer)
       })
   };
  
   const vehiclePlusClick = () => {
-    setInputFieldsVehicle([...inputFieldsVehicle, { id: uuidv4(), vehicleNumber: '', vehicleType: '', vehicleColor: '', vehicleStatus: '' }])
+    setInputFieldsVehicle([...inputFieldsVehicle, { id: uuidv4(), vehicleNumber: '', ownerNic: '', vehicleType: '', vehicleColor: '', vehicleStatus: '', acceptId: complaintId}])
   }
   
   const personPlusClick = () => {
-    setInputFieldsPerson([...inputFieldsPerson, { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }]);
+    setInputFieldsPerson([...inputFieldsPerson, { id: uuidv4(), nic:'' ,contactNo: '',ageRange: '', gender: '', skinColor: '', personStatus: '', acceptId: complaintId}]);
   }
   
   const handleChangeInputVehicle = (id, event) => {
@@ -97,19 +100,34 @@ const Complaint = ({ match }) => {
   }
 
   const handleSubmit = (e) => {
-    let complaint = [];
-    complaint.push({ "otherDetails": inputFieldsOther });
-    complaint.push({ "peopleList": inputFieldsPerson });
-    complaint.push({ "vehicleList": inputFieldsVehicle });
+    const complaint = {
+      "complaintId":"",
+      "otherDetails":"",
+      "peopleList":"",
+      "vehicleList":""
+    };
+    inputFieldsVehicle.forEach(function (v) {
+      if (!Number.isInteger(v.id)) v.id = "";
+    });
+    inputFieldsPerson.forEach(function (p) {
+      if (!Number.isInteger(p.id)) p.id = "";
+    });
+    
+    complaint.complaintId = complaintId;
+    complaint.otherDetails = inputFieldsOther;
+    complaint.peopleList = inputFieldsPerson;
+    complaint.vehicleList = inputFieldsVehicle;
+    // console.log(complaint);
 
     try {
-      const result = updateComplaint(complaintId, complaint);
+      const result = updateComplaint(complaint);
       if (result) {
         setAlert("Complaint Update Successfull!");
         setSuccess("success");
       } 
       else {
-        
+        setAlert("Complaint Update Unsuccessfull!!");
+        setSuccess("failed");
       } 
     } catch (error) {
       console.log("Update failed")
@@ -130,21 +148,54 @@ const Complaint = ({ match }) => {
         <CCardBody>
           <h5>Evidence</h5>
           <CRow>
-            <CCol  sm="12">
+            <CCol  sm="8">
               <div>
                 <ReactVideo
                   style={{height: '100px'}}
                   src="https://www.example.com/url_to_video.mp4"
                   poster="https://www.example.com/poster.png"
                   primaryColor="blue"
-                  // other props
                 />
               </div>
             </CCol>
-          </CRow>
+            <CCard>
+           
+        <CCardHeader>
+          <h5>Complainer's Details</h5>
+       </CCardHeader>
+       <CCardBody>
+       <CForm>
+          <CFormGroup>
+            <CInputGroup>
+            <CInputGroupPrepend>
+            <CInputGroupText>Name</CInputGroupText>
+            </CInputGroupPrepend>
+            <CInput id="comp_name" name="comp_name" value={complainer.full_name} disabled/>
+          </CInputGroup>
+          </CFormGroup>
+          <CFormGroup>
+            <CInputGroup>
+            <CInputGroupPrepend>
+            <CInputGroupText>NIC</CInputGroupText>
+            </CInputGroupPrepend>
+            <CInput id="comp_nic" name="comp_nic" value={complainer.nic}/>
+            </CInputGroup>
+          </CFormGroup>
+          <CFormGroup>
+            <CInputGroup>
+            <CInputGroupPrepend>
+            <CInputGroupText>Contact No.</CInputGroupText>
+            </CInputGroupPrepend>
+            <CInput id="comp_contact" name="comp_contact" value={complainer.mphone}/>
+            </CInputGroup>
+          </CFormGroup>     
+        </CForm>
         </CCardBody>
       </CCard>
-
+      </CRow>
+      </CCardBody>
+      </CCard>
+   
       <CCard>
         <CCardBody>
         <CForm>
@@ -170,7 +221,8 @@ const Complaint = ({ match }) => {
                     <CInput
                       id="nic"
                       name="nic"
-                      placeholder="Enter NIC Number" value={inputField.nic}
+                      placeholder="Enter NIC Number"
+                      value={inputField.nic ? inputField.nic: ""} //
                       onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
                     />
               </CFormGroup>
@@ -181,7 +233,8 @@ const Complaint = ({ match }) => {
                     <CInput
                       id="contactNo"
                       name="contactNo"
-                      placeholder="Enter Contact Number" value={inputField.contactNo}
+                      placeholder="Enter Contact Number"
+                      value={inputField.contactNo ? inputField.contactNo : ""}
                       onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
                     />
               </CFormGroup>
@@ -192,7 +245,7 @@ const Complaint = ({ match }) => {
                 <CSelect custom
                   name="ageRange"
                   id="ageRange"
-                  value={inputField.ageRange}
+                  value={inputField.ageRange ? inputField.ageRange : 0}
                   onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
                 >
                 <option value="0">Not selected</option>
@@ -211,7 +264,7 @@ const Complaint = ({ match }) => {
                 <CSelect custom
                   name="gender"
                   id="gender"
-                  value={inputField.gender}
+                  value={inputField.gender ? inputField.gender : 0}
                   onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
                 >
                 <option value="0">Not selected</option>
@@ -227,7 +280,7 @@ const Complaint = ({ match }) => {
                 <CSelect custom
                   name="skinColor"
                   id="skinColor"
-                  value={inputField.skinColor}
+                  value={inputField.skinColor ? inputField.skinColor : 0}
                   onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
                 >
                 <option value="0">Not selected</option>
@@ -246,12 +299,13 @@ const Complaint = ({ match }) => {
                 <CSelect custom
                   name="personStatus"
                   id="personStatus"
-                  value={inputField.personStatus}
+                  value={inputField.personStatus ? inputField.personStatus : 0}
                   onChange={ (e) => handleChangeInputPerson(inputField.id,e)}
                 >
                 <option value="0">Not selected</option>
                 <option value="victim">Victim</option>
                 <option value="suspect">Suspect</option>
+                <option value="removed">Removed</option>
               </CSelect>
             </CFormGroup>
           </CCol>
@@ -283,7 +337,7 @@ const Complaint = ({ match }) => {
                             id="vehicleNumber"
                             name="vehicleNumber"
                             placeholder="Enter Vehicle Number"
-                            value={inputField.vehicleNumber}
+                            value={inputField.vehicleNumber ? inputField.vehicleNumber : ""}
                             onChange={ (e) => handleChangeInputVehicle(inputField.id, e)}
                           />
                     </CFormGroup>
@@ -295,7 +349,7 @@ const Complaint = ({ match }) => {
                             id="ownerNic"
                             name="ownerNic"
                             placeholder="Enter Owner NIC"
-                            value={inputField.ownerNic}
+                            value={inputField.ownerNic ? inputField.ownerNic : ""}
                             onChange={ (e) => handleChangeInputVehicle(inputField.id, e)}
                           />
                     </CFormGroup>
@@ -307,7 +361,7 @@ const Complaint = ({ match }) => {
                             id="vehicleType"
                             name="vehicleType"
                             placeholder="Enter Vehicle Type"
-                            value={inputField.vehicleType}
+                            value={inputField.vehicleType ? inputField.vehicleType : ""}
                             onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                           />
                     </CFormGroup>
@@ -320,7 +374,7 @@ const Complaint = ({ match }) => {
                             id="vehicleColor"
                             name="vehicleColor"
                             placeholder="Enter Vehicle Color" 
-                            value={inputField.vehicleColor}
+                            value={inputField.vehicleColor ? inputField.vehicleColor : ""}
                             onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                           />
                     </CFormGroup>
@@ -332,13 +386,13 @@ const Complaint = ({ match }) => {
                         <CSelect custom
                             name="vehicleStatus"
                             id="vehicleStatus"
-                            value={inputField.vehicleStatus}
+                            value={inputField.vehicleStatus ? inputField.vehicleStatus: 0}
                             onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                         >
-                        
-                        <option value="0">Not selected</option>
                         <option value="victim">Victim Vehicle</option>
                         <option value="suspect">Suspect Vehicle</option>
+                        <option value="removed">Removed Vehicle</option>
+                        <option value="0">Not selected</option>
                       </CSelect>
                     </CFormGroup>
                   </CCol>
@@ -395,8 +449,9 @@ const Complaint = ({ match }) => {
                 <CFormGroup>
                   <CLabel htmlFor="status">Complaint Status</CLabel>
                     <CSelect custom
-                      name="status"
-                      id="status"
+                      name="complaintStatus"
+                      id="complaintStatus"
+                      value={inputFieldsOther.complaintStatus}
                       onChange={ (e) => handleChangeInputOther(e)}
                     >
                       <option value="ongoing">Ongoing</option>
