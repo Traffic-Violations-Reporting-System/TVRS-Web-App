@@ -9,6 +9,6 @@ const { updateComplaintController } = require('../../../controllers/web/level3/u
 router.get('/getnew/:region', getnewComplaintsController);
 router.get('/getall/:region', getallComplaintsController);
 router.get('/get/:id', getComplaintController);
-router.put('/update/:id', updateComplaintController);
+router.put('/update', updateComplaintController);
 
 module.exports = router;
