@@ -20,9 +20,10 @@ exports.getnewComplaintsController = async (req, res) => {
          include: [{
             model: Complaint,
             attributes: [
-               'status',
+               'complaint_status',
+               'description'
             ],
-            where: { status: 'accepted' },
+            where: { complaint_status: 'accepted' },
             required: true
          }],
          where: { policeRegion: userRegion }
