@@ -18,11 +18,11 @@ import {getNewComplaints} from "../../../services/web/level3UserService";
 
 const getBadge = ComplaintAccuracy => {
   switch (ComplaintAccuracy) {
-    case 'Very Low': return 'danger'
-    case 'Low': return 'warning'
-    case 'Acceptable': return 'secondary'
-    case 'High': return 'info'
-    case 'Very High': return 'success'
+    case 'Low': return 'danger'
+    case 'Low Medium': return 'warning'
+    case 'Medium': return 'secondary'
+    case 'Medium High': return 'info'
+    case 'High': return 'success'
     default: return 'primary'
   }
 }
