@@ -4,7 +4,7 @@ import {
   CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs, CSpinner,
 
 } from '@coreui/react';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { ReactVideo } from "reactjs-media";
 
 
@@ -13,6 +13,8 @@ import AcceptForm from "../../../component/AcceptForm";
 import RejectForm from "../../../component/RejectForm";
 import ReviewForm from "../../../component/ReviewForm";
 import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
+import SimilarVideoLoadingCard from "../../../component/SimilarVideoLoading";
+
 import {getComplain} from "../../../services/web/complainService";
 import {getCurrentUser} from "../../../services/web/userService";
 import loadingImage from "../../../assets/loading.gif";
@@ -20,6 +22,8 @@ const Dashboard = (props) => {
   const [complainDetails, setComplain] = useState();
   const [complainId, setComplainId] = useState();
   const [loading, setLoading] = useState(false);
+  const [similarLoading, setSimilarLoading] = useState(false);
+  const [videoRefArr, setVideoRefArr] = useState([]);
 
   useEffect (() => {
     fetchComplain(props);
@@ -32,12 +36,18 @@ const Dashboard = (props) => {
       const { data: complain} = await getComplain(complainId,{'currentUserId':getCurrentUser().userId});
       if(complain)  setComplain(complain);
       setLoading(true);
-      console.log(complainDetails);
     }catch (e) {
       if(e.response.status==400) setLoading(false);
 
     }
   };
+  const wrapperSetSimilarLoading = useCallback(val => {
+    setSimilarLoading(val);
+  }, [setSimilarLoading]);
+  const wrapperSetVideoRefArr = useCallback(val => {
+    setVideoRefArr(val);
+  }, [setVideoRefArr]);
+
   return (
     <>
       {loading ? <div>
@@ -48,8 +58,7 @@ const Dashboard = (props) => {
             <div>
               <ReactVideo
                 style={{height: '200px'}}
-                src={complainDetails ?"https://dev9aj0eiuvoo.cloudfront.net/"+complainDetails.reference :null}
-                poster={loadingImage}
+                src={complainDetails ?"https://dev9aj0eiuvoo.cloudfront.net/"+complainDetails.reference :"https://dev9aj0eiuvoo.cloudfront.net/GraphQL.mp4"}
                 primaryColor="blue"
                 // other props
               />
@@ -65,7 +74,7 @@ const Dashboard = (props) => {
           <CCard style={{width:"100%"}}>
 
             <CCardBody>
-              <CTabs>
+              { similarLoading? <SimilarVideoLoadingCard videoRefArr={videoRefArr} />:<CTabs>
                 <CNav variant="tabs">
 
                   <CNavItem>
@@ -91,7 +100,11 @@ const Dashboard = (props) => {
                 <CTabContent>
 
                   <CTabPane>
-                    <AcceptForm complainId={complainId} />
+                    <AcceptForm
+                        complainId={complainId}
+                        parentSetSimilarLoading={wrapperSetSimilarLoading}
+                        parentSetVideoRefArr={wrapperSetVideoRefArr}
+                    />
                   </CTabPane>
 
                   <CTabPane>
@@ -103,7 +116,7 @@ const Dashboard = (props) => {
                   </CTabPane>
 
                 </CTabContent>
-              </CTabs>
+              </CTabs>}
             </CCardBody>
           </CCard>
         </CRow>
