@@ -31,6 +31,7 @@ const InquiryTable = () => {
   const fetchUserData = async () => {
     const { data: complain } = await getNewAllComplain();
     setUsersAllData(complain);
+    console.log(complain);
   };
 
 
