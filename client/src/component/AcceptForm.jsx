@@ -35,12 +35,74 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
     { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }
   ]);
   const [inputFieldsOther, setInputFieldsOther] = useState({
-    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '',ComplaintId:'',UserId:''
+    violationType: '', ComplaintAccuracy: '', description: '',ComplaintId:'',UserId:''
   })
+//************************************************************************
+  const [violationTypeErr, setViolationTypeErr] = useState({});
+  const [complaintAccuracyErr, setComplaintAccuracyErr] = useState({});
+  const [descriptionErr, setDescriptionErr] = useState({});
+  const [vehiclesError, setVehicleError] = useState({});
+  const [peopleError, setPersonError] = useState({});
 
+  const formValidations =()=>{
+    const vehicleError ={};
+    const personError ={};
+    const violationErr={};
+    const complaintAccErr={};
+    const descriptionErr={};
+    let isValid =true;
+    let vArray = inputFieldsVehicle;
+    let pArray = inputFieldsPerson;
+    let dv = false;
+    let dp = false;
+    vArray.map( el=>{
+      delete el["id"]
+      if(!Object.values(el).some(v => v) ){
+
+        dv=true;
+      }
+    });
+
+    pArray.map( el=>{
+      delete el["id"]
+      if(!Object.values(el).some(v => v) ){
+
+        dp=true;
+      }
+    });
+    if(dv && dp){
+      isValid=false;
+      vehicleError.notvalid = 'At least  vehicle details or person details';
+      personError.notvalid = 'At least  person details or vehicle Valid';
+    }
+
+    if(inputFieldsOther.violationType===''){
+      violationErr.notSelected = 'Violation type is required';
+      isValid=false;
+    }
+    if(inputFieldsOther.ComplaintAccuracy===''){
+      complaintAccErr.notSelected = 'Complaint accuracy is required';
+      isValid=false;
+    }
+    if(inputFieldsOther.description.trim().length<5){
+      descriptionErr.short ='Description is too short';
+      isValid=false;
+    }
+    setVehicleError(vehicleError);
+    setPersonError(personError);
+    setViolationTypeErr(violationErr);
+    setComplaintAccuracyErr(complaintAccErr);
+    setDescriptionErr(descriptionErr);
+    return isValid;
+
+  }
 //**************************************************************************
 
   const findSimilar =async () => {
+
+    const isValid =formValidations();
+    if(!isValid) return;
+
     try {
 
       const findObj={"vehicles":""};
@@ -71,13 +133,13 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
     }catch (e) {
 
       if(e.response.status==400){
-        await handleSubmit();
+        await handleSubmits();
       }
 
 
     }
   }
-  const handleSubmit = async (e) => {
+  const handleSubmits = async (e) => {
 
     const jsonObj={
       "accepts":"",
@@ -219,16 +281,6 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                   </CCol>
 
                   <CCol xs="3">
-                    {/*<CFormGroup>*/}
-                    {/*  <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>*/}
-                    {/*      <CInput*/}
-                    {/*        id="vehicleType"*/}
-                    {/*        name="vehicleType"*/}
-                    {/*        placeholder="Enter Vehicle Type"*/}
-                    {/*        value={inputField.vehicleType}*/}
-                    {/*        onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}*/}
-                    {/*      />*/}
-                    {/*</CFormGroup>*/}
                     <CFormGroup>
                       <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>
                       <CSelect custom
@@ -279,6 +331,9 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                 </div>
 
                 ))}
+                {Object.keys(vehiclesError).map((key)=>{
+                  return  <p className="text-danger">{vehiclesError[key]}</p>
+                })}
 
               <hr></hr>
 
@@ -379,6 +434,9 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
               </CRow>
                 </div>
               ))}
+                {Object.keys(peopleError).map((key)=>{
+                  return  <p className="text-danger">{peopleError[key]}</p>
+                })}
 
               <hr></hr>
                 <p className="lead" style={{marginTop:"4px"}}><b>Other Details</b></p>
@@ -391,13 +449,18 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                                name="violationType"
                                id="violationType"
                                onChange={ (e) => handleChangeInputOther(e)}
+
                       >
-                      <option value="0">Not selected</option>
+                      <option value="">Not selected</option>
                       <option value="1">Accident</option>
                       <option value="2">Reckless Driving</option>
                     </CSelect>
                   </CFormGroup>
+                  {Object.keys(violationTypeErr).map((key)=>{
+                    return  <p className="text-danger">{violationTypeErr[key]}</p>
+                  })}
                 </CCol>
+
 
                 <CCol xs="6">
                   <CFormGroup>
@@ -406,8 +469,9 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                                name="ComplaintAccuracy"
                                id="ComplaintAccuracy"
                                onChange={ (e) => handleChangeInputOther(e)}
+
                       >
-                      <option value="0">Not selected</option>
+                      <option value="">Not selected</option>
                       <option value="Low">Low</option>
                       <option value="Low Medium">Low Medium</option>
                       <option value="Low Medium">Medium</option>
@@ -415,6 +479,9 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                       <option value="High">High</option>
                     </CSelect>
                   </CFormGroup>
+                  {Object.keys(complaintAccuracyErr).map((key)=>{
+                    return  <p className="text-danger">{complaintAccuracyErr[key]}</p>
+                  })}
                 </CCol>
 
               </CRow>
@@ -431,14 +498,20 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                       placeholder="Description..."
                       value={inputFieldsOther.description}
                       onChange={ (e) => handleChangeInputOther(e)}
+
                     />
               </CFormGroup>
+                {Object.keys(descriptionErr).map((key)=>{
+                  return  <p className="text-danger">{descriptionErr[key]}</p>
+                })}
+
               </CCol>
 
               </CRow>
 
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
                   <CButton block color="primary" onClick={findSimilar}>Accept</CButton>
+
               </CCol>
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
                   <CButton block color="dark" onClick={handleClear}>Clear</CButton>
