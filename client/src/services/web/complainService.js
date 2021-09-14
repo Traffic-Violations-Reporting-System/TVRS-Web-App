@@ -26,3 +26,11 @@ export function getComplainAction(id){
 export function getInCompleteComplain(data){
   return  http.post(`${config["BASEURL"]}`+'/'+'web/complaine/incompleteComplain',data);
 }
+
+export function findSimilarComplaint(data){
+  return  http.post(`${config["BASEURL"]}`+'/'+'web/complaine/findSimilar',data);
+}
+export function margeVideoRefRelatedComplaints(data){
+  return  http.post(`${config["BASEURL"]}`+'/'+'web/complaine/margeVideoRefRelatedComplaints',data);
+}
+
