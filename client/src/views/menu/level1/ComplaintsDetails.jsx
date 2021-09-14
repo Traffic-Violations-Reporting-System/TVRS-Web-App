@@ -33,7 +33,7 @@ const ComplaintsDetails = (props) => {
   const [error, setError] = useState('');
   const [peopleList, setPeopleList] = useState();
   const [vehicleList, setVehicleList] = useState();
-
+  const [imageUrl, setImageUrl] = useState();
 
   useEffect (() => {
     const complainId = props.match.params.id;
@@ -45,6 +45,7 @@ const ComplaintsDetails = (props) => {
           setComplain(response.data[0]);
           setLastUpdateDate(response.data[1]);
           setStatus(response.data[2]);
+          setImageUrl(response.data[4].videoUrl);
           setPeopleList(response.data[0].People);
           setVehicleList(response.data[0].Vehicles);
         };
@@ -94,7 +95,7 @@ const ComplaintsDetails = (props) => {
                 <div>
                   <ReactVideo
                     style={{height: '200px'}}
-                    src="https://www.example.com/url_to_video.mp4"
+                    src={imageUrl ?"https://dev9aj0eiuvoo.cloudfront.net/"+imageUrl :null}
                     poster="https://www.example.com/poster.png"
                     primaryColor="blue"
                     // other props

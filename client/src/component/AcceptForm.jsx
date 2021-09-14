@@ -18,13 +18,13 @@ import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
 import {UserContext} from '../App'
-import {InsertAccept, InsertReview} from "../services/web/complainService";
+import {InsertAccept, InsertReview,findSimilarComplaint} from "../services/web/complainService";
 import { useHistory } from 'react-router-dom';
 
 
-const AcceptForm = ({complainId}) => {
+const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) => {
   const history = useHistory();
-  const currentUserId = useContext(UserContext);
+  const {currentUserId,setAcceptObject} = useContext(UserContext);
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -38,8 +38,47 @@ const AcceptForm = ({complainId}) => {
     policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '',ComplaintId:'',UserId:''
   })
 
+//**************************************************************************
+
+  const findSimilar =async () => {
+    try {
+
+      const findObj={"vehicles":""};
+      findObj.vehicles=inputFieldsVehicle;
+      const result = await findSimilarComplaint(findObj);
+      if(result.status==200){
+        const jsonObj={
+          "accepts":"",
+          "vehicles":"",
+          "people":""
+
+        };
+
+        inputFieldsOther.ComplaintId=complainId;
+        inputFieldsOther.UserId=currentUserId;
+        inputFieldsVehicle.forEach(function(v){ delete v.id });
+        inputFieldsPerson.forEach(function(v){ delete v.id });
+
+        findObj.accepts=inputFieldsOther;
+        findObj.vehicles=inputFieldsVehicle;
+        findObj.people=inputFieldsPerson;
+
+
+        setAcceptObject(findObj);
+        parentSetVideoRefArr(result.data);
+        parentSetSimilarLoading(true);
+      }
+    }catch (e) {
+
+      if(e.response.status==400){
+        await handleSubmit();
+      }
+
+
+    }
+  }
   const handleSubmit = async (e) => {
-    e.preventDefault();
+
     const jsonObj={
       "accepts":"",
       "vehicles":"",
@@ -55,15 +94,19 @@ const AcceptForm = ({complainId}) => {
     jsonObj.accepts=inputFieldsOther;
     jsonObj.vehicles=inputFieldsVehicle;
     jsonObj.people=inputFieldsPerson;
+
     try {
       const result = await InsertAccept(jsonObj);
+      console.log(result);
       if(result.status==200) setSuccess(result.data);
       else setSuccess('')
-
       setAlert(result.data);
       history.push(`/level1/newInquiryList`);
-    } catch (e) {
-      setAlert(e.response.data);
+    }catch (e) {
+      console.log("error ",e.response.data);
+      if(e.response.status==400){
+        setAlert(e.response.data);
+      }
 
     }
 
@@ -176,15 +219,33 @@ const AcceptForm = ({complainId}) => {
                   </CCol>
 
                   <CCol xs="3">
+                    {/*<CFormGroup>*/}
+                    {/*  <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>*/}
+                    {/*      <CInput*/}
+                    {/*        id="vehicleType"*/}
+                    {/*        name="vehicleType"*/}
+                    {/*        placeholder="Enter Vehicle Type"*/}
+                    {/*        value={inputField.vehicleType}*/}
+                    {/*        onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}*/}
+                    {/*      />*/}
+                    {/*</CFormGroup>*/}
                     <CFormGroup>
                       <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>
-                          <CInput
-                            id="vehicleType"
-                            name="vehicleType"
-                            placeholder="Enter Vehicle Type"
-                            value={inputField.vehicleType}
-                            onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
-                          />
+                      <CSelect custom
+                               name="vehicleType"
+                               id="vehicleType"
+                               onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
+                      >
+                        <option value="0">Not selected</option>
+                        <option value="A1">A1</option>
+                        <option value="A">A</option>
+                        <option value="B1">B1</option>
+                        <option value="B">B</option>
+                        <option value="C1">C1</option>
+                        <option value="C">C</option>
+                        <option value="CE">CE</option>
+                        <option value="D1">D1</option>
+                      </CSelect>
                     </CFormGroup>
                   </CCol>
 
@@ -320,29 +381,10 @@ const AcceptForm = ({complainId}) => {
               ))}
 
               <hr></hr>
-
-                {/* <h6><b>Other Details</b></h6> */}
                 <p className="lead" style={{marginTop:"4px"}}><b>Other Details</b></p>
               <CRow>
 
-                <CCol xs="4">
-                  <CFormGroup>
-                    <CLabel htmlFor="policeRegion">Police Region</CLabel>
-                    <CSelect custom
-                             name="policeRegion"
-                             id="policeRegion"
-                             onChange={ (e) => handleChangeInputOther(e)}
-                    >
-                      <option value="0">Not selected</option>
-                      <option value="1">Matara</option>
-                      <option value="2">Galle</option>
-                      <option value="3">Hambanthota</option>
-                      <option value="4">Hakmana</option>
-                    </CSelect>
-                  </CFormGroup>
-                </CCol>
-
-                <CCol xs="4">
+                <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="violationType">Violation Type</CLabel>
                       <CSelect custom
@@ -357,7 +399,7 @@ const AcceptForm = ({complainId}) => {
                   </CFormGroup>
                 </CCol>
 
-                <CCol xs="4">
+                <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="ComplaintAccuracy">Complaint Accuracy</CLabel>
                       <CSelect custom
@@ -396,7 +438,7 @@ const AcceptForm = ({complainId}) => {
               </CRow>
 
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
-                  <CButton block color="primary" onClick={handleSubmit}>Submit</CButton>
+                  <CButton block color="primary" onClick={findSimilar}>Accept</CButton>
               </CCol>
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
                   <CButton block color="dark" onClick={handleClear}>Clear</CButton>

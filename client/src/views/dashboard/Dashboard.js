@@ -8,9 +8,18 @@ import {
   CCol,
   CProgress,
   CRow,
+  CCardGroup,
+  CCardHeader
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-
+import {
+  CChartBar,
+  CChartLine,
+  CChartDoughnut,
+  CChartRadar,
+  CChartPie,
+  CChartPolarArea
+} from '@coreui/react-chartjs'
 
 import MainChartExample from '../charts/MainChartExample'
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
@@ -26,12 +35,10 @@ const Dashboard = () => {
           <CRow>
             <CCol sm="5">
               <h4 id="traffic" className="card-title mb-0">Accidents</h4>
-              <div className="small text-muted">November 2020</div>
+
             </CCol>
             <CCol sm="7" className="d-none d-md-block">
-              <CButton color="primary" className="float-right">
-                <CIcon name="cil-cloud-download"/>
-              </CButton>
+
               <CButtonGroup className="float-right mr-3">
                 {
                   ['Day', 'Month', 'Year'].map(value => (
@@ -104,6 +111,66 @@ const Dashboard = () => {
           </CRow>
         </CCardFooter>
       </CCard>
+      <CCardGroup columns className = "cols-2" >
+        <CCard>
+          <CCardHeader>
+
+            Number of newly added mobile users - Monthly Analysis
+          </CCardHeader>
+
+          <CCardBody>
+            <CChartBar
+              datasets={[
+                {
+                  label: 'Monthly analysis',
+                  backgroundColor: '#ab149e',
+                  data: [140, 210, 112, 319, 156, 140, 139, 280, 240, 320, 212, 171]
+                }
+              ]}
+              labels="months"
+              options={{
+                tooltips: {
+                  enabled: true
+                }
+              }}
+            />
+          </CCardBody>
+        </CCard>
+
+
+        <CCard>
+          <CCardHeader>
+            System Analysis - Web users
+          </CCardHeader>
+          <CCardBody>
+            <CChartDoughnut
+              datasets={[
+                {
+                  backgroundColor: [
+                    '#e91e63',
+                    '#f8e71c',
+                    '#00d084',
+                  ],
+                  data: [156,315,219]
+                }
+              ]}
+              labels={['Level 1', 'Level 2', 'Level 3']}
+              options={{
+                tooltips: {
+                  enabled: true
+                }
+              }}
+            />
+          </CCardBody>
+        </CCard>
+      </CCardGroup>
+      <CCardGroup columns className = "cols-2">
+
+
+
+
+      </CCardGroup>
+
     </>
   )
 }
