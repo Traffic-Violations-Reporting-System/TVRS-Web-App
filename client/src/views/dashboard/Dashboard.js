@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, {lazy, useEffect, useState} from 'react'
 import {
   CButton,
   CButtonGroup,
@@ -20,13 +20,72 @@ import {
   CChartPie,
   CChartPolarArea
 } from '@coreui/react-chartjs'
+import { adminUserAnalysisBarChart, adminTotalMobileUsersLineChart} from "../../services/web/dashbordService.js";
+import MainChartExample from '../charts/MainChartExample';
 
-import MainChartExample from '../charts/MainChartExample'
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
-
-
-
 const Dashboard = () => {
+  //chart1
+  const [chart1 ,setChart1] =useState([
+    {
+      label: 'Monthly analysis',
+      backgroundColor: '#ab149e',
+      data: []
+    }
+  ]);
+
+
+  //chart2
+  const [chart2 ,setChart2]=useState([
+    {
+      backgroundColor: [
+        '#e91e63',
+        '#f8e71c',
+        '#00d084',
+        '#2c9ce5',
+      ],
+      data: []
+    }
+  ]);
+
+  useEffect(() => {
+    //chart1
+    adminTotalMobileUsersLineChart()
+      .then(response => {
+        totalMobileUsersLineChart(response.data);
+      })
+      .catch(error => {
+        totalMobileUsersLineChart([40, 20, 12,4,5,6,7,8,9,10,12,15]);
+      });
+
+    //chart2
+    adminUserAnalysisBarChart()
+      .then(response => {
+        userAnalysisBarChart(response.data);
+      })
+      .catch(error => {
+        userAnalysisBarChart([156,315,219,667]);
+      });
+
+
+
+  },[]);
+
+  //1
+  const totalMobileUsersLineChart =(arr) =>{
+    let newState = [...chart1];
+    newState[0].data = arr;
+    setChart1(newState);
+  };
+  //2
+  const userAnalysisBarChart =(arr) =>{
+    let newState = [...chart2];
+    newState[0].data = arr;
+    setChart2(newState);
+  };
+
+
+
   return (
     <>
       <WidgetsDropdown />
@@ -120,13 +179,7 @@ const Dashboard = () => {
 
           <CCardBody>
             <CChartBar
-              datasets={[
-                {
-                  label: 'Monthly analysis',
-                  backgroundColor: '#ab149e',
-                  data: [140, 210, 112, 319, 156, 140, 139, 280, 240, 320, 212, 171]
-                }
-              ]}
+              datasets={chart1}
               labels="months"
               options={{
                 tooltips: {
@@ -144,17 +197,8 @@ const Dashboard = () => {
           </CCardHeader>
           <CCardBody>
             <CChartDoughnut
-              datasets={[
-                {
-                  backgroundColor: [
-                    '#e91e63',
-                    '#f8e71c',
-                    '#00d084',
-                  ],
-                  data: [156,315,219]
-                }
-              ]}
-              labels={['Level 1', 'Level 2', 'Level 3']}
+              datasets={chart2}
+              labels={['admin','Level 1', 'Level 2', 'Level 3']}
               options={{
                 tooltips: {
                   enabled: true
