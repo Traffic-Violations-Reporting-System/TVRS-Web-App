@@ -1,16 +1,12 @@
 import React, {useContext, useState,useEffect} from 'react';
 import {
-
-
-  CCardBody,
-
-  CCol, CForm, CFormGroup, CInputRadio, CLabel, CListGroup, CListGroupItem, CRow
+  CCardBody, CCol, CForm, CFormGroup, CInputRadio, CLabel, CListGroup, CListGroupItem, CRow
 } from "@coreui/react";
 
 import ReactPlayer from 'react-player'
 import {Formik} from "formik";
 import AppSelect from "../common/form/AppSelect";
-import {margeVideoRefRelatedComplaints,InsertAccept} from "../services/web/complainService";
+import {margeVideoRefRelatedComplaints,InsertAccept,InsertReject} from "../services/web/complainService";
 import { useHistory } from 'react-router-dom';
 import * as Yup from "yup";
 import {UserContext} from '../App'
@@ -30,41 +26,46 @@ const validationSchema = Yup.object().shape({
 });
 
 const SimilarVideoLoadingCard = ({videoRefArr}) => {
-    const {acceptObject,currentUserId,setAcceptObject} = useContext(UserContext);
+  const {acceptObject,currentUserId,setAcceptObject} = useContext(UserContext);
 
-    const [activeVideo,setActiveVideo] = useState('');
-    const [activeTab, setActiveTab] = useState(1);
-
-
-    const history = useHistory();
-
-    useEffect (() => {
-      const x ={"video" :(`${config["VideoStreamURl"]}`+'/'+videoRefArr[0].reference).toString()};
-      setActiveVideo(x.video);
-    },[])
+  const [activeVideo,setActiveVideo] = useState('');
+  const [activeTab, setActiveTab] = useState(1);
 
 
-    const handleSubmit= async (values, { setSubmitting, resetForm })=> {
+  const history = useHistory();
 
-      if(values.transactionCategory==='option1'){
-        try{
-          const r =await InsertAccept(acceptObject);
-          history.push(`/level1/newInquiryList`);
-        }catch (e) {
-          console.log("error occur in adding a complaints");
-        }
+  useEffect (() => {
+    const x ={"video" :(`${config["VideoStreamURl"]}`+'/'+videoRefArr[0].reference).toString()};
+    setActiveVideo(x.video);
+  },[])
+
+
+  const handleSubmit= async (values, { setSubmitting, resetForm })=> {
+
+    if(values.transactionCategory==='option1'){
+      try{
+        const r =await InsertAccept(acceptObject);
+        history.push(`/level1/newInquiryList`);
+      }catch (e) {
+        console.log("error occur in adding a complaints");
+      }
 
     }else if(values.transactionCategory==="option2"){
-         try{
-           await margeVideoRefRelatedComplaints({"complainId":values.videoRef,"userId":currentUserId});
-           history.push(`/level1/newInquiryList`);
-         }catch (e) {
-           console.log("error occur in marge complain");
-         }
+      try{
+        await margeVideoRefRelatedComplaints({"complainId":values.videoRef,"userId":currentUserId});
+        history.push(`/level1/newInquiryList`);
+      }catch (e) {
+        console.log("error occur in marge complain");
+      }
 
     }else if(values.transactionCategory==="option3"){
-      console.log(history);
-      history.push(`/level1/newInquiryList`);
+     try{
+       await InsertReject({"description":'This Complaint Already add',"reason":'already added',"ComplaintId":acceptObject.accepts.ComplaintId,"UserId":currentUserId});
+
+       // history.push(`/level1/newInquiryList`);
+     }catch (e) {
+       console.log("error occur in reject complain");
+     }
     }
 
 
@@ -86,36 +87,36 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
         </h3>
         <hr/>
 
-       <CRow>
-         <CCol  md="8">
-           <div>
-             <ReactPlayer
-               style={{height: '200px'}}
-               url={activeVideo}
-               controls
+        <CRow>
+          <CCol  md="8">
+            <div>
+              <ReactPlayer
+                style={{height: '200px'}}
+                url={activeVideo}
+                controls
 
-             />
-           </div>
-         </CCol>
-         <CCol md="4"  style={{justifyContent: 'center'}}>
-           <CCardBody>
-             <CListGroup id="list-tab" role="tablist">
-                 {videoRefArr.map((video, index) => (
+              />
+            </div>
+          </CCol>
+          <CCol md="4"  style={{justifyContent: 'center'}}>
+            <CCardBody>
+              <CListGroup id="list-tab" role="tablist">
+                {videoRefArr.map((video, index) => (
 
-                   <CListGroupItem
-                     key={video.id}
-                     value ={video.id}
-                     onClick={() => selectVideo(video)}
-                     action  active={activeTab === video.id}
-                   >
-                     {video.id}
-                   </CListGroupItem>
-                 ))}
-             </CListGroup>
-           </CCardBody>
+                  <CListGroupItem
+                    key={video.id}
+                    value ={video.id}
+                    onClick={() => selectVideo(video)}
+                    action  active={activeTab === video.id}
+                  >
+                    {video.id}
+                  </CListGroupItem>
+                ))}
+              </CListGroup>
+            </CCardBody>
 
-         </CCol>
-       </CRow>
+          </CCol>
+        </CRow>
 
         <div style={{margin: '20px'}}>
           <Formik
@@ -189,9 +190,9 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
                   Save
                 </button>
                 &nbsp;
-                <button type="reset" className="btn btn-secondary">
-                  Reset
-                </button>
+                {/*<button type="reset" className="btn btn-secondary">*/}
+                {/*  Reset*/}
+                {/*</button>*/}
               </CForm>
             )}
           </Formik>
@@ -203,5 +204,3 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
 };
 
 export default SimilarVideoLoadingCard
-
-
