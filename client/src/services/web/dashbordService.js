@@ -13,3 +13,11 @@ export async function getGenderBasedanalysisBarchart() {
 export async function getNumberOfAccidentsInThisYearBarchart() {
   return await http.get(`${config["BASEURL"]}`+'/'+'web/dashboard/level/numberOfAccidentsInThisYearBarchart');
 }
+
+//admin
+export async function adminUserAnalysisBarChart() {
+  return await http.get(`${config["BASEURL"]}`+'/'+'web/dashboard/admin/userAnalysisBarChart');
+}
+export async function adminTotalMobileUsersLineChart() {
+  return await http.get(`${config["BASEURL"]}`+'/'+'web/dashboard/admin/totalMobileUsers');
+}
