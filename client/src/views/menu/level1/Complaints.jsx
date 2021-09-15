@@ -5,10 +5,9 @@ import {
 
 } from '@coreui/react';
 import React, {useCallback, useEffect, useState} from 'react';
-import { ReactVideo } from "reactjs-media";
 
 
-import DocsLink from "../../../reusable/DocsLink";
+import ReactPlayer from 'react-player'
 import AcceptForm from "../../../component/AcceptForm";
 import RejectForm from "../../../component/RejectForm";
 import ReviewForm from "../../../component/ReviewForm";
@@ -17,7 +16,7 @@ import SimilarVideoLoadingCard from "../../../component/SimilarVideoLoading";
 
 import {getComplain} from "../../../services/web/complainService";
 import {getCurrentUser} from "../../../services/web/userService";
-import loadingImage from "../../../assets/loading.gif";
+
 const Dashboard = (props) => {
   const [complainDetails, setComplain] = useState();
   const [complainId, setComplainId] = useState();
@@ -56,11 +55,11 @@ const Dashboard = (props) => {
         <CRow>
           <CCol  sm="8">
             <div>
-              <ReactVideo
-                style={{height: '200px'}}
-                src={complainDetails ?"https://dev9aj0eiuvoo.cloudfront.net/"+complainDetails.reference :"https://dev9aj0eiuvoo.cloudfront.net/GraphQL.mp4"}
-                primaryColor="blue"
-                // other props
+              <ReactPlayer
+                url={complainDetails ?"https://dev9aj0eiuvoo.cloudfront.net/"+complainDetails.reference :"https://dev9aj0eiuvoo.cloudfront.net/GraphQL.mp4"}
+                controls
+                height='100%'
+                width='100%'
               />
             </div>
           </CCol>
