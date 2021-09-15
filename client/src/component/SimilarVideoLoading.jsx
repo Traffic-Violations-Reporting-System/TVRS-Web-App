@@ -17,7 +17,7 @@ import {UserContext} from '../App'
 const config = require("../config.json");
 
 const validationSchema = Yup.object().shape({
-  isCompany: Yup.boolean(),
+
   transactionCategory: Yup.string()
     .required("Option is required")
     .label("Options"),
@@ -42,18 +42,18 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
       const x ={"video" :(`${config["VideoStreamURl"]}`+'/'+videoRefArr[0].reference).toString()};
       setActiveVideo(x.video);
     },[])
-    const handleSubmit= async (values, { setSubmitting, resetForm })=> {
 
+
+    const handleSubmit= async (values, { setSubmitting, resetForm })=> {
 
       if(values.transactionCategory==='option1'){
         try{
-          console.log(acceptObject);
           const r =await InsertAccept(acceptObject);
           history.push(`/level1/newInquiryList`);
         }catch (e) {
           console.log("error occur in adding a complaints");
         }
-        setAcceptObject("");
+
     }else if(values.transactionCategory==="option2"){
          try{
            await margeVideoRefRelatedComplaints({"complainId":values.videoRef,"userId":currentUserId});
@@ -119,7 +119,7 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
 
         <div style={{margin: '20px'}}>
           <Formik
-            initialValues={{ transactionCategory:'', videoRef:'0',}}
+            initialValues={{ transactionCategory:'', videoRef:'',}}
             validationSchema ={validationSchema}
             onSubmit={handleSubmit}
           >
