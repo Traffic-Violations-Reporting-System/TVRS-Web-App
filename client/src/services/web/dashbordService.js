@@ -21,3 +21,12 @@ export async function adminUserAnalysisBarChart() {
 export async function adminTotalMobileUsersLineChart() {
   return await http.get(`${config["BASEURL"]}`+'/'+'web/dashboard/admin/totalMobileUsers');
 }
+
+//top common chart & footer
+
+export async function footerFiveCard() {
+  return await http.get(`${config["BASEURL"]}`+'/'+'web/dashboard/main/mainCount');
+}
+export async function getMainChartData() {
+  return await http.get(`${config["BASEURL"]}`+'/'+'web/dashboard/main/mainchart');
+}
