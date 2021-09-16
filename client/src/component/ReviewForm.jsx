@@ -57,7 +57,7 @@ const ReviewForm = ({complainId}) => {
     <div>
       <CCard>
         <CCardHeader className="font-weight-bold">
-          User Registration
+          Review Complaint
           <div className="card-header-actions">
           </div>
         </CCardHeader>
