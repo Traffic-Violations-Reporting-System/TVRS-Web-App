@@ -4,10 +4,7 @@ const {fn,col} = require('sequelize');
 exports.findAllComplainController = async (req, res) => {
     try{
         const allComplaint =await Complaint.findAll({
-
-            where: { status: { [Op.ne]: 'No Action' }},
-
-
+            where: { status: { [Op.ne]: 'pending' }},
             attributes: [
                 'id',
                 'description',

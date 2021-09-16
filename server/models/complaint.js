@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         user_id: DataTypes.INTEGER,
         complainant_id: DataTypes.STRING,
         complainantType: DataTypes.STRING,
-        mobile_user_id: DataTypes.INTEGER
+        mobile_user_id: DataTypes.INTEGER,
+        take: DataTypes.BOOLEAN
     }, {
         sequelize,
         modelName: 'Complaint',

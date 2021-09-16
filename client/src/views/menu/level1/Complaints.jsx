@@ -1,22 +1,51 @@
 import {
   CRow,
   CCol,
-  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs,
+  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs, CSpinner,
 
 } from '@coreui/react';
-import React, {useEffect, useState} from 'react';
-import { ReactVideo } from "reactjs-media";
+import React, {useCallback, useEffect, useState} from 'react';
 
 
+import ReactPlayer from 'react-player'
 import AcceptForm from "../../../component/AcceptForm";
 import RejectForm from "../../../component/RejectForm";
 import ReviewForm from "../../../component/ReviewForm";
 import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
+import SimilarVideoLoadingCard from "../../../component/SimilarVideoLoading";
+
 import {getComplain} from "../../../services/web/complainService";
+import {getCurrentUser} from "../../../services/web/userService";
 
 const Dashboard = (props) => {
- const [complainDetails, setComplain] = useState();
+  const [complainDetails, setComplain] = useState();
   const [complainId, setComplainId] = useState();
+  const [loading, setLoading] = useState(false);
+  const [similarLoading, setSimilarLoading] = useState(false);
+  const [videoRefArr, setVideoRefArr] = useState([]);
+
+  useEffect (() => {
+    fetchComplain(props);
+  },[]);
+
+  const fetchComplain = async (props) => {
+    try{
+      const complainId = props.match.params.id;
+      setComplainId(complainId);
+      const { data: complain} = await getComplain(complainId,{'currentUserId':getCurrentUser().userId});
+      if(complain)  setComplain(complain);
+      setLoading(true);
+    }catch (e) {
+      if(e.response.status==400) setLoading(false);
+
+    }
+  };
+  const wrapperSetSimilarLoading = useCallback(val => {
+    setSimilarLoading(val);
+  }, [setSimilarLoading]);
+  const wrapperSetVideoRefArr = useCallback(val => {
+    setVideoRefArr(val);
+  }, [setVideoRefArr]);
 
   useEffect (() => {
     fetchComplain(props);
@@ -34,76 +63,81 @@ const Dashboard = (props) => {
   };
   return (
     <>
-    <h3>CMID000{props.match.params.id}</h3>
+      {loading ? <div>
+        <h3>Complaint id :{props.match.params.id}</h3>
 
-     <CRow>
-       <CCol  sm="8">
-         <div>
-           <ReactVideo
-             style={{height: '200px'}}
-             src="https://www.example.com/url_to_video.mp4"
-             poster="https://www.example.com/poster.png"
-             primaryColor="blue"
-             // other props
-           />
-         </div>
-       </CCol>
-       <CCol  sm="4">
-          <ComplainDetailsCard complainDetails={complainDetails}  />
-       </CCol>
-     </CRow>
+        <CRow>
+          <CCol  sm="8">
+            <div>
+              <ReactPlayer
+                url={complainDetails ?"https://dev9aj0eiuvoo.cloudfront.net/"+complainDetails.reference :"https://dev9aj0eiuvoo.cloudfront.net/GraphQL.mp4"}
+                controls
+                height='100%'
+                width='100%'
+              />
+            </div>
+          </CCol>
+          <CCol  sm="4">
+            <ComplainDetailsCard complainDetails={complainDetails}  />
+          </CCol>
+        </CRow>
 
 
-      <CRow className="mt-5">
-        <CCard style={{width:"100%"}}>
+        <CRow className="mt-5">
+          <CCard style={{width:"100%"}}>
 
-          <CCardBody>
-            <CTabs>
-              <CNav variant="tabs">
+            <CCardBody>
+              { similarLoading? <SimilarVideoLoadingCard videoRefArr={videoRefArr} />:<CTabs>
+                <CNav variant="tabs">
 
-                <CNavItem>
-                  <CNavLink>
-                    <span text-color="green">Accept</span>
-                  </CNavLink>
-                </CNavItem>
+                  <CNavItem>
+                    <CNavLink>
+                      <span text-color="green">Accept</span>
+                    </CNavLink>
+                  </CNavItem>
 
-                <CNavItem>
-                  <CNavLink>
-                  <span>Reject</span>
-                  </CNavLink>
-                </CNavItem>
+                  <CNavItem>
+                    <CNavLink>
+                      <span>Reject</span>
+                    </CNavLink>
+                  </CNavItem>
 
-                <CNavItem>
-                  <CNavLink>
-                  <span>Review</span>
-                  </CNavLink>
-                </CNavItem>
+                  <CNavItem>
+                    <CNavLink>
+                      <span>Review</span>
+                    </CNavLink>
+                  </CNavItem>
 
-              </CNav>
+                </CNav>
 
-              <CTabContent>
+                <CTabContent>
 
-                <CTabPane>
-                  <AcceptForm complainId={complainId} />
-                </CTabPane>
+                  <CTabPane>
+                    <AcceptForm
+                        complainId={complainId}
+                        parentSetSimilarLoading={wrapperSetSimilarLoading}
+                        parentSetVideoRefArr={wrapperSetVideoRefArr}
+                    />
+                  </CTabPane>
 
-                <CTabPane>
-                  <RejectForm complainId={complainId} />
-                </CTabPane>
+                  <CTabPane>
+                    <RejectForm complainId={complainId} />
+                  </CTabPane>
 
-                <CTabPane>
-                  <ReviewForm complainId={complainId} />
-                </CTabPane>
+                  <CTabPane>
+                    <ReviewForm complainId={complainId} />
+                  </CTabPane>
 
-              </CTabContent>
-            </CTabs>
-          </CCardBody>
-        </CCard>
-      </CRow>
+                </CTabContent>
+              </CTabs>}
+            </CCardBody>
+          </CCard>
+        </CRow>
 
-    </>
+      </div> : <h2></h2> }
+      </>
   )
 }
 
-export default Dashboard
+export default Dashboard;
 

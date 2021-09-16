@@ -20,7 +20,7 @@ const WidgetsDropdown = () => {
         <CWidgetDropdown
           color="gradient-primary"
           header="9823"
-          text="Registered Mobile Users"
+          text="Mobile Users"
           footerSlot={
             <ChartLineSimple
               pointed

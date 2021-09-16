@@ -1,15 +1,20 @@
 const {Complaint}=require('../../../models');
-const {fn,col,Op} = require('sequelize');
 
-exports.findNewAllComplainController = async (req, res) => {
+const {fn,col,Op} = require('sequelize');
+exports.findAllIncompleteComplainController = async (req, res) => {
     try{
+        const {currentUserId} =req.body;
         const allComplaint =await Complaint.findAll({
+
             where: {
                 [Op.and]: [
                     { status: 'pending' },
-                    {take:false}
+                    {take:true},
+                    {user_id:currentUserId}
                 ]
             },
+
+
             attributes: [
                 'id',
                 'description',
@@ -18,7 +23,7 @@ exports.findNewAllComplainController = async (req, res) => {
                 [fn('DATE', col('createdAt')), 'date']
             ]
         });
-        if (!allComplaint) return res.status(400).send("Not found Complaint!");
+        if (!allComplaint) return res.status(400).send("Not found Any Incomplete Complaint!");
 
         return res.status(200).send(allComplaint);
 

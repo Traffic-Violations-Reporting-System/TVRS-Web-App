@@ -1,10 +1,10 @@
 import React from 'react';
 import {CCard, CCardBody, CLabel} from "@coreui/react";
 import location from "../assets/location.png";
-import user from "../assets/user.png";
+
 import clock from "../assets/clock.png";
 import description from "../assets/description.png";
-import { CIcon } from '@coreui/icons-react';
+
 
 const ComplainDetailsCard = ({complainDetails}) => {
 
@@ -54,7 +54,7 @@ const ComplainDetailsCard = ({complainDetails}) => {
             </div>
             <div className="col-8">
               <CLabel htmlFor="username" className="mb-0 font-weight-bold">Description</CLabel>
-              <p>{complainDetails.description}</p>
+              <p>{complainDetails.description.length> 45?complainDetails.description.substring(0, 45):complainDetails.description}</p>
             </div>
           </div>
         </CCardBody>

@@ -63,8 +63,8 @@ const BasicForms = () => {
 
   const fetchUserRoles = async () => {
     const { data: roles } = await getUserRoles();
-    console.log(roles);
     setUserRoles(roles);
+
   };
 
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {

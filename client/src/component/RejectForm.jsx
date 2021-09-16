@@ -23,9 +23,6 @@ const validationSchema = Yup.object().shape({
     .min(3)
     .max(50)
     .label("description"),
-  userRating: Yup.string()
-    .required("User Rating is required")
-    .label("role"),
   reason: Yup.string()
     .required("Reason is required")
     .label("role"),
@@ -36,12 +33,7 @@ const RejectForm = ({complainId}) => {
   const currentUserId = useContext(UserContext);
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
-  const [UserRating, setUserRating] = useState([
-    { "id": 1, "value": "1"},
-    { "id": 2, "value": "2"},
-    { "id": 3, "value": "3"},
-    { "id": 4, "value": "4"}
-  ]);
+
   const [Reason, setReason] = useState([
     { "id": 1, "value": "not clear"},
     { "id": 2, "value": "bad"},
@@ -49,10 +41,9 @@ const RejectForm = ({complainId}) => {
     { "id": 4, "value": "other"}
   ]);
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
-    values.userId=currentUserId;
+    values.UserId=currentUserId;
     values.ComplaintId=complainId;
 
-    console.log(values);
     setAlert('');
     try {
       const result = await InsertReject(values);
@@ -73,7 +64,7 @@ const RejectForm = ({complainId}) => {
     <div>
       <CCard>
         <CCardHeader className="font-weight-bold">
-          User Registration
+          Reject Complaint
           <div className="card-header-actions">
           </div>
         </CCardHeader>
@@ -84,7 +75,6 @@ const RejectForm = ({complainId}) => {
           initialValues={{
             description:'',
             reason:'',
-            userRating:'',
           }}
           validationSchema ={validationSchema}
           onSubmit={handleSubmit}
@@ -122,15 +112,6 @@ const RejectForm = ({complainId}) => {
                   error={errors.reason}
                 />
 
-                <CoreTextSelect
-                  name="userRating"
-                  label="User Rating"
-                  options={UserRating}
-                  onChange={handleChange("userRating")}
-                  value={values.userRating}
-                  visible={touched.userRating}
-                  error={errors.userRating}
-                />
 
               </CCardBody>
               <CCardFooter>

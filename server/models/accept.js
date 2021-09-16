@@ -4,7 +4,7 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Accept extends Model {
-    
+
     static associate(models) {
       // define association here
     }
@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     progress: {
       type:DataTypes.STRING(1024),
+
     }
   }, {
     sequelize,

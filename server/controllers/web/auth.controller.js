@@ -18,7 +18,7 @@ exports.loginController = async (req, res) => {
         const validPassword =await bcrypt.compare(password,user.password);
         if(!validPassword)  return res.status(400).send("invalid username or password");
         const role =await webuserrole.findOne({where:{id:user.role_id}});
-        const token = jwt.sign({userId:user.id, first_name:user.first_name, email:user.email,role:role.role, region: user.region},'jwtPrivateKey');
+        const token = jwt.sign({userId:user.id,first_name:user.first_name,email:user.email,role:role.role},'jwtPrivateKey');
         return res.status(200).send(token);
 
     }catch (e) {

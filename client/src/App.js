@@ -25,7 +25,7 @@ export const UserContext = React.createContext();
 function App(){
   const [currentUserRole,setCurrentUserRole]=useState();
   const [currentUserId,setCurrentUserId]=useState();
-
+  const [acceptObject,setAcceptObject]=useState('');
 
 
   useEffect(() => {
@@ -43,7 +43,15 @@ function App(){
 };
 
 return (
-      <UserContext.Provider value={currentUserId}>
+
+      <UserContext.Provider value={
+        {
+          "currentUserId":currentUserId,
+          "acceptObject":acceptObject,
+           "setAcceptObject":setAcceptObject
+        }
+      }>
+
 
         <BrowserRouter>
           <React.Suspense fallback={loading}>

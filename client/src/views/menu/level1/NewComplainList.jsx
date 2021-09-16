@@ -1,16 +1,19 @@
 import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom';
 import {
+  CAlert,
   CButton,
   CCard,
   CCardBody,
+  CCardFooter,
   CCardHeader,
   CCol,
   CCollapse,
+  CFade,
+  CForm, CInput,
   CRow,
   CDataTable,
   CBadge
-
 } from '@coreui/react'
 import {getNewAllComplain} from "../../../services/web/complainService";
 
@@ -26,6 +29,7 @@ const InquiryTable = () => {
   const fetchUserData = async () => {
     const { data: complain } = await getNewAllComplain();
     setUsersAllData(complain);
+    console.log(complain);
   };
 
 
@@ -62,7 +66,7 @@ const InquiryTable = () => {
     if (status=="No Action") return 'primary'
     else if(status=="Reject") return 'danger'
     else if(status=="Review") return 'secondary'
-    else if(status=="Completed") return 'success'
+    else if(status=="Complete") return 'success'
     return 'secondary'
   }
 
@@ -82,7 +86,7 @@ const InquiryTable = () => {
               tableFilter
               footer
               itemsPerPageSelect
-              itemsPerPage={5}
+              itemsPerPage={10}
               hover
               sorter
               pagination
@@ -133,22 +137,6 @@ const InquiryTable = () => {
         </CCard>
       </CCol>
     </CRow>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   )
 

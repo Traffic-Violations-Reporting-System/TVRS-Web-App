@@ -55,6 +55,8 @@ db.Review =require("./review")(sequelize, Sequelize);
 db.Complain_Police =require("./complain_invoive_police")(sequelize, Sequelize);
 db.Police = require("./webuser")(sequelize, Sequelize);
 db.WebUserRole = require("./webuserrole")(sequelize, Sequelize);
+db.Video_Ref = require("./video_ref")(sequelize, Sequelize);
+
 
 db.Accept.belongsToMany(db.Person, { through: db.Accept_People, foreignKey: 'acceptId' });
 db.Person.belongsToMany(db.Accept, { through: db.Accept_People, foreignKey: 'peopleId' });
@@ -69,6 +71,10 @@ db.Police.belongsToMany(db.Complaint, { through: db.Complain_Police, foreignKey:
 
 db.WebUserRole.hasMany(db.Police,{foreignKey: 'role_id', sourceKey: 'id'});
 db.Police.belongsTo(db.WebUserRole,{foreignKey: 'role_id', targetKey: 'id'});
+
+
+db.Complaint.hasOne(db.Video_Ref,{foreignKey: 'complaint_id', sourceKey: 'id'});
+db.Video_Ref.belongsTo(db.Complaint,{foreignKey: 'complaint_id', targetKey: 'id'});
 
 module.exports = db;
 

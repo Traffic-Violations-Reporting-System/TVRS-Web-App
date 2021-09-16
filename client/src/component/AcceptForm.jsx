@@ -18,13 +18,13 @@ import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
 import {UserContext} from '../App'
-import {InsertAccept, InsertReview} from "../services/web/complainService";
+import {InsertAccept, InsertReview,findSimilarComplaint} from "../services/web/complainService";
 import { useHistory } from 'react-router-dom';
 
 
-const AcceptForm = ({complainId}) => {
+const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) => {
   const history = useHistory();
-  const currentUserId = useContext(UserContext);
+  const {currentUserId,setAcceptObject} = useContext(UserContext);
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -35,11 +35,112 @@ const AcceptForm = ({complainId}) => {
     { id: uuidv4(), ageRange: '', gender: '', skinColor: '', personStatus: '' }
   ]);
   const [inputFieldsOther, setInputFieldsOther] = useState({
-    policeRegion: '', violationType: '', ComplaintAccuracy: '', description: '',ComplaintId:'',UserId:''
+    violationType: '', ComplaintAccuracy: '', description: '',ComplaintId:'',UserId:''
   })
+//************************************************************************
+  const [violationTypeErr, setViolationTypeErr] = useState({});
+  const [complaintAccuracyErr, setComplaintAccuracyErr] = useState({});
+  const [descriptionErr, setDescriptionErr] = useState({});
+  const [vehiclesError, setVehicleError] = useState({});
+  const [peopleError, setPersonError] = useState({});
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const formValidations =()=>{
+    const vehicleError ={};
+    const personError ={};
+    const violationErr={};
+    const complaintAccErr={};
+    const descriptionErr={};
+    let isValid =true;
+    let vArray = inputFieldsVehicle;
+    let pArray = inputFieldsPerson;
+    let dv = false;
+    let dp = false;
+    vArray.map( el=>{
+      delete el["id"]
+      if(!Object.values(el).some(v => v) ){
+
+        dv=true;
+      }
+    });
+
+    pArray.map( el=>{
+      delete el["id"]
+      if(!Object.values(el).some(v => v) ){
+
+        dp=true;
+      }
+    });
+    if(dv && dp){
+      isValid=false;
+      vehicleError.notvalid = 'At least  vehicle details or person details';
+      personError.notvalid = 'At least  person details or vehicle Valid';
+    }
+
+    if(inputFieldsOther.violationType===''){
+      violationErr.notSelected = 'Violation type is required';
+      isValid=false;
+    }
+    if(inputFieldsOther.ComplaintAccuracy===''){
+      complaintAccErr.notSelected = 'Complaint accuracy is required';
+      isValid=false;
+    }
+    if(inputFieldsOther.description.trim().length<5){
+      descriptionErr.short ='Description is too short';
+      isValid=false;
+    }
+    setVehicleError(vehicleError);
+    setPersonError(personError);
+    setViolationTypeErr(violationErr);
+    setComplaintAccuracyErr(complaintAccErr);
+    setDescriptionErr(descriptionErr);
+    return isValid;
+
+  }
+//**************************************************************************
+
+  const findSimilar =async () => {
+
+    const isValid =formValidations();
+    if(!isValid) return;
+
+    try {
+
+      const findObj={"vehicles":""};
+      findObj.vehicles=inputFieldsVehicle;
+      const result = await findSimilarComplaint(findObj);
+      if(result.status==200){
+        const jsonObj={
+          "accepts":"",
+          "vehicles":"",
+          "people":""
+
+        };
+
+        inputFieldsOther.ComplaintId=complainId;
+        inputFieldsOther.UserId=currentUserId;
+        inputFieldsVehicle.forEach(function(v){ delete v.id });
+        inputFieldsPerson.forEach(function(v){ delete v.id });
+
+        findObj.accepts=inputFieldsOther;
+        findObj.vehicles=inputFieldsVehicle;
+        findObj.people=inputFieldsPerson;
+
+
+        setAcceptObject(findObj);
+        parentSetVideoRefArr(result.data);
+        parentSetSimilarLoading(true);
+      }
+    }catch (e) {
+
+      if(e.response.status==400){
+        await handleSubmits();
+      }
+
+
+    }
+  }
+  const handleSubmits = async (e) => {
+
     const jsonObj={
       "accepts":"",
       "vehicles":"",
@@ -55,19 +156,21 @@ const AcceptForm = ({complainId}) => {
     jsonObj.accepts=inputFieldsOther;
     jsonObj.vehicles=inputFieldsVehicle;
     jsonObj.people=inputFieldsPerson;
+
     try {
       const result = await InsertAccept(jsonObj);
+      console.log(result);
       if(result.status==200) setSuccess(result.data);
       else setSuccess('')
-
       setAlert(result.data);
       history.push(`/level1/newInquiryList`);
-    } catch (e) {
-      setAlert(e.response.data);
+    }catch (e) {
+      console.log("error ",e.response.data);
+      if(e.response.status==400){
+        setAlert(e.response.data);
+      }
 
     }
-
-
   };
 
   const handleClear = (e) => {
@@ -178,13 +281,21 @@ const AcceptForm = ({complainId}) => {
                   <CCol xs="3">
                     <CFormGroup>
                       <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>
-                          <CInput
-                            id="vehicleType"
-                            name="vehicleType"
-                            placeholder="Enter Vehicle Type"
-                            value={inputField.vehicleType}
-                            onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
-                          />
+                      <CSelect custom
+                               name="vehicleType"
+                               id="vehicleType"
+                               onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
+                      >
+                        <option value="0">Not selected</option>
+                        <option value="A1">A1</option>
+                        <option value="A">A</option>
+                        <option value="B1">B1</option>
+                        <option value="B">B</option>
+                        <option value="C1">C1</option>
+                        <option value="C">C</option>
+                        <option value="CE">CE</option>
+                        <option value="D1">D1</option>
+                      </CSelect>
                     </CFormGroup>
                   </CCol>
 
@@ -218,6 +329,9 @@ const AcceptForm = ({complainId}) => {
                 </div>
 
                 ))}
+                {Object.keys(vehiclesError).map((key)=>{
+                  return  <p className="text-danger">{vehiclesError[key]}</p>
+                })}
 
               <hr></hr>
 
@@ -318,31 +432,15 @@ const AcceptForm = ({complainId}) => {
               </CRow>
                 </div>
               ))}
-
+                {Object.keys(peopleError).map((key)=>{
+                  return  <p className="text-danger">{peopleError[key]}</p>
+                })}
               <hr></hr>
-
-                {/* <h6><b>Other Details</b></h6> */}
                 <p className="lead" style={{marginTop:"4px"}}><b>Other Details</b></p>
               <CRow>
 
-                <CCol xs="4">
-                  <CFormGroup>
-                    <CLabel htmlFor="policeRegion">Police Region</CLabel>
-                    <CSelect custom
-                             name="policeRegion"
-                             id="policeRegion"
-                             onChange={ (e) => handleChangeInputOther(e)}
-                    >
-                      <option value="0">Not selected</option>
-                      <option value="1">Matara</option>
-                      <option value="2">Galle</option>
-                      <option value="3">Hambanthota</option>
-                      <option value="4">Hakmana</option>
-                    </CSelect>
-                  </CFormGroup>
-                </CCol>
 
-                <CCol xs="4">
+                <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="violationType">Violation Type</CLabel>
                       <CSelect custom
@@ -350,14 +448,18 @@ const AcceptForm = ({complainId}) => {
                                id="violationType"
                                onChange={ (e) => handleChangeInputOther(e)}
                       >
-                      <option value="0">Not selected</option>
+                      <option value="">Not selected</option>
                       <option value="1">Accident</option>
                       <option value="2">Reckless Driving</option>
                     </CSelect>
                   </CFormGroup>
+                  {Object.keys(violationTypeErr).map((key)=>{
+                    return  <p className="text-danger">{violationTypeErr[key]}</p>
+                  })}
                 </CCol>
 
-                <CCol xs="4">
+
+                <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="ComplaintAccuracy">Complaint Accuracy</CLabel>
                       <CSelect custom
@@ -365,7 +467,7 @@ const AcceptForm = ({complainId}) => {
                                id="ComplaintAccuracy"
                                onChange={ (e) => handleChangeInputOther(e)}
                       >
-                      <option value="0">Not selected</option>
+                      <option value="">Not selected</option>
                       <option value="Low">Low</option>
                       <option value="Low Medium">Low Medium</option>
                       <option value="Low Medium">Medium</option>
@@ -373,6 +475,9 @@ const AcceptForm = ({complainId}) => {
                       <option value="High">High</option>
                     </CSelect>
                   </CFormGroup>
+                  {Object.keys(complaintAccuracyErr).map((key)=>{
+                    return  <p className="text-danger">{complaintAccuracyErr[key]}</p>
+                  })}
                 </CCol>
 
               </CRow>
@@ -391,12 +496,18 @@ const AcceptForm = ({complainId}) => {
                       onChange={ (e) => handleChangeInputOther(e)}
                     />
               </CFormGroup>
+                {Object.keys(descriptionErr).map((key)=>{
+                  return  <p className="text-danger">{descriptionErr[key]}</p>
+                })}
+
+
               </CCol>
 
               </CRow>
 
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
-                  <CButton block color="primary" onClick={handleSubmit}>Submit</CButton>
+                  <CButton block color="primary" onClick={findSimilar}>Accept</CButton>
+
               </CCol>
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
                   <CButton block color="dark" onClick={handleClear}>Clear</CButton>
