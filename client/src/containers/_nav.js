@@ -30,27 +30,14 @@ const _nav =  [
     role:'admin'
 
  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Create User Role',
-    to: '/admin/userrolecreate',
-    icon: 'cilPeople',
-    role:'admin'
-  },
-  {
+ {
     _tag: 'CSidebarNavItem',
     name: 'User Role List',
     to: '/admin/rolelist',
     icon: 'cilPeople',
     role:'admin'
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Setting',
-    to: '/admin/userrolecreate',
-    icon: 'cil-star',
-    role:'admin'
-  },
+  
    //level 1
   {
     _tag: 'CSidebarNavItem',
@@ -80,13 +67,7 @@ const _nav =  [
     icon: 'cil-star',
     role:'level1'
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Report',
-    to: '/level1/dashboard',
-    icon: 'cil-star',
-    role:'level1'
-  },
+  
    //level 2
    {
     _tag: 'CSidebarNavItem',
