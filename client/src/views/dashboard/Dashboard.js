@@ -22,6 +22,7 @@ import {
 } from '@coreui/react-chartjs'
 import { adminUserAnalysisBarChart, adminTotalMobileUsersLineChart} from "../../services/web/dashbordService.js";
 import MainChartExample from '../charts/MainChartExample';
+import FiveChardFooter from "../charts/FiveBouttomCard";
 
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 const Dashboard = () => {
@@ -117,57 +118,7 @@ const Dashboard = () => {
           <MainChartExample style={{height: '300px', marginTop: '40px'}}/>
         </CCardBody>
         <CCardFooter>
-          <CRow className="text-center">
-            <CCol md sm="12" className="mb-sm-2 mb-0">
-              <div className="text-muted">Car Accidents</div>
-              <strong>29 Drivers (40%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                color="success"
-                value={40}
-              />
-            </CCol>
-            <CCol md sm="12" className="mb-sm-2 mb-0 d-md-down-none">
-              <div className="text-muted">Bike Accidents</div>
-              <strong>24 Drivers (20%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                color="info"
-                value={40}
-              />
-            </CCol>
-            <CCol md sm="12" className="mb-sm-2 mb-0">
-              <div className="text-muted">Bus Accidents</div>
-              <strong>78 Drivers (60%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                color="warning"
-                value={40}
-              />
-            </CCol>
-            <CCol md sm="12" className="mb-sm-2 mb-0">
-              <div className="text-muted">Three Wheeler Accidents</div>
-              <strong>22 Drivers (30%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                color="danger"
-                value={40}
-              />
-            </CCol>
-            <CCol md sm="12" className="mb-sm-2 mb-0 d-md-down-none">
-              <div className="text-muted">Other Accidents</div>
-              <strong>37 Drivers (40.15%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                value={40}
-              />
-            </CCol>
-          </CRow>
+         <FiveChardFooter  />
         </CCardFooter>
       </CCard>
       <CCardGroup columns className = "cols-2" >
