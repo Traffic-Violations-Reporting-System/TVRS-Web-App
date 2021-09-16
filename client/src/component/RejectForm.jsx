@@ -65,7 +65,7 @@ const RejectForm = ({complainId}) => {
     <div>
       <CCard>
         <CCardHeader className="font-weight-bold">
-          User Registration
+          Reject Complaint
           <div className="card-header-actions">
           </div>
         </CCardHeader>

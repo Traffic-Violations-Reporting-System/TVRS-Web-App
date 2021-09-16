@@ -5,7 +5,7 @@ import {
   CCardBody,
   CLabel,
   CProgress,
-  CFormGroup, CInput,
+  CFormGroup,
 
 } from '@coreui/react';
 import React, {useEffect, useState} from 'react';
