@@ -17,7 +17,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'User Register',
-  to: '/admin/register',
+    to: '/admin/register',
     icon: 'cil-star',
     role:'admin'
 
@@ -81,7 +81,21 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Dashbord',
     to: '/level3/dashboard',
-    icon: 'cil-star',
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+    role:'level3'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Complaints',
+    to: '/level3/complaintList',
+    icon: 'cil-list',
+    role:'level3'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'New Complaints',
+    to: '/level3/newComplaints',
+    icon: 'cil-task',
     role:'level3'
   },
 

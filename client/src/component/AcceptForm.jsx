@@ -171,8 +171,6 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
       }
 
     }
-
-
   };
 
   const handleClear = (e) => {
@@ -437,10 +435,10 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                 {Object.keys(peopleError).map((key)=>{
                   return  <p className="text-danger">{peopleError[key]}</p>
                 })}
-
               <hr></hr>
                 <p className="lead" style={{marginTop:"4px"}}><b>Other Details</b></p>
               <CRow>
+
 
                 <CCol xs="6">
                   <CFormGroup>
@@ -449,7 +447,6 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                                name="violationType"
                                id="violationType"
                                onChange={ (e) => handleChangeInputOther(e)}
-
                       >
                       <option value="">Not selected</option>
                       <option value="1">Accident</option>
@@ -469,7 +466,6 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                                name="ComplaintAccuracy"
                                id="ComplaintAccuracy"
                                onChange={ (e) => handleChangeInputOther(e)}
-
                       >
                       <option value="">Not selected</option>
                       <option value="Low">Low</option>
@@ -498,12 +494,12 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                       placeholder="Description..."
                       value={inputFieldsOther.description}
                       onChange={ (e) => handleChangeInputOther(e)}
-
                     />
               </CFormGroup>
                 {Object.keys(descriptionErr).map((key)=>{
                   return  <p className="text-danger">{descriptionErr[key]}</p>
                 })}
+
 
               </CCol>
 

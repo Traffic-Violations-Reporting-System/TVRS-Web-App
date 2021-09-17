@@ -14,8 +14,6 @@ import {
   CRow,
   CDataTable,
   CBadge
-
-
 } from '@coreui/react'
 import {getNewAllComplain} from "../../../services/web/complainService";
 
@@ -78,7 +76,7 @@ const InquiryTable = () => {
       <CCol>
         <CCard>
           <CCardHeader>
-            All New Inquiry Complain are here
+            All New Inquiry Complaints are here
           </CCardHeader>
           <CCardBody>
             <CDataTable
@@ -139,22 +137,6 @@ const InquiryTable = () => {
         </CCard>
       </CCol>
     </CRow>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   )
 

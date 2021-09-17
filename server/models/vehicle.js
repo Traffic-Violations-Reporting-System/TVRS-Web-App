@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     vehicleColor: DataTypes.STRING,
     vehicleNumber: DataTypes.STRING,
     vehicleStatus: DataTypes.STRING,
-    vehicleType: DataTypes.STRING
+    vehicleType: DataTypes.STRING,
+    acceptId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Vehicle',

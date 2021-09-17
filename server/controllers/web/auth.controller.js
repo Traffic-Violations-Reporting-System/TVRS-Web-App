@@ -1,4 +1,4 @@
-const {sequelize,webuser,webuserrole}=require('../../models');
+const {webuser, webuserrole}=require('../../models');
 const authValidation=require('../../validation/web/auth.validation');
 const Joi = require("joi");
 const bcrypt = require('bcrypt');

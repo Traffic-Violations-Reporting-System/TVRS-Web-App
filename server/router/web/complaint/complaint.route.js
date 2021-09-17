@@ -21,4 +21,5 @@ router.post("/all", findAllComplainController);
 router.post("/newAll", findNewAllComplainController);
 router.get("/action/:id",[auth,level1], getComplainActionDetailsController);
 router.post("/incompleteComplain", findAllIncompleteComplainController);
+
 module.exports =router;

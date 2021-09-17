@@ -47,6 +47,20 @@ const Dashboard = (props) => {
     setVideoRefArr(val);
   }, [setVideoRefArr]);
 
+  useEffect (() => {
+    fetchComplain(props);
+  },[]);
+
+  const fetchComplain = async (props) => {
+    const complainId = props.match.params.id;
+    setComplainId(complainId);
+    const { data: complain } = await getComplain(complainId);
+    if(complain)  setComplain(complain);
+
+
+    console.log("complainDetails :");
+    console.log(complainDetails);
+  };
   return (
     <>
       {loading ? <div>

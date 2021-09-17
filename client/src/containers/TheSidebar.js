@@ -27,10 +27,10 @@ const TheSidebar = ({currentUserRole}) => {
       show={show}
       onShowChange={(val) => dispatch({type: 'set', sidebarShow: val })}
     >
-      <CSidebarBrand className="d-md-down-none" to="/">
+      <CSidebarBrand className="d-md-down-none">
       <div>
           <img  src={logodark} height="40" alt="logo"/>
-          </div>
+      </div>
         
       </CSidebarBrand>
       <CSidebarNav>

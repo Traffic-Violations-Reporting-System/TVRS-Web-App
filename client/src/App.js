@@ -28,7 +28,6 @@ function App(){
   const [acceptObject,setAcceptObject]=useState('');
 
 
-
   useEffect(() => {
     const user =getCurrentUser();
     console.log(user.role);
@@ -44,6 +43,7 @@ function App(){
 };
 
 return (
+
       <UserContext.Provider value={
         {
           "currentUserId":currentUserId,
@@ -51,6 +51,7 @@ return (
            "setAcceptObject":setAcceptObject
         }
       }>
+
 
         <BrowserRouter>
           <React.Suspense fallback={loading}>

@@ -5,8 +5,7 @@ import {
   CCardBody,
   CLabel,
   CProgress,
-  CFormGroup,
-
+  CFormGroup
 } from '@coreui/react';
 import React, {useEffect, useState} from 'react';
 import { ReactVideo } from "reactjs-media";

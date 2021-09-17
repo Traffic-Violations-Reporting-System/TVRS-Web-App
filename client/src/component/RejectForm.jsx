@@ -44,7 +44,6 @@ const RejectForm = ({complainId}) => {
     values.UserId=currentUserId;
     values.ComplaintId=complainId;
 
-
     setAlert('');
     try {
       const result = await InsertReject(values);
@@ -112,6 +111,7 @@ const RejectForm = ({complainId}) => {
                   visible={touched.reason}
                   error={errors.reason}
                 />
+
 
               </CCardBody>
               <CCardFooter>

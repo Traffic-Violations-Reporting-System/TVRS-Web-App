@@ -23,6 +23,7 @@ exports.createComplainController = async (req, res) => {
         const accept_vehicle_result = await Accept_Vehicle.bulkCreate(vehicleResult);
 
         let complainPolice =await Complain_Police.create({
+
             complaineId :accepts.ComplaintId,
             userId:accepts.UserId,
             status:'accept'});
