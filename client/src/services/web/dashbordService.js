@@ -30,3 +30,7 @@ export async function footerFiveCard() {
 export async function getMainChartData() {
   return await http.get(`${config["BASEURL"]}`+'/'+'web/dashboard/main/mainchart');
 }
+//top 4 card
+export async function getTopFourCardData() {
+  return await http.get(`${config["BASEURL"]}`+'/'+'web/dashboard/admin/topFourCard');
+}
