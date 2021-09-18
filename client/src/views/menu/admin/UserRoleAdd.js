@@ -29,7 +29,7 @@ const validationSchema = Yup.object().shape({
     .min(3)
     .max(10)
     .label("User Role"),
-  
+
 });
 const BasicForms = () => {
   const [collapsed, setCollapsed] = React.useState(true)
@@ -38,18 +38,18 @@ const BasicForms = () => {
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
 
- 
 
-  
+
+
 
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
 
-   
+
     setAlert('');
     try {
       const result = await createUserRole(values);
       console.log(result);
-      
+
 
       if(result.status==200) setSuccess(result.data);
       else setSuccess('')
@@ -70,7 +70,7 @@ const BasicForms = () => {
           <CFade timeout={300} in={showElements} unmountOnExit={true}>
             <CCard>
               <CCardHeader className="font-weight-bold">
-                User Registration
+
                 <div className="card-header-actions">
                 </div>
               </CCardHeader>
@@ -109,7 +109,7 @@ const BasicForms = () => {
                           visible={touched.role}
                           error={errors.role}
                         />
-                        
+
 
                       </CCardBody>
                         <CCardFooter>
