@@ -9,8 +9,7 @@ import {
   CCollapse,
   CRow,
   CDataTable,
-  CBadge,
-CSpinner
+  CBadge
 
 
 } from '@coreui/react'
@@ -82,7 +81,7 @@ const InquiryTable = () => {
         <CCol>
           <CCard>
             <CCardHeader>
-              All The Uncompleted Complain are here
+              Your All Incompleted  complaints are here
             </CCardHeader>
             <CCardBody>
               <CDataTable

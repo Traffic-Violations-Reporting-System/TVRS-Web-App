@@ -1,7 +1,7 @@
 import {
   CRow,
   CCol,
-  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs, CSpinner,
+  CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs,
 
 } from '@coreui/react';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -16,7 +16,7 @@ import SimilarVideoLoadingCard from "../../../component/SimilarVideoLoading";
 
 import {getComplain} from "../../../services/web/complainService";
 import {getCurrentUser} from "../../../services/web/userService";
-
+const config = require("../../../config.json");
 const Dashboard = (props) => {
   const [complainDetails, setComplain] = useState();
   const [complainId, setComplainId] = useState();
@@ -47,30 +47,16 @@ const Dashboard = (props) => {
     setVideoRefArr(val);
   }, [setVideoRefArr]);
 
-  useEffect (() => {
-    fetchComplain(props);
-  },[]);
-
-  const fetchComplain = async (props) => {
-    const complainId = props.match.params.id;
-    setComplainId(complainId);
-    const { data: complain } = await getComplain(complainId);
-    if(complain)  setComplain(complain);
-
-
-    console.log("complainDetails :");
-    console.log(complainDetails);
-  };
   return (
     <>
       {loading ? <div>
-        <h3>Complaint id :{props.match.params.id}</h3>
+        <h3>Complaint Evidence Details</h3>
 
         <CRow>
           <CCol  sm="8">
             <div>
               <ReactPlayer
-                url={complainDetails ?"https://dev9aj0eiuvoo.cloudfront.net/"+complainDetails.reference :"https://dev9aj0eiuvoo.cloudfront.net/GraphQL.mp4"}
+                url={complainDetails ?`${config["VideoStreamURl"]}`+"/"+complainDetails.reference :null}
                 controls
                 height='100%'
                 width='100%'
