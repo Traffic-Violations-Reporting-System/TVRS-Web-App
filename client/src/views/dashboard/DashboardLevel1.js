@@ -23,7 +23,7 @@ import {getCasesSummaryLineChart,getGenderBasedanalysisBarchart,getNumberOfAccid
 
 import MainChartExample from '../charts/MainChartExample'
 import FiveChardFooter from "../charts/FiveBouttomCard";
-const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
+const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.jsx'))
 
 const Dashboard = (props) => {
   //chart1
@@ -181,9 +181,7 @@ const Dashboard = (props) => {
               <div className="small text-muted">September 2021</div>
             </CCol>
             <CCol sm="7" className="d-none d-md-block">
-              <CButton color="primary" className="float-right">
-                <CIcon name="cil-cloud-download"/>
-              </CButton>
+
               <CButtonGroup className="float-right mr-3">
                 {
                   ['Day', 'Month', 'Year'].map(value => (

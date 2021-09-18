@@ -14,23 +14,20 @@ import {
 import CIcon from '@coreui/icons-react'
 import {
   CChartBar,
-  CChartLine,
   CChartDoughnut,
-  CChartRadar,
-  CChartPie,
-  CChartPolarArea
+
 } from '@coreui/react-chartjs'
 import { adminUserAnalysisBarChart, adminTotalMobileUsersLineChart} from "../../services/web/dashbordService.js";
 import MainChartExample from '../charts/MainChartExample';
 import FiveChardFooter from "../charts/FiveBouttomCard";
 
-const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
+const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.jsx'))
 const Dashboard = () => {
   //chart1
   const [chart1 ,setChart1] =useState([
     {
       label: 'Monthly analysis',
-      backgroundColor: '#ab149e',
+      backgroundColor: '#2f91e9',
       data: []
     }
   ]);
@@ -94,8 +91,8 @@ const Dashboard = () => {
         <CCardBody>
           <CRow>
             <CCol sm="5">
-              <h4 id="traffic" className="card-title mb-0">Accidents</h4>
-
+              <h4 id="traffic" className="card-title mb-0">Most Violated Rules in Last 6 month</h4>
+              <div className="small text-muted">September 2021</div>
             </CCol>
             <CCol sm="7" className="d-none d-md-block">
 
@@ -125,7 +122,7 @@ const Dashboard = () => {
         <CCard>
           <CCardHeader>
 
-            Number of newly added mobile users - Monthly Analysis
+            Number of newly added mobile users
           </CCardHeader>
 
           <CCardBody>

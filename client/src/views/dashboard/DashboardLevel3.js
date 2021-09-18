@@ -13,7 +13,7 @@ import CIcon from '@coreui/icons-react'
 
 
 import MainChartExample from '../charts/MainChartExample'
-const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
+const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.jsx'))
 
 
 
