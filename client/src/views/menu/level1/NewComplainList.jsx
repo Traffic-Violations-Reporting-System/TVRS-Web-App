@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom';
 import {
-  CAlert,
+
   CButton,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardHeader,
   CCol,
   CCollapse,
-  CFade,
-  CForm, CInput,
   CRow,
   CDataTable,
   CBadge
@@ -76,7 +73,7 @@ const InquiryTable = () => {
       <CCol>
         <CCard>
           <CCardHeader>
-            All New Inquiry Complaints are here
+            All New  Complaints List
           </CCardHeader>
           <CCardBody>
             <CDataTable

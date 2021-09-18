@@ -18,7 +18,7 @@ import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
 import {UserContext} from '../App'
-import {InsertAccept, InsertReview,findSimilarComplaint} from "../services/web/complainService";
+import {InsertAccept,findSimilarComplaint} from "../services/web/complainService";
 import { useHistory } from 'react-router-dom';
 
 
@@ -72,8 +72,8 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
     });
     if(dv && dp){
       isValid=false;
-      vehicleError.notvalid = 'At least  vehicle details or person details';
-      personError.notvalid = 'At least  person details or vehicle Valid';
+      vehicleError.notvalid = 'At least one vehicle or person details should added to become a valid complaint';
+      personError.notvalid = 'At least one vehicle or person details should added to become a valid complaint';
     }
 
     if(inputFieldsOther.violationType===''){
@@ -84,7 +84,11 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
       complaintAccErr.notSelected = 'Complaint accuracy is required';
       isValid=false;
     }
-    if(inputFieldsOther.description.trim().length<5){
+    if(inputFieldsOther.description === ""){
+      descriptionErr.short ='Description is required';
+      isValid=false;
+    }
+    else if(inputFieldsOther.description.trim().length<5){
       descriptionErr.short ='Description is too short';
       isValid=false;
     }
@@ -262,7 +266,7 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
 
               </CRow>
 
-                {inputFieldsVehicle.map((inputField) => (
+                {inputFieldsVehicle.map((inputField,index) => (
                 <div key={inputField.id}>
                 <CRow>
                   <CCol xs="3">
@@ -294,7 +298,12 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                         <option value="C1">C1</option>
                         <option value="C">C</option>
                         <option value="CE">CE</option>
+                        <option value="D">D</option>
                         <option value="D1">D1</option>
+                        <option value="DE">DE</option>
+                        <option value="G1">G1</option>
+                        <option value="G">G</option>
+                        <option value="J">J</option>
                       </CSelect>
                     </CFormGroup>
                   </CCol>
@@ -357,7 +366,7 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
               </CRow>
 
               {inputFieldsPerson.map((inputField, index) => (
-                <div key={index}>
+                <div key={inputField.id}>
                   <CRow>
 
                 <CCol xs="3">
@@ -432,8 +441,8 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
               </CRow>
                 </div>
               ))}
-                {Object.keys(peopleError).map((key)=>{
-                  return  <p className="text-danger">{peopleError[key]}</p>
+                {Object.keys(peopleError).map((key,index)=>{
+                  return  <p key={index} className="text-danger">{peopleError[key]}</p>
                 })}
               <hr></hr>
                 <p className="lead" style={{marginTop:"4px"}}><b>Other Details</b></p>
@@ -453,8 +462,8 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                       <option value="2">Reckless Driving</option>
                     </CSelect>
                   </CFormGroup>
-                  {Object.keys(violationTypeErr).map((key)=>{
-                    return  <p className="text-danger">{violationTypeErr[key]}</p>
+                  {Object.keys(violationTypeErr).map((key,index)=>{
+                    return  <p key={index} className="text-danger">{violationTypeErr[key]}</p>
                   })}
                 </CCol>
 

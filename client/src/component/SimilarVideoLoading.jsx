@@ -59,13 +59,13 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
       }
 
     }else if(values.transactionCategory==="option3"){
-     try{
-       await InsertReject({"description":'This Complaint Already add',"reason":'already added',"ComplaintId":acceptObject.accepts.ComplaintId,"UserId":currentUserId});
+      try{
+        await InsertReject({"description":'This Complaint Already add',"reason":'already added',"ComplaintId":acceptObject.accepts.ComplaintId,"UserId":currentUserId});
 
-       // history.push(`/level1/newInquiryList`);
-     }catch (e) {
-       console.log("error occur in reject complain");
-     }
+        // history.push(`/level1/newInquiryList`);
+      }catch (e) {
+        console.log("error occur in reject complain");
+      }
     }
 
 
@@ -104,12 +104,12 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
                 {videoRefArr.map((video, index) => (
 
                   <CListGroupItem
-                    key={video.id}
+                    key={index}
                     value ={video.id}
                     onClick={() => selectVideo(video)}
                     action  active={activeTab === video.id}
                   >
-                    {video.id}
+                    Video Number {index+1}
                   </CListGroupItem>
                 ))}
               </CListGroup>

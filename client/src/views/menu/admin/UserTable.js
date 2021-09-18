@@ -77,7 +77,7 @@ const UsersTable = () => {
       <CCol>
         <CCard>
           <CCardHeader>
-            All Users are here
+            All users record
           </CCardHeader>
           <CCardBody>
             <CDataTable

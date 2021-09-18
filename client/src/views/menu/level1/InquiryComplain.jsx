@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom';
 import {
-  CAlert,
   CButton,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardHeader,
   CCol,
   CCollapse,
-  CFade,
-  CForm, CInput,
   CRow,
   CDataTable,
   CBadge
@@ -78,7 +74,7 @@ const InquiryTable = () => {
       <CCol>
         <CCard>
           <CCardHeader>
-            All Inquiry Complain are here
+            All inquiry complaint records
           </CCardHeader>
           <CCardBody>
             <CDataTable
@@ -125,7 +121,7 @@ const InquiryTable = () => {
                           <h4>
                             {item.name}
                           </h4>
-                          <p className="text-muted">Complain ID: MCID000{item.id}</p>
+                          <p className="text-muted">Complaint ID :{item.id}</p>
                           <CButton size="sm" color="primary" onClick={()=>viewComplainDetails(item.id)}>
                             View Details
                           </CButton>

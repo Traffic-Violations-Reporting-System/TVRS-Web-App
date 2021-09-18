@@ -9,8 +9,7 @@ import {
   CCollapse,
   CRow,
   CDataTable,
-  CBadge,
-CSpinner
+  CBadge
 
 
 } from '@coreui/react'
@@ -82,7 +81,7 @@ const InquiryTable = () => {
         <CCol>
           <CCard>
             <CCardHeader>
-              All The Uncompleted Complain are here
+              Your All Incompleted  complaints
             </CCardHeader>
             <CCardBody>
               <CDataTable
@@ -142,7 +141,7 @@ const InquiryTable = () => {
             </CCardBody>
           </CCard>
         </CCol>
-      </CRow>:<h1>Loading</h1>}
+      </CRow>:<h1></h1>}
     </>
 
 
