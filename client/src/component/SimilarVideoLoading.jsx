@@ -109,7 +109,7 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
                     onClick={() => selectVideo(video)}
                     action  active={activeTab === video.id}
                   >
-                    {video.id}
+                    Video Number {index+1}
                   </CListGroupItem>
                 ))}
               </CListGroup>
