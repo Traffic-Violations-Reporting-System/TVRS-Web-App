@@ -73,7 +73,7 @@ const InquiryTable = () => {
       <CCol>
         <CCard>
           <CCardHeader>
-            All New Inquiry Complaints are here
+            All New  Complaints List
           </CCardHeader>
           <CCardBody>
             <CDataTable

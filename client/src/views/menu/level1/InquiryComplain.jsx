@@ -74,7 +74,7 @@ const InquiryTable = () => {
       <CCol>
         <CCard>
           <CCardHeader>
-            All inquiry complaint are here
+            All inquiry complaint records
           </CCardHeader>
           <CCardBody>
             <CDataTable
