@@ -37,11 +37,11 @@ const _nav =  [
     icon: 'cilPeople',
     role:'admin'
   },
-  
+
    //level 1
   {
     _tag: 'CSidebarNavItem',
-    name: 'Dashbord',
+    name: 'Dashboard',
     to: '/level1/dashboard',
     icon: 'cil-star',
     role:'level1'
@@ -67,7 +67,7 @@ const _nav =  [
     icon: 'cil-star',
     role:'level1'
   },
-  
+
    //level 2
    {
     _tag: 'CSidebarNavItem',
