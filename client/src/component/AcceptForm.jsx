@@ -262,8 +262,8 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
 
               </CRow>
 
-                {inputFieldsVehicle.map((inputField) => (
-                <div key={inputField.id}>
+                {inputFieldsVehicle.map((inputField,index) => (
+                <div key={index}>
                 <CRow>
                   <CCol xs="3">
                     <CFormGroup>
