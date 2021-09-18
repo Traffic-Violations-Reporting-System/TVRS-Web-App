@@ -5,12 +5,13 @@ import {
   CCardBody,
   CLabel,
   CProgress,
-  CFormGroup
+  CFormGroup,
+
 } from '@coreui/react';
 import React, {useEffect, useState} from 'react';
-import { ReactVideo } from "reactjs-media";
 import {getComplainAction} from "../../../services/web/complainService";
-
+import ReactPlayer from "react-player";
+const config = require("../../../config.json");
 
 
 const ComplaintsDetails = (props) => {
@@ -92,12 +93,11 @@ const ComplaintsDetails = (props) => {
             <CRow>
               <CCol  sm="12">
                 <div>
-                  <ReactVideo
-                    style={{height: '200px'}}
-                    src={imageUrl ?"https://dev9aj0eiuvoo.cloudfront.net/"+imageUrl :null}
-                    poster="https://www.example.com/poster.png"
-                    primaryColor="blue"
-                    // other props
+                  <ReactPlayer
+                    url={imageUrl ?`${config["VideoStreamURl"]}`+"/"+imageUrl :null}
+                    controls
+                    height='100%'
+                    width='100%'
                   />
                 </div>
               </CCol>
@@ -113,13 +113,13 @@ const ComplaintsDetails = (props) => {
 
                   <dt className="col-sm-3">Complaint Accuracy</dt>
                   <dd className="col-sm-9">
-                    <CProgress value={selectAccuracy(complainDetails.ComplaintAccuracy)} showValue className="mb-3"/>
+                    {complainDetails.ComplaintAccuracy}
                   </dd>
 
                   <dt className="col-sm-3">Status</dt>
-                  <dd className="col-sm-9"><p style={{paddingLeft:"40%",backgroundColor:"yellow"}}>
+                  <dd className="col-sm-9">
                     {complainStatus.status}
-                  </p></dd>
+                </dd>
 
                   <dt className="col-sm-3">Last Action Date</dt>
                   <dd className="col-sm-9">{LastUpdateDate.updateDate}</dd>
@@ -138,100 +138,100 @@ const ComplaintsDetails = (props) => {
 
 
             {vehicleList ? vehicleList.map((inputField) => (
-             <>
-                 <p className="text-truncate" style={{marginTop:"10px",marginBottom:"2px"}}><b>Related Vehicles</b></p>
-                 <CRow style={{marginBottom:"0"}}>
-                 <CCol xs="3">
-                   <CFormGroup>
-                     <CLabel htmlFor="vehicleNumber">Vehicle Number</CLabel>
-                   </CFormGroup>
-                 </CCol>
-                 <CCol xs="3">
-                   <CFormGroup>
-                     <CLabel htmlFor="vehicleNumber">Vehicle Type</CLabel>
-                   </CFormGroup>
-                 </CCol>
-                 <CCol xs="3">
-                   <CFormGroup>
-                     <CLabel htmlFor="vehicleNumber">Color</CLabel>
-                   </CFormGroup>
-                 </CCol>
-                 <CCol xs="3">
-                   <CFormGroup>
-                     <CLabel htmlFor="vehicleNumber">Status</CLabel>
-                   </CFormGroup>
-                 </CCol>
+              <>
+                <p className="text-truncate" style={{marginTop:"10px",marginBottom:"2px"}}><b>Related Vehicles</b></p>
+                <CRow style={{marginBottom:"0"}}>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Vehicle Number</CLabel>
+                    </CFormGroup>
+                  </CCol>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Vehicle Type</CLabel>
+                    </CFormGroup>
+                  </CCol>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Color</CLabel>
+                    </CFormGroup>
+                  </CCol>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Status</CLabel>
+                    </CFormGroup>
+                  </CCol>
 
-               </CRow>
-               <div key={inputField.id} style={{marginTop:"5px"}}>
-                 <CRow>
-                   <CCol xs="3">
-                     <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleNumber}</div>
-                   </CCol>
+                </CRow>
+                <div key={inputField.id} style={{marginTop:"5px"}}>
+                  <CRow>
+                    <CCol xs="3">
+                      <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleNumber}</div>
+                    </CCol>
 
-                   <CCol xs="3">
-                     <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleType}</div>
-                   </CCol>
+                    <CCol xs="3">
+                      <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleType}</div>
+                    </CCol>
 
-                   <CCol xs="3">
-                     <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleColor}</div>
-                   </CCol>
+                    <CCol xs="3">
+                      <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleColor}</div>
+                    </CCol>
 
-                   <CCol xs="3">
-                     <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleStatus}</div>
-                   </CCol>
-                 </CRow>
-               </div>
-             </>
+                    <CCol xs="3">
+                      <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleStatus}</div>
+                    </CCol>
+                  </CRow>
+                </div>
+              </>
 
             )):null}
 
 
             { peopleList ? peopleList.map((inputField) => (
-             <>
-               <p className="text-truncate" style={{marginTop:"10px",marginBottom:"2px"}}><b>Related People</b></p>
-               <CRow style={{marginBottom:"0"}}>
-                 <CCol xs="3">
-                   <CFormGroup>
-                     <CLabel htmlFor="vehicleNumber">Age Range</CLabel>
-                   </CFormGroup>
-                 </CCol>
-                 <CCol xs="3">
-                   <CFormGroup>
-                     <CLabel htmlFor="vehicleNumber">Gender</CLabel>
-                   </CFormGroup>
-                 </CCol>
-                 <CCol xs="3">
-                   <CFormGroup>
-                     <CLabel htmlFor="vehicleNumber">Skin Color</CLabel>
-                   </CFormGroup>
-                 </CCol>
-                 <CCol xs="3">
-                   <CFormGroup>
-                     <CLabel htmlFor="vehicleNumber">Person Status</CLabel>
-                   </CFormGroup>
-                 </CCol>
-               </CRow>
-               <div key={inputField.id} style={{marginTop:"3px"}}>
-                 <CRow>
-                   <CCol xs="3" >
-                     <div style={{height:'100%', backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.ageRange}</div>
-                   </CCol>
+              <>
+                <p className="text-truncate" style={{marginTop:"10px",marginBottom:"2px"}}><b>Related People</b></p>
+                <CRow style={{marginBottom:"0"}}>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Age Range</CLabel>
+                    </CFormGroup>
+                  </CCol>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Gender</CLabel>
+                    </CFormGroup>
+                  </CCol>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Skin Color</CLabel>
+                    </CFormGroup>
+                  </CCol>
+                  <CCol xs="3">
+                    <CFormGroup>
+                      <CLabel htmlFor="vehicleNumber">Person Status</CLabel>
+                    </CFormGroup>
+                  </CCol>
+                </CRow>
+                <div key={inputField.id} style={{marginTop:"3px"}}>
+                  <CRow>
+                    <CCol xs="3" >
+                      <div style={{height:'100%', backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.ageRange}</div>
+                    </CCol>
 
-                   <CCol xs="3">
-                     <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.gender}</div>
-                   </CCol>
+                    <CCol xs="3">
+                      <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.gender}</div>
+                    </CCol>
 
-                   <CCol xs="3">
-                     <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.skinColor}</div>
-                   </CCol>
+                    <CCol xs="3">
+                      <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.skinColor}</div>
+                    </CCol>
 
-                   <CCol xs="3">
-                     <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.personStatus}</div>
-                   </CCol>
-                 </CRow>
-               </div>
-             </>
+                    <CCol xs="3">
+                      <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.personStatus}</div>
+                    </CCol>
+                  </CRow>
+                </div>
+              </>
 
             )):null
 
