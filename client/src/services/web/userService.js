@@ -56,3 +56,6 @@ export function logout(){
 export function getJwt(){
   return localStorage.getItem('token');
 }
+export async function getPoliceDivision() {
+  return await http.get(`${config["BASEURL"]}`+'/'+'web/user/division');
+}
