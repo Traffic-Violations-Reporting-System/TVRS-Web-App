@@ -19,7 +19,7 @@ import { DocsLink } from 'src/reusable'
 import {Formik} from "formik";
 import AppInput from "../../../common/input.common";
 import AppSelect from "../../../common/select.common";
-import {getUserRoles,getUser,updateUser} from "../../../services/web/userService";
+import {getUserRoles, getUser, updateUser, getPoliceDivision} from "../../../services/web/userService";
 import * as Yup from "yup";
 
 const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -48,12 +48,14 @@ const BasicForms = (props) => {
   const [collapsed, setCollapsed] = React.useState(true)
   const [showElements, setShowElements] = React.useState(true)
   const [useRoles, setUserRoles] = useState([]);
+  const [divisionData, setDivison] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
   const [initialValues, setInitialValues] = useState({
     first_name:'',
     last_name:'',
     email:'',
     role_id:'',
+    region_id:'',
 
   });
   const [alert, setAlert] = useState('');
@@ -61,6 +63,7 @@ const BasicForms = (props) => {
 
   useEffect(() => {
     fetchUser(props);
+    fetchDivision(props);
   }, []);
 
   const fetchUser = async (props) => {
@@ -77,12 +80,18 @@ const BasicForms = (props) => {
         last_name:user.last_name,
         email:user.email,
         role_id:user.role_id,
+        region_id:user.region_id,
     };
       setInitialValues(newMessageObj);
     //  setInitialValues({user});
       console.log(initialValues);
   };
 
+  const fetchDivision = async () => {
+    const { data: division } = await getPoliceDivision();
+    setDivison(division);
+
+  };
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
 
     console.log(values);
@@ -178,8 +187,20 @@ const BasicForms = (props) => {
                           value={values.role_id}
                           visible={touched.role_id}
                           error={errors.role_id}
-                          value={values.role_id}
+
                         />
+                          {values.role_id==='4'?
+                            <AppSelect
+                              name="region_id"
+                              label="Select Region"
+                              options={divisionData}
+                              onChange={handleChange("region_id")}
+                              value={values.region_id}
+                              visible={touched.region_id}
+                              error={errors.region_id}
+                            />
+                            :null
+                          }
 
                       </CCardBody>
                         <CCardFooter>
