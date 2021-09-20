@@ -96,7 +96,7 @@ const ComplaintsDetails = (props) => {
                   <ReactPlayer
                     url={imageUrl ?`${config["VideoStreamURl"]}`+"/"+imageUrl :null}
                     controls
-                    height='100%'
+                    height='300px'
                     width='100%'
                   />
                 </div>
