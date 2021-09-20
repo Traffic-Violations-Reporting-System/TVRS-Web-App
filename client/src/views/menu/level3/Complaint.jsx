@@ -14,9 +14,8 @@ import {
   CRow,
   CImg, CAlert, CInputGroup, CInputGroupPrepend, CInputGroupText, CInputGroupAppend
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { ReactVideo } from "reactjs-media";
 
+import { ReactVideo } from "reactjs-media";
 import plus from "../../../assets/plus.png";
 import { v4 as uuidv4 } from 'uuid';
 import {updateComplaint, getFullComplaint} from "../../../services/web/level3UserService";
@@ -117,7 +116,6 @@ const Complaint = ({ match }) => {
     complaint.otherDetails = inputFieldsOther;
     complaint.peopleList = inputFieldsPerson;
     complaint.vehicleList = inputFieldsVehicle;
-    // console.log(complaint);
 
     try {
       const result = updateComplaint(complaint);
@@ -355,15 +353,28 @@ const Complaint = ({ match }) => {
                     </CFormGroup>
                   </CCol>
                   <CCol xs="2">
-                    <CFormGroup> 
+                    <CFormGroup>
                       <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>
-                          <CInput
-                            id="vehicleType"
-                            name="vehicleType"
-                            placeholder="Enter Vehicle Type"
-                            value={inputField.vehicleType ? inputField.vehicleType : ""}
-                            onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
-                          />
+                      <CSelect custom
+                               name="vehicleType"
+                               id="vehicleType"
+                               onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
+                      >
+                        <option value="0">Not selected</option>
+                        <option value="A1">A1</option>
+                        <option value="A">A</option>
+                        <option value="B1">B1</option>
+                        <option value="B">B</option>
+                        <option value="C1">C1</option>
+                        <option value="C">C</option>
+                        <option value="CE">CE</option>
+                        <option value="D">D</option>
+                        <option value="D1">D1</option>
+                        <option value="DE">DE</option>
+                        <option value="G1">G1</option>
+                        <option value="G">G</option>
+                        <option value="J">J</option>
+                      </CSelect>
                     </CFormGroup>
                   </CCol>
 
