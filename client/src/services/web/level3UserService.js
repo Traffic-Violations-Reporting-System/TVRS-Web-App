@@ -16,6 +16,11 @@ export async function getCompletedComplaints(region) {
   //this will returns complaints those are status==Completed
 }
 
+export async function getAllComplaints(region) {
+  return await http.get(`${config["BASEURL"]}/web/level3/getall/`+region);
+  //this will returns complaints those are status==Completed status==Ongoing st
+}
+
 export function getFullComplaint(id){
   return  http.get(`${config["BASEURL"]}/web/level3/get/`+id);
 }
