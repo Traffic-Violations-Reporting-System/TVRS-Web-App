@@ -31,6 +31,7 @@ const validationSchema = Yup.object().shape({
 const RejectForm = ({complainId}) => {
   const history = useHistory();
  const {currentUserId} = useContext(UserContext);
+
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -131,5 +132,3 @@ const RejectForm = ({complainId}) => {
 };
 
 export default RejectForm
-
-
