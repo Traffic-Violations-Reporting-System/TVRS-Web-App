@@ -35,8 +35,7 @@ const Dashboard = (props) => {
     }
   ]);
 
-
-  //chart2
+ //chart2
   const [chart2 ,setChart2]=useState([
     {
       backgroundColor: [],
