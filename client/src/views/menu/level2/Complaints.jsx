@@ -4,13 +4,12 @@ import {
    CTabContent, CTabPane, CNav, CNavItem, CNavLink, CCard, CCardBody, CTabs,
  
  } from '@coreui/react';
- import React, {useCallback, useEffect, useState} from 'react';
+ import React, {useEffect, useState} from 'react';
  
  
  import ReactPlayer from 'react-player'
  import AcceptForm from "../../../component/AcceptForm";
  import RejectForm from "../../../component/RejectForm";
- import ReviewForm from "../../../component/ReviewForm";
  import ComplainDetailsCard from "../../../component/ComplainDetailsCard";
  
  
@@ -18,6 +17,7 @@ import {
  import {getCurrentUser} from "../../../services/web/userService";
  
  const config = require("../../../config.json");
+ 
  const Dashboard = (props) => {
    const [complainDetails, setComplain] = useState();
    const [complainId, setComplainId] = useState();
@@ -40,12 +40,7 @@ import {
  
      }
    };
-   const wrapperSetSimilarLoading = useCallback(val => {
-     setSimilarLoading(val);
-   }, [setSimilarLoading]);
-   const wrapperSetVideoRefArr = useCallback(val => {
-     setVideoRefArr(val);
-   }, [setVideoRefArr]);
+   
  
    return (
      <>
@@ -93,19 +88,11 @@ import {
                  <CTabContent>
  
                    <CTabPane>
-                     <AcceptForm
-                         complainId={complainId}
-                         parentSetSimilarLoading={wrapperSetSimilarLoading}
-                         parentSetVideoRefArr={wrapperSetVideoRefArr}
-                     />
+                     <AcceptForm complainId={complainId} />
                    </CTabPane>
  
                    <CTabPane>
                      <RejectForm complainId={complainId} />
-                   </CTabPane>
- 
-                   <CTabPane>
-                     <ReviewForm complainId={complainId} />
                    </CTabPane>
  
                  </CTabContent>
