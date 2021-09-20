@@ -18,7 +18,7 @@ import {getAllComplain} from "../../../services/web/level2UserService";
 const InquiryTable = () => {
 
   const history = useHistory();
-  const viewComplainDetails = (selectId) => history.push(`/level1/complaintmore/${selectId}`);
+  const viewComplainDetails = (selectId) => history.push(`/level2/complaintmore/${selectId}`);
   const [usersData, setUsersAllData] = useState([]);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const InquiryTable = () => {
     }
   }
 
-  return (
+  return ( 
 
     <CRow>
       <CCol>
