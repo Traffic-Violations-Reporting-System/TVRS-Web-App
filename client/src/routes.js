@@ -20,13 +20,19 @@ const IncompleteComplainList = React.lazy(() => import('./views/menu/level1/InCo
 
 //level2
 const DashboardLvel2 = React.lazy(() => import('./views/dashboard/DashboardLevel2'));
+const ComplaintActions = React.lazy(() => import('./views/menu/level2/Complaints.jsx'));
+const InquiryComplaints = React.lazy(() => import('./views/menu/level2/InquiryComplaint.jsx'));
+const NewComplaintsList = React.lazy(() => import('./views/menu/level2/NewComplaintsList.jsx'));
+const ComplaintDetails = React.lazy(() => import('./views/menu/level2/ComplaintDetails.jsx'));
+const IncompleteComplaintsList = React.lazy(() => import('./views/menu/level2/IncompleteComplaints.jsx'));
 
 //level3
 const DashboardLvel3 = React.lazy(() => import('./views/dashboard/DashboardLevel3'));
-const ComplaintList = React.lazy(() => import('./views/menu/level3/ComplaintList.jsx'));
 const NewComplaints = React.lazy(() => import('./views/menu/level3/NewComplaints.jsx'));
+const OngoingComplaints = React.lazy(() => import('./views/menu/level3/OngoingComplaints'));
+const CompletedComplaints = React.lazy(() => import('./views/menu/level3/CompletedComplaints.jsx'));
 const Complaint = React.lazy(() => import('./views/menu/level3/Complaint.jsx'));
-
+const ComplaintReport = React.lazy(() => import('./views/menu/level3/ComplaintReport.jsx'));
 
 
 
@@ -51,13 +57,19 @@ const routes = [
 
   //level2
   { path: '/level2/dashboard', name: 'Dashboard', component: DashboardLvel2 ,role:'level2' },
-
+  { path: '/level2/complaints/:id', name: 'Complaints', component: ComplaintActions,exact: true,role:'level2' },
+  { path: '/level2/inquiryList', name: 'Inquiry Complaint', component: InquiryComplaints ,role:'level2' },
+  { path: '/level2/newInquiryList', name: 'New Complaints', component: NewComplaintsList ,role:'level2' },
+  { path: '/level2/complaintmore/:id', name: 'Complaint Details', component: ComplaintDetails ,role:'level2' },
+  { path: '/level2/draftsList', name: 'Incomplete Complaints', component: IncompleteComplaintsList ,role:'level2' },
 
   //level3
-  { path: '/level3/dashboard', name: 'Dashboard', component: DashboardLvel3,role:'level3' },
-  { path: '/level3/complaintList', name: 'Complaint List', component: ComplaintList, role: 'level3' },
-  { path: '/level3/newComplaints', name: 'New Complaints List', component: NewComplaints, role: 'level3' },
+  { path: '/level3/dashboard', name: 'Dashboard', component: DashboardLvel3, role: 'level3' },
+  { path: '/level3/newComplaints', name: 'New Complaints', component: NewComplaints, role: 'level3' },
+  { path: '/level3/ongoingComplaints', name: 'Ongoing Complaints', component: OngoingComplaints, role: 'level3' },
+  { path: '/level3/completedComplaints', name: 'Completed Complaints', component: CompletedComplaints, role: 'level3' },
   { path: '/level3/complaint/:id', name: 'Complaint View', component: Complaint, role: 'level3' },
+  { path: '/level3/complaintReport', name: 'Complaint Report', component: ComplaintReport, role: 'level3' },
 
 
 

@@ -68,14 +68,36 @@ const _nav =  [
     role:'level1'
   },
 
-   //level 2
-   {
+  //level 2
+  {
     _tag: 'CSidebarNavItem',
     name: 'Dashbord',
     to: '/level2/dashboard',
     icon: 'cil-star',
     role:'level2'
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'New Complaint',
+    to: '/level2/newInquiryList',
+    icon: 'cil-task',
+    role:'level2'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Inquiry Complaints',
+    to: '/level2/inquiryList',
+    icon: 'cil-list',
+    role:'level2'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Incomplete Complaints',
+    to: '/level2/draftsList',
+    icon: 'cil-warning',
+    role:'level2'
+  },
+
    //level 3
    {
     _tag: 'CSidebarNavItem',
@@ -86,19 +108,32 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Complaints',
-    to: '/level3/complaintList',
+    name: 'New Complaints',
+    to: '/level3/newComplaints',
     icon: 'cil-list',
     role:'level3'
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'New Complaints',
-    to: '/level3/newComplaints',
+    name: 'Ongoing Complaints',
+    to: '/level3/ongoingComplaints',
+    icon: 'cil-list',
+    role:'level3'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Completed Complaints',
+    to: '/level3/completedComplaints',
     icon: 'cil-task',
     role:'level3'
   },
-
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Complaint Reports',
+    to: '/level3/complaintReport',
+    icon: 'cil-star',
+    role:'level3'
+  },
 
 
 
