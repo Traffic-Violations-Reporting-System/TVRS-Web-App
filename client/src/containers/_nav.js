@@ -32,7 +32,7 @@ const _nav =  [
  },
  {
     _tag: 'CSidebarNavItem',
-    name: 'About User Role ',
+    name: 'About',
     to: '/admin/rolelist',
     icon: 'cilPeople',
     role:'admin'
