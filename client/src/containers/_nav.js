@@ -32,7 +32,7 @@ const _nav =  [
  },
  {
     _tag: 'CSidebarNavItem',
-    name: 'About User Role ',
+    name: 'About',
     to: '/admin/rolelist',
     icon: 'cilPeople',
     role:'admin'
@@ -55,14 +55,14 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Inquiry Complaint',
+    name: 'Accepted Complaint',
     to: '/level1/inquiryList',
     icon: 'cil-list',
     role:'level1'
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Incomplete Complaint',
+    name: 'Draft Complaint',
     to: '/level1/draftList',
     icon: 'cil-warning',
     role:'level1'

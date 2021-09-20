@@ -61,7 +61,7 @@ const BasicForms = (props) => {
                   </div>
                   <CListGroup>
                     <CListGroupItem href="#" >Profile</CListGroupItem>
-                    <CListGroupItem href="#">Reason Activity</CListGroupItem>
+                    <CListGroupItem href="#">Recent activity</CListGroupItem>
                     <CListGroupItem href="#" onClick={()=>handleEditUser(props.match.params.id)}>Edit Profile</CListGroupItem>
                   </CListGroup>
                 </CCardBody>
