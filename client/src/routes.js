@@ -44,10 +44,10 @@ const routes = [
   //level1
   { path: '/level1/dashboard', name: 'Dashboard', component: DashboardLvel1 ,role:'level1' },
   { path: '/level1/complaints/:id', name: 'Complaints', component: Complaints,exact: true,role:'level1' },
-  { path: '/level1/inquiryList', name: 'Inquiry Complaint', component: InquiryComplain ,role:'level1' },
+  { path: '/level1/inquiryList', name: 'Accepted', component: InquiryComplain ,role:'level1' },
   { path: '/level1/newInquiryList', name: 'New Complaints', component: NewComplainList ,role:'level1' },
   { path: '/level1/complaintmore/:id', name: 'Complaint Details', component: ComplaintsDetails ,role:'level1' },
-  { path: '/level1/draftList', name: 'Incomplete Complaints', component: IncompleteComplainList ,role:'level1' },
+  { path: '/level1/draftList', name: 'Draft Complaints', component: IncompleteComplainList ,role:'level1' },
 
   //level2
   { path: '/level2/dashboard', name: 'Dashboard', component: DashboardLvel2 ,role:'level2' },
