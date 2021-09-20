@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, {lazy, useEffect, useState} from 'react'
 import {
   CButton,
   CButtonGroup,
@@ -6,15 +6,170 @@ import {
   CCardBody,
   CCardFooter,
   CCol,
-  CProgress,
   CRow,
+  CCardGroup,
+  CCardHeader
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import {
+  CChartBar,
+  CChartLine,
+  CChartDoughnut,
+  CChartRadar,
+  CChartPie,
+  CChartPolarArea
+} from '@coreui/react-chartjs'
+import {getCasesSummaryLineChart,getGenderBasedanalysisBarchart,getNumberOfAccidentsInThisYearBarchart,getTotalCasesLineChart} from "../../services/web/dashbordService.js";
 
 import MainChartExample from '../charts/MainChartExample'
+import FiveChardFooter from "../charts/FiveBouttomCard";
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.jsx'))
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+  //chart1
+  const [chart1 ,setChart1] =useState([
+    {
+      label: 'No. of recorded complaints',
+      backgroundColor: '#4a90e2',
+      data: []
+    }
+  ]);
+
+
+  //chart2
+  const [chart2 ,setChart2]=useState([
+    {
+      backgroundColor: [],
+      data:[]
+    }
+  ]);
+  const [chartLabel2 ,setChartLabel2]=useState([]);
+
+//chart 3
+  const [chart3 ,setChart3]=useState([
+
+    {
+      label: 'Accept',
+      backgroundColor: '#82d257',
+      data: []
+    },
+    {
+      label: 'Total',
+      backgroundColor: '#74a6de',
+      data: []
+    }
+  ]);
+
+  //chart 4
+  const [chart4 ,setChart4]=useState([
+    {
+      label: 'Male',
+      backgroundColor: '#5ea3e9',
+      data: []
+    },
+    {
+      label: 'Female',
+      backgroundColor: '#e288b6',
+      data: []
+    },
+  ]);
+
+
+  useEffect(() => {
+    //chart1
+    getTotalCasesLineChart()
+      .then(response => {
+        totalCasesLineChart(response.data);
+      })
+      .catch(error => {
+        totalCasesLineChart([40, 20, 12,4,5,6,7,8,9,10,12,15]);
+      });
+
+    //chart2
+    getNumberOfAccidentsInThisYearBarchart()
+      .then(response => {
+        numberOfAccidentsInThisYearBarchart(response.data['vehicles'],response.data['data'],response.data['color']);
+      })
+      .catch(error => {
+        numberOfAccidentsInThisYearBarchart(
+          ['A', 'A1','B','B1', 'C','C1','CE','D','D1','DE','G','G1','J'],
+          [56, 25, 19, 28,21,36,53,8,9,10,11,13,14],
+          [
+            '#e94c63',
+            '#75c0e0',
+            '#f8b047',
+            '#00d084',
+            '#e6ef92',
+            '#69b7fc',
+            '#f78da7',
+            '#19b2f5',
+            '#8bba88',
+            '#dc52e7',
+            '#70fa61',
+          ]
+        );
+      });
+
+    //chart 3
+    getCasesSummaryLineChart()
+      .then(response => {
+        casesSummaryLineChart(response.data.accept,response.data.total);
+      })
+      .catch(error => {
+        casesSummaryLineChart(
+          [40, 20, 12,4,5,6,7,8,9,10,12,15],
+          [30, 10, 12,43,5,6,17,18,19,70,17,25]
+
+        );
+      });
+
+    //chart 4
+    getGenderBasedanalysisBarchart()
+      .then(response => {
+        genderBasedanalysisBarchart(response.data['male'],response.data['female']);
+      })
+      .catch(error => {
+        genderBasedanalysisBarchart(
+          [40, 20, 12,4,5,6,7,8,9,10,12,15],
+          [30, 10, 12,43,5,6,17,18,19,70,17,25],
+        );
+
+      });
+  },[]);
+
+  //1
+  const totalCasesLineChart =(arr) =>{
+    let newState = [...chart1];
+    newState[0].data = arr;
+    setChart1(newState);
+  };
+
+  //2
+  const numberOfAccidentsInThisYearBarchart =(v,d,c) =>{
+    let newState2 = [...chart2];
+    let newStateLabel2 = v;
+    newState2[0].data = d;
+    newState2[0].backgroundColor =c;
+
+    setChart2(newState2);
+    setChartLabel2(newStateLabel2);
+  };
+  //3
+  const casesSummaryLineChart=(acceptArr,totalArr) =>{
+    let newState3 = [...chart3];
+    newState3[0].data = acceptArr;
+    //
+    newState3[1].data = totalArr;
+    //
+    setChart3(newState3);
+  };
+  //4
+  const genderBasedanalysisBarchart=(maleArr,femaleArr) =>{
+    let newState4 = [...chart4];
+    newState4[0].data = maleArr;
+    newState4[1].data = femaleArr;
+    setChart4(newState4);
+  };
   return (
     <>
       <WidgetsDropdown />
@@ -22,13 +177,11 @@ const Dashboard = () => {
         <CCardBody>
           <CRow>
             <CCol sm="5">
-              <h4 id="traffic" className="card-title mb-0">Accidents</h4>
-              <div className="small text-muted">November 2020</div>
+              <h4 id="traffic" className="card-title mb-0">Most Violated Rules in Last 6 month</h4>
+              <div className="small text-muted">September 2021</div>
             </CCol>
             <CCol sm="7" className="d-none d-md-block">
-              <CButton color="primary" className="float-right">
-                <CIcon name="cil-cloud-download"/>
-              </CButton>
+
               <CButtonGroup className="float-right mr-3">
                 {
                   ['Day', 'Month', 'Year'].map(value => (
@@ -48,59 +201,81 @@ const Dashboard = () => {
           <MainChartExample style={{height: '300px', marginTop: '40px'}}/>
         </CCardBody>
         <CCardFooter>
-          <CRow className="text-center">
-            <CCol md sm="12" className="mb-sm-2 mb-0">
-              <div className="text-muted">Car Accidents</div>
-              <strong>29 Drivers (40%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                color="success"
-                value={40}
-              />
-            </CCol>
-            <CCol md sm="12" className="mb-sm-2 mb-0 d-md-down-none">
-              <div className="text-muted">Bike Accidents</div>
-              <strong>24 Drivers (20%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                color="info"
-                value={40}
-              />
-            </CCol>
-            <CCol md sm="12" className="mb-sm-2 mb-0">
-              <div className="text-muted">Bus Accidents</div>
-              <strong>78 Drivers (60%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                color="warning"
-                value={40}
-              />
-            </CCol>
-            <CCol md sm="12" className="mb-sm-2 mb-0">
-              <div className="text-muted">Three Wheeler Accidents</div>
-              <strong>22 Drivers (30%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                color="danger"
-                value={40}
-              />
-            </CCol>
-            <CCol md sm="12" className="mb-sm-2 mb-0 d-md-down-none">
-              <div className="text-muted">Other Accidents</div>
-              <strong>37 Drivers (40.15%)</strong>
-              <CProgress
-                className="progress-xs mt-2"
-                precision={1}
-                value={40}
-              />
-            </CCol>
-          </CRow>
+          <FiveChardFooter  />
+
         </CCardFooter>
       </CCard>
+      <CCardGroup columns className = "cols-2" >
+
+        <CCard>
+          <CCardHeader>
+
+            Total Cases in Current Year
+          </CCardHeader>
+
+          <CCardBody>
+            <CChartBar
+              datasets={chart1}
+              labels="months"
+              options={{
+                tooltips: {
+                  enabled: true
+                }
+              }}
+            />
+          </CCardBody>
+        </CCard>
+        <CCard>
+          <CCardHeader>
+            Overrole vehicles involvement in Current Year
+          </CCardHeader>
+          <CCardBody>
+            <CChartDoughnut
+              datasets={chart2}
+              labels={chartLabel2}
+              options={{
+                tooltips: {
+                  enabled: true
+                }
+              }}
+            />
+          </CCardBody>
+        </CCard>
+      </CCardGroup>
+      <CCardGroup columns className = "cols-2">
+        <CCard>
+          <CCardHeader>
+            Gender base involvement in Current Year
+          </CCardHeader>
+          <CCardBody>
+            <CChartLine
+              datasets={chart4}
+              options={{
+                tooltips: {
+                  enabled: true
+                }
+              }}
+              labels="months"
+            />
+          </CCardBody>
+        </CCard>
+        <CCard>
+          <CCardHeader>
+            Cases Summary in Current Year
+          </CCardHeader>
+          <CCardBody>
+            <CChartLine
+              datasets={chart3}
+              options={{
+                tooltips: {
+                  enabled: true
+                }
+              }}
+              labels="months"
+            />
+          </CCardBody>
+        </CCard>
+      </CCardGroup>
     </>
   )
 }

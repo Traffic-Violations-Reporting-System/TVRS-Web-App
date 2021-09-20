@@ -458,8 +458,8 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                                onChange={ (e) => handleChangeInputOther(e)}
                       >
                       <option value="">Not selected</option>
-                      <option value="1">Accident</option>
-                      <option value="2">Reckless Driving</option>
+                      <option value="accident">Accident</option>
+                      <option value="reckless driving">Reckless Driving</option>
                     </CSelect>
                   </CFormGroup>
                   {Object.keys(violationTypeErr).map((key,index)=>{
