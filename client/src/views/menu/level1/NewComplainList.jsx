@@ -47,7 +47,7 @@ const InquiryTable = () => {
 
   const fields = [
     { key: 'date', _style: { width: '20%'} },
-    { key: 'location', _style: { width: '20%'} },
+    { key: 'Complainant Type', _style: { width: '20%'} },
     { key: 'description', _style: { width: '30%'} },
     { key: 'status', _style: { width: '10%'} },
     {
