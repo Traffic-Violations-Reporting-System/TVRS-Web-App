@@ -17,7 +17,7 @@ import {getNewAllComplain} from "../../../services/web/level2UserService";
 const InquiryTable = () => {
 
   const history = useHistory();
-  const handleComplain = (selectId) => history.push(`/level1/complaints/${selectId}`);
+  const handleComplain = (selectId) => history.push(`/level2/complaints/${selectId}`);
   const [usersData, setUsersAllData] = useState([]);
   useEffect(() => {
     fetchUserData();
@@ -59,12 +59,14 @@ const InquiryTable = () => {
     }
   ]
 
-  const getBadge = (status)=>{
-    if (status=="No Action") return 'primary'
-    else if(status=="Reject") return 'danger'
-    else if(status=="Review") return 'secondary'
-    else if(status=="Complete") return 'success'
-    return 'secondary'
+  const getBadge = (status) => {
+    switch (status) {
+      case 'rejected': return 'danger'
+      case 'review': return 'warning'
+      case 'completed': return 'secondary'
+      case 'ongoing': return 'info'
+      default: return 'primary'
+    }
   }
 
   return (
