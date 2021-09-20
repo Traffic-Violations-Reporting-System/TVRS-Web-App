@@ -17,7 +17,8 @@ import {
 import plus from "../assets/plus.png";
 import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
-import {UserContext} from '../App'
+import { UserContext } from '../App';
+
 import {InsertAccept,findSimilarComplaint} from "../services/web/complainService";
 import { useHistory } from 'react-router-dom';
 
