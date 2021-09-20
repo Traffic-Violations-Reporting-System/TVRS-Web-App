@@ -78,7 +78,7 @@ const OngoingComplaints = () => {
           <CDataTable
             items={complaintsData} //complaintsData
             fields={[
-              { key: 'id', _classes: 'font-weight-bold' },
+              { key: 'Complaint_id', _classes: 'font-weight-bold' },
               'violationType', 'createdAt', 'ComplaintAccuracy', 'Status'
             ]}
             hover
@@ -88,7 +88,13 @@ const OngoingComplaints = () => {
             clickableRows
             onRowClick={(item) => history.push(`/level3/complaint/${item.id}`)}
             //level3/newComplaints/:id
-            scopedSlots = {{
+            scopedSlots={{
+              'Complaint_id':
+                (item) => (
+                  <td>
+                    {item.complaint.complainant_id}
+                  </td>
+                ),
               'createdAt':
                 (item) => (
                   <td>
