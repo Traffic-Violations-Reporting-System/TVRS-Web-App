@@ -62,7 +62,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Incomplete Complaint',
+    name: 'draft complaint',
     to: '/level1/draftList',
     icon: 'cil-warning',
     role:'level1'
