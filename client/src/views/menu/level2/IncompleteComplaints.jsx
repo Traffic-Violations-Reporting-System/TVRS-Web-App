@@ -18,7 +18,7 @@ import {getCurrentUser} from "../../../services/web/userService";
 const InquiryTable = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const handleComplain = (selectId) => history.push(`/level1/complaints/${selectId}`);
+  const handleComplain = (selectId) => history.push(`/level2/complaints/${selectId}`);
   const [complaintData, setComplaintData] = useState([]);
   useEffect(() => {
     fetchComplaintData();
@@ -65,18 +65,20 @@ const InquiryTable = () => {
     }
   ]
 
-  const getBadge = (status)=>{
-    if (status=="No Action") return 'primary'
-    else if(status=="Reject") return 'danger'
-    else if(status=="Review") return 'secondary'
-    else if(status=="Complete") return 'success'
-    return 'secondary'
+  const getBadge = (status) => {
+    switch (status) {
+      case 'rejected': return 'danger'
+      case 'review': return 'warning'
+      case 'completed': return 'secondary'
+      case 'ongoing': return 'info'
+      default: return 'primary'
+    }
   }
 
   return (
 
     <>
-      { loading? <CRow>
+      <CRow>
         <CCol>
           <CCard>
             <CCardHeader>
@@ -140,12 +142,9 @@ const InquiryTable = () => {
             </CCardBody>
           </CCard>
         </CCol>
-      </CRow>:<h1></h1>}
+      </CRow>
     </>
-
-
   )
-
 
 }
 
