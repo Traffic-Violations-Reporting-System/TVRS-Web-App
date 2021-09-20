@@ -30,7 +30,7 @@ const ReviewForm = ({complainId}) => {
   const history = useHistory();
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
-  const currentUserId = useContext(UserContext);
+ const {currentUserId} = useContext(UserContext);
 
   const handleSubmit=async (values, { setSubmitting, resetForm })=> {
 
