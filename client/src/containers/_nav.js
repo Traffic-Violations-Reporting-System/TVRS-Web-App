@@ -86,19 +86,25 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Complaints',
-    to: '/level3/complaintList',
+    name: 'New Complaints',
+    to: '/level3/newComplaints',
     icon: 'cil-list',
     role:'level3'
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'New Complaints',
-    to: '/level3/newComplaints',
+    name: 'Ongoing Complaints',
+    to: '/level3/ongoingComplaints',
+    icon: 'cil-list',
+    role:'level3'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Completed Complaints',
+    to: '/level3/completedComplaints',
     icon: 'cil-task',
     role:'level3'
   },
-
 
 
 
