@@ -55,7 +55,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Inquiry Complaint',
+    name: 'Accepted Complaint',
     to: '/level1/inquiryList',
     icon: 'cil-list',
     role:'level1'
