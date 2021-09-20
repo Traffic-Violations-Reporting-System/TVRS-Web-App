@@ -13,7 +13,6 @@ import {
 
 import {getCurrentUser} from "../../../services/web/userService";
 import {getNewComplaints} from "../../../services/web/level3UserService";
-//import usersData from './UsersData'
 
 
 const getBadge = ComplaintAccuracy => {
@@ -56,6 +55,7 @@ const NewComplaints = () => {
   const fetchComplaintsData = async (userRegion) => {
     const { data: complaints } = await getNewComplaints(userRegion);
     setComplaintsData(complaints);
+    
   };
 //
 
@@ -71,7 +71,7 @@ const NewComplaints = () => {
           <CDataTable
             items={complaintsData} //complaintsData
             fields={[
-              { key: 'id', _classes: 'font-weight-bold' },
+              { key: 'Complaint_id', _classes: 'font-weight-bold' },
               'violationType', 'createdAt', 'ComplaintAccuracy'
             ]}
             hover
@@ -81,7 +81,13 @@ const NewComplaints = () => {
             clickableRows
             onRowClick={(item) => history.push(`/level3/complaint/${item.id}/`)}
             //level3/newComplaints/:id
-            scopedSlots = {{
+            scopedSlots={{
+              'Complaint_id':
+                (item) => (
+                  <td>
+                    {item.complaint.complainant_id}
+                  </td>
+                ),
               'createdAt':
                 (item) => (
                   <td>
