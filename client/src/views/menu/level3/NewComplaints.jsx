@@ -64,7 +64,7 @@ const NewComplaints = () => {
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
-            New Complaints
+            New Complaints List
             <small className="text-muted"> click to select</small>
           </CCardHeader>
           <CCardBody>
