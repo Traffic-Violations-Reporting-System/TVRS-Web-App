@@ -95,17 +95,17 @@ const Dashboard = (props) => {
           ['A', 'A1','B','B1', 'C','C1','CE','D','D1','DE','G','G1','J'],
           [56, 25, 19, 28,21,36,53,8,9,10,11,13,14],
           [
-            '#795548',
-            '#009ce0',
-            '#ff9800',
+            '#e94c63',
+            '#75c0e0',
+            '#f8b047',
             '#00d084',
-            '#525252',
-            '#b80000',
+            '#e6ef92',
+            '#69b7fc',
             '#f78da7',
-            '#297292',
+            '#19b2f5',
             '#8bba88',
-            '#9d7659',
-            '#cb4d4d',
+            '#dc52e7',
+            '#70fa61',
           ]
         );
       });
@@ -245,11 +245,11 @@ const Dashboard = (props) => {
       <CCardGroup columns className = "cols-2">
         <CCard>
           <CCardHeader>
-            Cases Summary in Current Year
+            Gender base involvement in Current Year
           </CCardHeader>
           <CCardBody>
             <CChartLine
-              datasets={chart3}
+              datasets={chart4}
               options={{
                 tooltips: {
                   enabled: true
@@ -259,14 +259,13 @@ const Dashboard = (props) => {
             />
           </CCardBody>
         </CCard>
-
         <CCard>
           <CCardHeader>
-            Gender base involvement in Current Year
+            Cases Summary in Current Year
           </CCardHeader>
           <CCardBody>
             <CChartLine
-              datasets={chart4}
+              datasets={chart3}
               options={{
                 tooltips: {
                   enabled: true
