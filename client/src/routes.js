@@ -34,9 +34,9 @@ const routes = [
   //admin
   { path: '/admin/dashboard', name: 'Dashboard', component: Dashboard ,role:'admin' },
   { path: '/admin/register', name: 'Register', component: UserRegister, exact: true ,role:'admin'},
-  { path: '/admin/usertable', name: 'All users', component: UserTable, exact: true ,role:'admin'},
+  { path: '/admin/usertable', name: 'All Users', component: UserTable, exact: true ,role:'admin'},
   { path: '/admin/edituser/:id', name: 'Edit User', component: UserEdit,exact: true,role:'admin' },
-  { path: '/admin/userrolecreate', name: 'About User Role', component: UserRoleAdd, exact: true, role: 'admin' },
+  { path: '/admin/userrolecreate', name: 'About', component: UserRoleAdd, exact: true, role: 'admin' },
   { path: '/admin/rolelist', name: 'User Role List', component: UserRoleList, exact: true,role:'admin' },
   { path: '/admin/viewuser/:id', name: 'View users', component: UserView,exact: true,role:'admin' },
 
