@@ -58,9 +58,6 @@ const ComplainDetailsCard = ({complainDetails}) => {
         </CCardBody>
       </CCard>:"null"}
 
-
-
-
     </>
   )
 }
