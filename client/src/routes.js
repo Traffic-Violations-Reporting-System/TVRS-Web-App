@@ -34,9 +34,9 @@ const routes = [
   //admin
   { path: '/admin/dashboard', name: 'Dashboard', component: Dashboard ,role:'admin' },
   { path: '/admin/register', name: 'Register', component: UserRegister, exact: true ,role:'admin'},
-  { path: '/admin/usertable', name: 'All users', component: UserTable, exact: true ,role:'admin'},
+  { path: '/admin/usertable', name: 'All Users', component: UserTable, exact: true ,role:'admin'},
   { path: '/admin/edituser/:id', name: 'Edit User', component: UserEdit,exact: true,role:'admin' },
-  { path: '/admin/userrolecreate', name: 'About User Role', component: UserRoleAdd, exact: true, role: 'admin' },
+  { path: '/admin/userrolecreate', name: 'About', component: UserRoleAdd, exact: true, role: 'admin' },
   { path: '/admin/rolelist', name: 'User Role List', component: UserRoleList, exact: true,role:'admin' },
   { path: '/admin/viewuser/:id', name: 'View users', component: UserView,exact: true,role:'admin' },
 
@@ -44,10 +44,10 @@ const routes = [
   //level1
   { path: '/level1/dashboard', name: 'Dashboard', component: DashboardLvel1 ,role:'level1' },
   { path: '/level1/complaints/:id', name: 'Complaints', component: Complaints,exact: true,role:'level1' },
-  { path: '/level1/inquiryList', name: 'Inquiry Complaint', component: InquiryComplain ,role:'level1' },
+  { path: '/level1/inquiryList', name: 'Accepted', component: InquiryComplain ,role:'level1' },
   { path: '/level1/newInquiryList', name: 'New Complaints', component: NewComplainList ,role:'level1' },
   { path: '/level1/complaintmore/:id', name: 'Complaint Details', component: ComplaintsDetails ,role:'level1' },
-  { path: '/level1/draftList', name: 'Incomplete Complaints', component: IncompleteComplainList ,role:'level1' },
+  { path: '/level1/draftList', name: 'Draft Complaints', component: IncompleteComplainList ,role:'level1' },
 
   //level2
   { path: '/level2/dashboard', name: 'Dashboard', component: DashboardLvel2 ,role:'level2' },
