@@ -108,7 +108,7 @@ const WidgetsDropdown = () => {
         <CWidgetDropdown
           color="gradient-danger"
           header={dataset[3]}
-          text="Accepted Complaints"
+          text="Rejected Complaints"
           footerSlot={
             <ChartBarSimple
               className="mt-3"
