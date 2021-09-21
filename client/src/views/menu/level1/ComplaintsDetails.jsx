@@ -172,9 +172,9 @@ const ComplaintsDetails = (props) => {
                    </CCol>
 
                  </CRow>
-                 { vehicleList.map((inputField) => (
+                 { vehicleList.map((inputField,index) => (
                    <>
-                     <div key={inputField.id} style={{marginTop:"5px"}}>
+                     <div key={index} style={{marginTop:"5px"}}>
                        <CRow>
                          <CCol xs="3">
                            <div style={{backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.vehicleNumber}</div>
@@ -225,10 +225,10 @@ const ComplaintsDetails = (props) => {
                      </CFormGroup>
                    </CCol>
                  </CRow>
-                 {peopleList.map((inputField) => (
+                 {peopleList.map((inputField,index) => (
                    <>
 
-                     <div key={inputField.id} style={{marginTop:"3px"}}>
+                     <div key={index} style={{marginTop:"3px"}}>
                        <CRow>
                          <CCol xs="3" >
                            <div style={{height:'100%', backgroundColor: '#D1D1D1',padding:'5px',borderRadius:'5px'}}>{inputField.ageRange}</div>
@@ -283,7 +283,7 @@ const ComplaintsDetails = (props) => {
            }
 
            <CCol md="6">
-              <MapApp lat={latitudeData} lng={longitudeData} />
+              <MapApp lat={parseInt(latitudeData)} lng={parseInt(longitudeData)} />
            </CCol>
 
 
