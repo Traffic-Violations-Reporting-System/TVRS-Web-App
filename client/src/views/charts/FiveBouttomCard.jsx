@@ -27,7 +27,7 @@ const ChardFooter  = (props) => {
             {dataRecord.map((x,i) =>(
               <CCol md sm="12" className="mb-sm-2 mb-0" key={i}>
                 <div className="text-muted">{x.label}</div>
-                <strong>{x.record} Cases ({x.percentage}%)</strong>
+                <strong>{x.record} Cases ({ parseFloat(x.percentage).toFixed(2)}%)</strong>
                 <CProgress
                   className="progress-xs mt-2"
                   precision={1}
