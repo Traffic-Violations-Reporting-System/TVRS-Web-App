@@ -11,11 +11,11 @@ const AppSelect = ({ name,error, label,value, options,visible, ...rest }) => {
         <CCol md={4}>
           <CSelect value={value} name={name}  {...rest} className={visible && error?"is-invalid":""}>
             <option value="">Select Related Video</option>
-            {options.map(option =>
+            {options.map((option,index) =>
               <option
                 key={option['id']}
                 value={option['id']}
-              >{option['id']}</option>
+              >Number {index} video</option>
             )}
           </CSelect>
           {visible && error &&<p className="text-danger">{error}</p>}
