@@ -120,7 +120,7 @@ const InquiryTable = () => {
                           <h4>
                             {item.name}
                           </h4>
-                          <p className="text-muted">Complain ID: MCID000{item.id}</p>
+                          <p className="text-muted">Complain ID: {item.id}</p>
                           <CButton size="sm" color="primary" onClick={()=>handleComplain(item.id)}>
                             Take Action
                           </CButton>
