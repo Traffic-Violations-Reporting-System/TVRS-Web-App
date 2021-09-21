@@ -14,20 +14,20 @@ import {
   CRow,
   CImg, CAlert, CInputGroup, CInputGroupPrepend, CInputGroupText, CInputGroupAppend
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { ReactVideo } from "reactjs-media";
 
+import ReactPlayer from 'react-player'
 import plus from "../../../assets/plus.png";
 import { v4 as uuidv4 } from 'uuid';
 import {updateComplaint, getFullComplaint} from "../../../services/web/level3UserService";
 import { useHistory } from 'react-router-dom';
-
+const config = require("../../../config.json");
 
 const Complaint = ({ match }) => {
   const history = useHistory();
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
   const complaintId = parseInt(match.params.id);
+  const [videoUrl, setVideoUrl] = useState();
 
   const [inputFieldsVehicle, setInputFieldsVehicle] = useState([
     { id: uuidv4(), vehicleNumber: '',ownerNic: '', vehicleType: '', vehicleColor: '', vehicleStatus: '', acceptId: complaintId}
@@ -49,19 +49,22 @@ const Complaint = ({ match }) => {
     getFullComplaint(complaintId)
       .then((res) => {
         setInputFieldsOther({
-          'userDescription': res.data[0].userDescription ? res.data[0].userDescription : "",
-          'complaintStatus':  res.data[1].status ? res.data[1].status : "",
-          'officerDescription': res.data[2].officerDescription ? res.data[2].officerDescription : "",
-          'violationType': res.data[3].violationType,
-          'progress': res.data[4].progress ? res.data[4].progress : "" //
+          'userDescription': res.data[0].basics.complaint.description ? res.data[0].basics.complaint.description : "",
+          'complaintStatus':  res.data[0].basics.complaint.complaint_status ? res.data[0].basics.complaint.complaint_status : "",
+          'officerDescription': res.data[0].basics.description ? res.data[0].basics.description : "",
+          'violationType': res.data[0].basics.violationType,
+          'progress': res.data[0].basics.progress ?res.data[0].basics.progress : "" 
         });
-        const people = res.data[5].peopleList;
-        const vehicles = res.data[6].vehicleList;
-        const complainer = res.data[7].mobileUser;
-
+        const complainer = res.data[0].basics.complaint.mobile_user;
+        const videoRef = res.data[0].basics.complaint.video_ref.reference;
+        const people = res.data[1].peopleList;
+        const vehicles = res.data[2].vehicleList;
+        
+        setVideoUrl(videoRef);
+        setComplainer(complainer);
         setInputFieldsPerson(people);
         setInputFieldsVehicle(vehicles);
-        setComplainer(complainer)
+
       })
   };
  
@@ -117,7 +120,6 @@ const Complaint = ({ match }) => {
     complaint.otherDetails = inputFieldsOther;
     complaint.peopleList = inputFieldsPerson;
     complaint.vehicleList = inputFieldsVehicle;
-    // console.log(complaint);
 
     try {
       const result = updateComplaint(complaint);
@@ -150,12 +152,12 @@ const Complaint = ({ match }) => {
           <CRow>
             <CCol  sm="8">
               <div>
-                <ReactVideo
-                  style={{height: '100px'}}
-                  src="https://www.example.com/url_to_video.mp4"
-                  poster="https://www.example.com/poster.png"
-                  primaryColor="blue"
-                />
+              <ReactPlayer
+                url={videoUrl ?`${config["VideoStreamURl"]}`+"/"+videoUrl :null}
+                controls
+                height='100%'
+                width='100%'
+              />
               </div>
             </CCol>
             <CCard>
@@ -170,7 +172,7 @@ const Complaint = ({ match }) => {
             <CInputGroupPrepend>
             <CInputGroupText>Name</CInputGroupText>
             </CInputGroupPrepend>
-            <CInput id="comp_name" name="comp_name" value={complainer.full_name} disabled/>
+            <CInput id="comp_name" name="comp_name" value={complainer.full_name} />
           </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -355,15 +357,28 @@ const Complaint = ({ match }) => {
                     </CFormGroup>
                   </CCol>
                   <CCol xs="2">
-                    <CFormGroup> 
+                    <CFormGroup>
                       <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>
-                          <CInput
-                            id="vehicleType"
-                            name="vehicleType"
-                            placeholder="Enter Vehicle Type"
-                            value={inputField.vehicleType ? inputField.vehicleType : ""}
-                            onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
-                          />
+                      <CSelect custom
+                               name="vehicleType"
+                               id="vehicleType"
+                               onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
+                      >
+                        <option value="0">Not selected</option>
+                        <option value="A1">A1</option>
+                        <option value="A">A</option>
+                        <option value="B1">B1</option>
+                        <option value="B">B</option>
+                        <option value="C1">C1</option>
+                        <option value="C">C</option>
+                        <option value="CE">CE</option>
+                        <option value="D">D</option>
+                        <option value="D1">D1</option>
+                        <option value="DE">DE</option>
+                        <option value="G1">G1</option>
+                        <option value="G">G</option>
+                        <option value="J">J</option>
+                      </CSelect>
                     </CFormGroup>
                   </CCol>
 

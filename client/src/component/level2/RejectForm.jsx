@@ -5,9 +5,10 @@ import {
   CCard,
   CCardBody, CCardFooter,
   CCardHeader,
-  CCol, CCollapse, CForm,
+  CForm,
 } from "@coreui/react";
-import {InsertReject} from "../services/web/complainService";
+
+import {InsertReject} from "../services/web/level2UserService";
 
 import CoreTextArea from "../common/CoreUI.textarea";
 import CoreTextSelect from "../common/CoreUI.select";
@@ -30,8 +31,7 @@ const validationSchema = Yup.object().shape({
 });
 const RejectForm = ({complainId}) => {
   const history = useHistory();
- const {currentUserId} = useContext(UserContext);
-
+  const currentUserId = useContext(UserContext);
   const [alert, setAlert] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -53,7 +53,7 @@ const RejectForm = ({complainId}) => {
 
       setAlert(result.data);
       resetForm({})
-      history.push(`/level1/newInquiryList`);
+      history.push(`/level2/newInquiryList`);
     } catch (e) {
       setAlert(e.response.data);
       setSubmitting(false);
@@ -113,7 +113,6 @@ const RejectForm = ({complainId}) => {
                   error={errors.reason}
                 />
 
-
               </CCardBody>
               <CCardFooter>
                 <CButton
@@ -132,3 +131,5 @@ const RejectForm = ({complainId}) => {
 };
 
 export default RejectForm
+
+

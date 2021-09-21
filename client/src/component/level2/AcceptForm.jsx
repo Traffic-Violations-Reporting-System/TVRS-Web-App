@@ -19,7 +19,7 @@ import minus from "../assets/minus.png";
 import { v4 as uuidv4 } from 'uuid';
 import { UserContext } from '../App';
 
-import {InsertAccept,findSimilarComplaint} from "../services/web/complainService";
+import {InsertAccept} from "../services/web/complainService";
 import { useHistory } from 'react-router-dom';
 
 
@@ -101,49 +101,48 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
     return isValid;
 
   }
-//**************************************************************************
+// //**************************************************************************
 
-  const findSimilar =async () => {
+//   const findSimilar =async () => {
 
-    const isValid =formValidations();
-    if(!isValid) return;
+//     const isValid =formValidations();
+//     if(!isValid) return;
 
-    try {
+//     try {
 
-      const findObj={"vehicles":""};
-      findObj.vehicles=inputFieldsVehicle;
-      const result = await findSimilarComplaint(findObj);
-      if(result.status==200){
-        const jsonObj={
-          "accepts":"",
-          "vehicles":"",
-          "people":""
+//       const findObj={"vehicles":""};
+//       findObj.vehicles=inputFieldsVehicle;
+//       const result = await findSimilarComplaint(findObj);
+//       if(result.status==200){
+//         const jsonObj={
+//           "accepts":"",
+//           "vehicles":"",
+//           "people":""
+//         };
 
-        };
+//         inputFieldsOther.ComplaintId=complainId;
+//         inputFieldsOther.UserId=currentUserId;
+//         inputFieldsVehicle.forEach(function(v){ delete v.id });
+//         inputFieldsPerson.forEach(function(v){ delete v.id });
 
-        inputFieldsOther.ComplaintId=complainId;
-        inputFieldsOther.UserId=currentUserId;
-        inputFieldsVehicle.forEach(function(v){ delete v.id });
-        inputFieldsPerson.forEach(function(v){ delete v.id });
-
-        findObj.accepts=inputFieldsOther;
-        findObj.vehicles=inputFieldsVehicle;
-        findObj.people=inputFieldsPerson;
-
-
-        setAcceptObject(findObj);
-        parentSetVideoRefArr(result.data);
-        parentSetSimilarLoading(true);
-      }
-    }catch (e) {
-
-      if(e.response.status==400){
-        await handleSubmits();
-      }
+//         findObj.accepts=inputFieldsOther;
+//         findObj.vehicles=inputFieldsVehicle;
+//         findObj.people=inputFieldsPerson;
 
 
-    }
-  }
+//         setAcceptObject(findObj);
+//         parentSetVideoRefArr(result.data);
+//         parentSetSimilarLoading(true);
+//       }
+//     }catch (e) {
+
+//       if(e.response.status==400){
+//         await handleSubmits();
+//       }
+
+
+//     }
+//   }
   const handleSubmits = async (e) => {
 
     const jsonObj={
@@ -168,7 +167,7 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
       if(result.status==200) setSuccess(result.data);
       else setSuccess('')
       setAlert(result.data);
-      history.push(`/level1/newInquiryList`);
+      history.push(`/level2/newInquiryList`);
     }catch (e) {
       console.log("error ",e.response.data);
       if(e.response.status==400){
@@ -459,8 +458,8 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                                onChange={ (e) => handleChangeInputOther(e)}
                       >
                       <option value="">Not selected</option>
-                      <option value="accident">Accident</option>
-                      <option value="reckless driving">Reckless Driving</option>
+                      <option value="1">Accident</option>
+                      <option value="2">Reckless Driving</option>
                     </CSelect>
                   </CFormGroup>
                   {Object.keys(violationTypeErr).map((key,index)=>{
@@ -516,7 +515,7 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
               </CRow>
 
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
-                  <CButton block color="primary" onClick={findSimilar}>Accept</CButton>
+                  <CButton block color="primary" onClick={handleSubmits}>Accept</CButton>
 
               </CCol>
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >

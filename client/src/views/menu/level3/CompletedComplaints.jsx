@@ -12,7 +12,7 @@ import {
 } from '@coreui/react'
 
 import {getCurrentUser} from "../../../services/web/userService";
-import {getNewComplaints} from "../../../services/web/level3UserService";
+import {getCompletedComplaints} from "../../../services/web/level3UserService";
 
 
 const getBadge = ComplaintAccuracy => {
@@ -26,7 +26,15 @@ const getBadge = ComplaintAccuracy => {
   }
 }
 
-const NewComplaints = () => {
+const getBadgeStatus = ComplaintStatus => {
+  switch (ComplaintStatus) {
+    case 'ongoing': return 'warning'
+    case 'completed': return 'success'
+    default: return 'primary'
+  }
+}
+
+const CompletedComplaints = () => {
 
   const history = useHistory()
 
@@ -36,14 +44,14 @@ const NewComplaints = () => {
   const [page, setPage] = useState(currentPage)
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/level3/newComplaints?page=${newPage}`)
+    currentPage !== newPage && history.push(`/level3/completedComplaints?page=${newPage}`)
   }
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
   }, [currentPage, page])
   
-
+  
   //handle table data
   const [complaintsData, setComplaintsData] = useState([]);
    
@@ -53,18 +61,17 @@ const NewComplaints = () => {
   },[]);
 
   const fetchComplaintsData = async (userRegion) => {
-    const { data: complaints } = await getNewComplaints(userRegion);
+    const { data: complaints } = await getCompletedComplaints(userRegion);
     setComplaintsData(complaints);
-    
   };
-//
+
 
   return (
     <CRow>
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
-            New Complaints List
+            Completed Complaints List
             <small className="text-muted"> click to select</small>
           </CCardHeader>
           <CCardBody>
@@ -72,15 +79,14 @@ const NewComplaints = () => {
             items={complaintsData} //complaintsData
             fields={[
               { key: 'Complaint_id', _classes: 'font-weight-bold' },
-              'violationType', 'createdAt', 'ComplaintAccuracy'
+              'violationType', 'createdAt', 'ComplaintAccuracy', 'Status'
             ]}
             hover
             striped
             itemsPerPage={10}
             activePage={page}
             clickableRows
-            onRowClick={(item) => history.push(`/level3/complaint/${item.id}/`)}
-            //level3/newComplaints/:id
+            onRowClick={(item) => history.push(`/level3/complaint/${item.id}`)} //??????????????????????????????????????????????????????
             scopedSlots={{
               'Complaint_id':
                 (item) => (
@@ -101,7 +107,15 @@ const NewComplaints = () => {
                       {item.ComplaintAccuracy}
                     </CBadge>
                   </td>
-                )
+                ),
+              'Status':
+                (item)=>(
+                  <td>
+                    <CBadge color={getBadgeStatus(item.Complaint.status)}>
+                      {item.Complaint.status}
+                    </CBadge>
+                  </td>
+                ),
             }}
           />
           <CPagination
@@ -118,4 +132,4 @@ const NewComplaints = () => {
   )
 }
 
-export default NewComplaints
+export default CompletedComplaints
