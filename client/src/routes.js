@@ -33,7 +33,7 @@ const OngoingComplaints = React.lazy(() => import('./views/menu/level3/OngoingCo
 const CompletedComplaints = React.lazy(() => import('./views/menu/level3/CompletedComplaints.jsx'));
 const Complaint = React.lazy(() => import('./views/menu/level3/Complaint.jsx'));
 const ComplaintReport = React.lazy(() => import('./views/menu/level3/ComplaintReport.jsx'));
-
+const AllComplaints = React.lazy(() => import('./views/menu/level3/AllComplaints.jsx'));
 
 
 const routes = [
@@ -69,7 +69,8 @@ const routes = [
   { path: '/level3/ongoingComplaints', name: 'Ongoing Complaints', component: OngoingComplaints, role: 'level3' },
   { path: '/level3/completedComplaints', name: 'Completed Complaints', component: CompletedComplaints, role: 'level3' },
   { path: '/level3/complaint/:id', name: 'Complaint View', component: Complaint, role: 'level3' },
-  { path: '/level3/complaintReport', name: 'Complaint Report', component: ComplaintReport, role: 'level3' },
+  { path: '/level3/complaintReport/:id', name: 'Complaint Report', component: ComplaintReport, role: 'level3' },
+  { path: '/level3/allComplaints', name: 'All Complaints', component: AllComplaints, role: 'level3' },
 
 
 
