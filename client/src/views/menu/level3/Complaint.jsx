@@ -12,7 +12,7 @@ import {
   CLabel,
   CSelect,
   CRow,
-  CImg, CAlert, CInputGroup, CInputGroupPrepend, CInputGroupText, CInputGroupAppend
+  CImg, CAlert, CInputGroup, CInputGroupPrepend, CInputGroupText, CDataTable
 } from '@coreui/react'
 
 import ReactPlayer from 'react-player'
@@ -36,10 +36,13 @@ const Complaint = ({ match }) => {
     { id: uuidv4(), nic:'' , contactNo:'' ,ageRange: '', gender: '', skinColor: '', personStatus: '', acceptId: complaintId}
   ]);
   const [inputFieldsOther, setInputFieldsOther] = useState({
-    violationType: '', userDescription: '', officerDescription: '', complaintStatus:'', progress: ''
+    violationType: '', userDescription: '', officerDescription: '', complaintStatus:'', progress: '', newProgress: ''
   })
-  const [complainer, setComplainer] = useState({full_name:'', nic:'', mphone:''})
+  const [complainer, setComplainer] = useState({ full_name: '', nic: '', mphone: '' })
+  
+  const [complainant_id, setComplainant_id] = useState('')
 
+  const [user_id, setUser_id] = useState('')
 
   useEffect(() => {
     fetchComplaintData(complaintId);  
@@ -53,13 +56,15 @@ const Complaint = ({ match }) => {
           'complaintStatus':  res.data[0].basics.complaint.complaint_status ? res.data[0].basics.complaint.complaint_status : "",
           'officerDescription': res.data[0].basics.description ? res.data[0].basics.description : "",
           'violationType': res.data[0].basics.violationType,
-          'progress': res.data[0].basics.progress ?res.data[0].basics.progress : "" 
+          'progress': res.data[0].basics.Progresses ? res.data[0].basics.Progresses : ""
         });
         const complainer = res.data[0].basics.complaint.mobile_user;
         const videoRef = res.data[0].basics.complaint.video_ref.reference;
         const people = res.data[1].peopleList;
         const vehicles = res.data[2].vehicleList;
         
+        setComplainant_id(res.data[0].basics.complaint.complainant_id);
+        setUser_id(res.data[0].basics.complaint.user_id);
         setVideoUrl(videoRef);
         setComplainer(complainer);
         setInputFieldsPerson(people);
@@ -98,37 +103,86 @@ const Complaint = ({ match }) => {
     setInputFieldsPerson(newInputFields);
   }
 
+  
+  const [vehiclesError, setVehicleError] = useState({});
+  const [peopleError, setPersonError] = useState({});
+
   const handleChangeInputOther = (event) => {
     setInputFieldsOther({ ...inputFieldsOther, [event.target.name]: event.target.value });
   }
 
+  const formValidations =()=>{
+    const vehicleError ={};
+    const personError ={};
+    let isValid =true;
+    let vArray = inputFieldsVehicle;
+    let pArray = inputFieldsPerson;
+    let dv = false;
+    let dp = false;
+
+    vArray.map( el=>{
+      delete el["id"]
+      if(!Object.values(el).some(v => v) ){
+
+        dv=true;
+      }
+    });
+
+    pArray.map( el=>{
+      delete el["id"]
+      if(!Object.values(el).some(v => v) ){
+
+        dp=true;
+      }
+    });
+
+    if(dv && dp){
+      isValid=false;
+      vehicleError.notvalid = 'Vehicle number should be a valid number!';
+      personError.notvalid = 'Person NIC number should be a valid NIC number!';
+    }
+
+    setVehicleError(vehicleError);
+    setPersonError(personError);
+    
+    return isValid;
+  }
+
   const handleSubmit = (e) => {
     const complaint = {
-      "complaintId":"",
+      "complaintId": "",
+      "user_id": "",
+      "mphone": "",
       "otherDetails":"",
       "peopleList":"",
       "vehicleList":""
     };
-    inputFieldsVehicle.forEach(function (v) {
+    inputFieldsVehicle.forEach(function (v, index, object) {
       if (!Number.isInteger(v.id)) v.id = "";
+      if (v.vehicleNumber=="") object.splice(index, 1);
     });
-    inputFieldsPerson.forEach(function (p) {
+    inputFieldsPerson.forEach(function (p, index, object) {
       if (!Number.isInteger(p.id)) p.id = "";
+      if (p.nic=="") object.splice(index, 1);
+      //nic
     });
     
     complaint.complaintId = complaintId;
+    complaint.user_id = user_id;
+    complaint.mphone = complainer.mphone;
+    complaint.complainant_id = complainant_id;
     complaint.otherDetails = inputFieldsOther;
     complaint.peopleList = inputFieldsPerson;
     complaint.vehicleList = inputFieldsVehicle;
 
     try {
       const result = updateComplaint(complaint);
-      if (result) {
+      if (result.status==200) {
         setAlert("Complaint Update Successfull!");
         setSuccess("success");
       } 
       else {
-        setAlert("Complaint Update Unsuccessfull!!");
+        setAlert("Complaint Update Successfull!");
         setSuccess("failed");
       } 
     } catch (error) {
@@ -139,7 +193,7 @@ const Complaint = ({ match }) => {
   const handleReset = () => {
     window.location.reload();
   }
-  
+ 
   return (
     <>
       <CCard style={{ height: "100%" }}>
@@ -155,7 +209,7 @@ const Complaint = ({ match }) => {
               <ReactPlayer
                 url={videoUrl ?`${config["VideoStreamURl"]}`+"/"+videoUrl :null}
                 controls
-                height='100%'
+                height='400px'
                 width='100%'
               />
               </div>
@@ -172,7 +226,7 @@ const Complaint = ({ match }) => {
             <CInputGroupPrepend>
             <CInputGroupText>Name</CInputGroupText>
             </CInputGroupPrepend>
-            <CInput id="comp_name" name="comp_name" value={complainer.full_name} />
+            <CInput id="comp_name" name="comp_name" defaultValue={complainer.full_name} disabled/>
           </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -180,7 +234,7 @@ const Complaint = ({ match }) => {
             <CInputGroupPrepend>
             <CInputGroupText>NIC</CInputGroupText>
             </CInputGroupPrepend>
-            <CInput id="comp_nic" name="comp_nic" value={complainer.nic}/>
+            <CInput id="comp_nic" name="comp_nic" defaultValue={complainer.nic} disabled/>
             </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -188,7 +242,7 @@ const Complaint = ({ match }) => {
             <CInputGroupPrepend>
             <CInputGroupText>Contact No.</CInputGroupText>
             </CInputGroupPrepend>
-            <CInput id="comp_contact" name="comp_contact" value={complainer.mphone}/>
+            <CInput id="comp_contact" name="comp_contact" defaultValue={complainer.mphone} disabled/>
             </CInputGroup>
           </CFormGroup>     
         </CForm>
@@ -316,6 +370,10 @@ const Complaint = ({ match }) => {
           </div>
           ))}
 
+          {Object.keys(peopleError).map((key,index)=>{
+              return  <p key={index} className="text-danger">{peopleError[key]}</p>
+          })}
+            
           <hr></hr>
           <CRow>
             <p className="lead " style={{marginLeft:"15px",marginTop:"4px",fontWeight:"700"}}>Related Vehicles</p>
@@ -360,9 +418,10 @@ const Complaint = ({ match }) => {
                     <CFormGroup>
                       <CLabel htmlFor="vehicleType">Vehicle Type</CLabel>
                       <CSelect custom
-                               name="vehicleType"
-                               id="vehicleType"
-                               onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
+                        name="vehicleType"
+                        id="vehicleType"
+                        value={inputField.vehicleType ? inputField.vehicleType : 0}
+                        onChange={ (e) => handleChangeInputVehicle(inputField.id,e)}
                       >
                         <option value="0">Not selected</option>
                         <option value="A1">A1</option>
@@ -416,10 +475,13 @@ const Complaint = ({ match }) => {
                 </div>
                 
                 ))}
+                {Object.keys(vehiclesError).map((key)=>{
+                  return  <p className="text-danger">{vehiclesError[key]}</p>
+                })}
+            
             <hr></hr>
             
             <CRow>
-
               <CCol xs="6">
               <CFormGroup >
                 <CLabel htmlFor="userDescription">Complainer Description</CLabel>
@@ -456,7 +518,7 @@ const Complaint = ({ match }) => {
                       name="violationType"
                       id="violationType"
                     >
-                    <option value={inputFieldsOther.violationType}>{inputFieldsOther.violationType}</option>
+                    <option defaultValue={inputFieldsOther.violationType}>{inputFieldsOther.violationType}</option>
                     </CSelect>
                 </CFormGroup>
               </CCol>
@@ -475,16 +537,45 @@ const Complaint = ({ match }) => {
                 </CFormGroup>
               </CCol>
             </CRow>
+            <hr></hr>
             <CRow>
-            <CCol xs="8">
+            <p className="lead " style={{marginLeft:"15px",marginTop:"4px",fontWeight:"700"}}>Complaint Progress</p>
+            </CRow>
+            <CRow>
+            <CCol xs="7">
+              <CDataTable
+                items={inputFieldsOther.progress} 
+                fields={[
+                  { key: 'Date', _classes: 'font-weight-bold' }, 'Progress'
+                ]}
+                hover
+                striped
+                clickableRows  
+                scopedSlots={{
+                  'Date':
+                    (item) => (
+                    <td>
+                      {item.createdAt.split('T')[0]}
+                    </td>
+                    ),
+                  'Progress':
+                    (item) => (
+                    <td>
+                      {item.progress}
+                    </td>
+                  )   
+                }}
+              /> 
+            </CCol>
+            <CCol xs="5">
               <CFormGroup >
-                <CLabel htmlFor="progress">Complaint Progress</CLabel>
+                <CLabel htmlFor="newProgress">New Progress</CLabel>
                     <CTextarea
-                      name="progress"
-                      id="progress"
+                      name="newProgress"
+                      id="newProgress"
                       rows="7"
-                      placeholder="Officer Description..."
-                      value={inputFieldsOther.progress}
+                      placeholder="Enter New Progress..."
+                      value={inputFieldsOther.newProgress}
                       onChange={ (e) => handleChangeInputOther(e)}
                     />
               </CFormGroup>

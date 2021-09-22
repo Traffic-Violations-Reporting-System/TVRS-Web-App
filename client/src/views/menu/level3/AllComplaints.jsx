@@ -12,7 +12,7 @@ import {
 } from '@coreui/react'
 
 import {getCurrentUser} from "../../../services/web/userService";
-import {getOngoingComplaints} from "../../../services/web/level3UserService";
+import {getAllComplaints} from "../../../services/web/level3UserService";
 
 
 const getBadge = ComplaintAccuracy => {
@@ -26,15 +26,15 @@ const getBadge = ComplaintAccuracy => {
   }
 }
 
-const getBadgeStatus = ComplaintStatus => {
-  switch (ComplaintStatus) {
-    case 'ongoing': return 'warning'
-    case 'completed': return 'success'
-    default: return 'primary'
-  }
-}
+const getBadgeStatus = status => {
+   switch (status) {
+     case 'ongoing': return 'warning'
+     case 'completed': return 'success'
+     default: return 'primary'
+   }
+ }
 
-const OngoingComplaints = () => {
+const NewComplaints = () => {
 
   const history = useHistory()
 
@@ -44,14 +44,14 @@ const OngoingComplaints = () => {
   const [page, setPage] = useState(currentPage)
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/level3/ongoingComplaints?page=${newPage}`)
+    currentPage !== newPage && history.push(`/level3/newComplaints?page=${newPage}`)
   }
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
   }, [currentPage, page])
   
-  
+
   //handle table data
   const [complaintsData, setComplaintsData] = useState([]);
    
@@ -61,17 +61,18 @@ const OngoingComplaints = () => {
   },[]);
 
   const fetchComplaintsData = async (userRegion) => {
-    const { data: complaints } = await getOngoingComplaints(userRegion);
+    const { data: complaints } = await getAllComplaints(userRegion);
     setComplaintsData(complaints);
+    
   };
-
+console.log(complaintsData)
 
   return (
     <CRow>
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
-            Ongoing Complaints List
+            New Complaints List
             <small className="text-muted"> click to select</small>
           </CCardHeader>
           <CCardBody>
@@ -79,7 +80,7 @@ const OngoingComplaints = () => {
             items={complaintsData} //complaintsData
             fields={[
               { key: 'Complaint_id', _classes: 'font-weight-bold' },
-              'violationType', 'ComplainedDate', 'ComplaintAccuracy'
+              'violationType', 'ComplainedDate', 'ComplaintAccuracy', 'Status'
             ]}
             hover
             columnFilter
@@ -88,8 +89,8 @@ const OngoingComplaints = () => {
             itemsPerPage={10}
             activePage={page}
             clickableRows
-            onRowClick={(item) => history.push(`/level3/complaint/${item.id}/`)}
-
+            onRowClick={(item) => history.push(`/level3/complaintReport/${item.id}/`)}
+            //level3/newComplaints/:id
             scopedSlots={{
               'Complaint_id':
                 (item) => (
@@ -110,7 +111,15 @@ const OngoingComplaints = () => {
                       {item.ComplaintAccuracy}
                     </CBadge>
                   </td>
-                ),
+               ),
+               'Status':
+                  (item)=>(
+                    <td>
+                      <CBadge color={getBadgeStatus(item.complaint.complaint_status)}>
+                        {item.complaint.complaint_status.charAt(0).toUpperCase() + item.complaint.complaint_status.slice(1)}
+                      </CBadge>
+                  </td>
+               ),   
             }}
           />
           <CPagination
@@ -127,4 +136,4 @@ const OngoingComplaints = () => {
   )
 }
 
-export default OngoingComplaints
+export default NewComplaints

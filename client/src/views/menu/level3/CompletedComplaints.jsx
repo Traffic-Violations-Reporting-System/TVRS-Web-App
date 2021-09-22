@@ -79,14 +79,16 @@ const CompletedComplaints = () => {
             items={complaintsData} //complaintsData
             fields={[
               { key: 'Complaint_id', _classes: 'font-weight-bold' },
-              'violationType', 'createdAt', 'ComplaintAccuracy', 'Status'
+              'violationType', 'ComplainedDate', 'ComplaintAccuracy'
             ]}
             hover
             striped
+            columnFilter
+            tableFilter
             itemsPerPage={10}
             activePage={page}
             clickableRows
-            onRowClick={(item) => history.push(`/level3/complaint/${item.id}`)} //??????????????????????????????????????????????????????
+            onRowClick={(item) => history.push(`/level3/complaintReport/${item.id}/`)} 
             scopedSlots={{
               'Complaint_id':
                 (item) => (
@@ -94,7 +96,7 @@ const CompletedComplaints = () => {
                     {item.complaint.complainant_id}
                   </td>
                 ),
-              'createdAt':
+              'ComplainedDate':
                 (item) => (
                   <td>
                     {item.createdAt.split('T')[0]}
@@ -108,14 +110,7 @@ const CompletedComplaints = () => {
                     </CBadge>
                   </td>
                 ),
-              'Status':
-                (item)=>(
-                  <td>
-                    <CBadge color={getBadgeStatus(item.Complaint.status)}>
-                      {item.Complaint.status}
-                    </CBadge>
-                  </td>
-                ),
+              
             }}
           />
           <CPagination

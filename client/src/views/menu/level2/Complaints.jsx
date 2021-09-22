@@ -53,7 +53,7 @@ import {
                <ReactPlayer
                  url={complainDetails ?`${config["VideoStreamURl"]}`+"/"+complainDetails.reference :null}
                  controls
-                 height='100%'
+                 height='400px'
                  width='100%'
                />
              </div>
@@ -66,11 +66,9 @@ import {
  
          <CRow className="mt-5">
            <CCard style={{width:"100%"}}>
- 
              <CCardBody>
                <CTabs>
                  <CNav variant="tabs">
- 
                    <CNavItem>
                      <CNavLink>
                        <span text-color="green">Accept</span>
