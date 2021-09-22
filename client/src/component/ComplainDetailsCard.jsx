@@ -10,7 +10,7 @@ const ComplainDetailsCard = ({complainDetails}) => {
 
   return (
     <>
-      {complainDetails? <CCard style={{height :"100%"}}>
+      <CCard style={{height :"100%"}}>
         <CCardBody>
           <div className="justify-content-center mb-3">
             <h5>Complain Details</h5>
@@ -58,7 +58,7 @@ const ComplainDetailsCard = ({complainDetails}) => {
             </div>
           </div>
         </CCardBody>
-      </CCard>:"null"}
+      </CCard>
 
 
 
