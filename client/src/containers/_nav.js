@@ -130,7 +130,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Complaint Reports',
-    to: '/level3/complaintReport',
+    to: '/level3/allComplaints',
     icon: 'cil-star',
     role:'level3'
   },
