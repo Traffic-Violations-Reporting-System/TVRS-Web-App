@@ -79,15 +79,17 @@ const OngoingComplaints = () => {
             items={complaintsData} //complaintsData
             fields={[
               { key: 'Complaint_id', _classes: 'font-weight-bold' },
-              'violationType', 'createdAt', 'ComplaintAccuracy', 'Status'
+              'violationType', 'ComplainedDate', 'ComplaintAccuracy'
             ]}
             hover
+            columnFilter
+            tableFilter
             striped
             itemsPerPage={10}
             activePage={page}
             clickableRows
-            onRowClick={(item) => history.push(`/level3/complaint/${item.id}`)}
-            //level3/newComplaints/:id
+            onRowClick={(item) => history.push(`/level3/complaint/${item.id}/`)}
+
             scopedSlots={{
               'Complaint_id':
                 (item) => (
@@ -95,7 +97,7 @@ const OngoingComplaints = () => {
                     {item.complaint.complainant_id}
                   </td>
                 ),
-              'createdAt':
+              'ComplainedDate':
                 (item) => (
                   <td>
                     {item.createdAt.split('T')[0]}
@@ -106,14 +108,6 @@ const OngoingComplaints = () => {
                   <td>
                     <CBadge color={getBadge(item.ComplaintAccuracy)}>
                       {item.ComplaintAccuracy}
-                    </CBadge>
-                  </td>
-                ),
-              'Status':
-                (item)=>(
-                  <td>
-                    <CBadge color={getBadgeStatus(item.Complaint.status)}>
-                      {item.Complaint.status}
                     </CBadge>
                   </td>
                 ),
