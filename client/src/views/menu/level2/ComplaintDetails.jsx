@@ -77,7 +77,7 @@ import { getComplainAction } from "../../../services/web/level2UserService";
  
    return (
      <>
-       {loading ?
+
          <CCard style={{height :"100%"}}>
            <CCardBody>
              <h3>Complain Details</h3>
@@ -238,13 +238,8 @@ import { getComplainAction } from "../../../services/web/level2UserService";
              }
  
            </CCardBody>
-         </CCard>:
-         "Not allow"
-       }
- 
- 
- 
-     </>
+         </CCard>
+ </>
    )
  }
  
