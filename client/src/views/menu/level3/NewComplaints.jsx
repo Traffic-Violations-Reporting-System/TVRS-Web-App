@@ -72,9 +72,11 @@ const NewComplaints = () => {
             items={complaintsData} //complaintsData
             fields={[
               { key: 'Complaint_id', _classes: 'font-weight-bold' },
-              'violationType', 'createdAt', 'ComplaintAccuracy'
+              'violationType', 'ComplainedDate', 'ComplaintAccuracy'
             ]}
             hover
+            columnFilter
+            tableFilter
             striped
             itemsPerPage={10}
             activePage={page}
@@ -88,7 +90,7 @@ const NewComplaints = () => {
                     {item.complaint.complainant_id}
                   </td>
                 ),
-              'createdAt':
+              'ComplainedDate':
                 (item) => (
                   <td>
                     {item.createdAt.split('T')[0]}
