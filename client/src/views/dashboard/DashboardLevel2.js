@@ -34,9 +34,7 @@ const Dashboard = (props) => {
       data: []
     }
   ]);
-
-
-  //chart2
+  
   const [chart2 ,setChart2]=useState([
     {
       backgroundColor: [],
@@ -95,17 +93,17 @@ const Dashboard = (props) => {
           ['A', 'A1','B','B1', 'C','C1','CE','D','D1','DE','G','G1','J'],
           [56, 25, 19, 28,21,36,53,8,9,10,11,13,14],
           [
-            '#e94c63',
-            '#75c0e0',
-            '#f8b047',
+            '#795548',
+            '#009ce0',
+            '#ff9800',
             '#00d084',
-            '#e6ef92',
-            '#69b7fc',
+            '#525252',
+            '#b80000',
             '#f78da7',
-            '#19b2f5',
+            '#297292',
             '#8bba88',
-            '#dc52e7',
-            '#70fa61',
+            '#9d7659',
+            '#cb4d4d',
           ]
         );
       });
@@ -150,6 +148,7 @@ const Dashboard = (props) => {
     let newStateLabel2 = v;
     newState2[0].data = d;
     newState2[0].backgroundColor =c;
+
 
     setChart2(newState2);
     setChartLabel2(newStateLabel2);
@@ -245,6 +244,7 @@ const Dashboard = (props) => {
       <CCardGroup columns className = "cols-2">
         <CCard>
           <CCardHeader>
+
             Gender base involvement in Current Year
           </CCardHeader>
           <CCardBody>
@@ -261,6 +261,7 @@ const Dashboard = (props) => {
         </CCard>
         <CCard>
           <CCardHeader>
+
             Cases Summary in Current Year
           </CCardHeader>
           <CCardBody>
@@ -275,6 +276,24 @@ const Dashboard = (props) => {
             />
           </CCardBody>
         </CCard>
+
+      <CCard>
+        <CCardHeader>
+          Gender base involvement in Current Year
+        </CCardHeader>
+        <CCardBody>
+          <CChartLine
+            datasets={chart4}
+            options={{
+              tooltips: {
+                enabled: true
+              }
+            }}
+            labels="months"
+          />
+        </CCardBody>
+      </CCard>
+
       </CCardGroup>
     </>
   )
