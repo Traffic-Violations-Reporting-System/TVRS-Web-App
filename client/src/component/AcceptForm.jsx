@@ -63,7 +63,12 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
         dv=true;
       }
     });
-
+    vArray.forEach( el=>{
+      if(!el["vehicleNumber"].toString().match(/^([0-9]{1,3}|[A-Z]{2,3})-[0-9]{1,4}/) ||el["vehicleNumber"].toString().length==0 ){
+        vehicleError.notvalid = 'Please add correct vehicle number format';
+        return false;
+      }
+    });
     pArray.map( el=>{
       delete el["id"]
       if(!Object.values(el).some(v => v) ){
@@ -277,6 +282,8 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                             id="vehicleNumber"
                             name="vehicleNumber"
                             placeholder="Enter Vehicle Number"
+                            pattern="^([0-9]{1,3}|[A-Z]{2,3})-[0-9]{1,4}"
+                            title="please add correct vehicle number format"
                             value={inputField.vehicleNumber}
                             onChange={ (e) => handleChangeInputVehicle(inputField.id, e)}
                           />
@@ -458,9 +465,13 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
                                id="violationType"
                                onChange={ (e) => handleChangeInputOther(e)}
                       >
-                      <option value="">Not selected</option>
-                      <option value="1">Accident</option>
-                      <option value="2">Reckless Driving</option>
+                        <option value="">Not selected</option>
+                        <option value="accident">Accident</option>
+                        <option value="reckless driving">Reckless Driving</option>
+                        <option value="drunk driving">Drunk driving</option>
+                        <option value="unsafe lane changing">Unsafe lane changing</option>
+                        <option value="over - speeding">Over - Speeding</option>
+                        <option value="hit and run">Hit and run</option>
                     </CSelect>
                   </CFormGroup>
                   {Object.keys(violationTypeErr).map((key,index)=>{
@@ -516,7 +527,7 @@ const AcceptForm = ({complainId,parentSetSimilarLoading,parentSetVideoRefArr}) =
               </CRow>
 
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >
-                  <CButton block color="primary" onClick={findSimilar}>Accept</CButton>
+                  <CButton  block color="primary" onClick={findSimilar}>Accept</CButton>
 
               </CCol>
               <CCol col="2" sm="2" md="2" xl="2" style={{float:"right"}} >

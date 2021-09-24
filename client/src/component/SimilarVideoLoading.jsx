@@ -44,10 +44,11 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
 
     if(values.transactionCategory==='option1'){
       try{
-        const r =await InsertAccept(acceptObject);
+        // console.log(acceptObject); return;
+        await InsertAccept(acceptObject);
         history.push(`/level1/newInquiryList`);
       }catch (e) {
-        console.log("error occur in adding a complaints");
+        console.log("error occur in adding a complaints",e);
       }
 
     }else if(values.transactionCategory==="option2"){
@@ -61,8 +62,7 @@ const SimilarVideoLoadingCard = ({videoRefArr}) => {
     }else if(values.transactionCategory==="option3"){
       try{
         await InsertReject({"description":'This Complaint Already add',"reason":'already added',"ComplaintId":acceptObject.accepts.ComplaintId,"UserId":currentUserId});
-
-        // history.push(`/level1/newInquiryList`);
+        history.push(`/level1/newInquiryList`);
       }catch (e) {
         console.log("error occur in reject complain");
       }

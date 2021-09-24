@@ -1,10 +1,8 @@
 import React from 'react';
 import {CCard, CCardBody, CLabel} from "@coreui/react";
 import location from "../assets/location.png";
-
 import clock from "../assets/clock.png";
 import description from "../assets/description.png";
-
 
 const ComplainDetailsCard = ({complainDetails}) => {
 
@@ -59,9 +57,6 @@ const ComplainDetailsCard = ({complainDetails}) => {
           </div>
         </CCardBody>
       </CCard>:"null"}
-
-
-
 
     </>
   )

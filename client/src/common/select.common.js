@@ -6,7 +6,7 @@ const AppSelect = ({ name,error, label,value, options,visible, ...rest }) => {
     <CFormGroup>
       <CRow>
         <CCol lg={2}>
-          <CLabel htmlFor="role">User Level</CLabel>
+          <CLabel htmlFor="role">{label}</CLabel>
         </CCol>
         <CCol lg={10}>
           <CSelect value={value} name={name}  {...rest} className={visible && error?"is-invalid":""}>

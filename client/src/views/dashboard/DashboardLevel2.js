@@ -34,8 +34,7 @@ const Dashboard = (props) => {
       data: []
     }
   ]);
-
- //chart2
+  
   const [chart2 ,setChart2]=useState([
     {
       backgroundColor: [],
@@ -150,6 +149,7 @@ const Dashboard = (props) => {
     newState2[0].data = d;
     newState2[0].backgroundColor =c;
 
+
     setChart2(newState2);
     setChartLabel2(newStateLabel2);
   };
@@ -244,6 +244,24 @@ const Dashboard = (props) => {
       <CCardGroup columns className = "cols-2">
         <CCard>
           <CCardHeader>
+
+            Gender base involvement in Current Year
+          </CCardHeader>
+          <CCardBody>
+            <CChartLine
+              datasets={chart4}
+              options={{
+                tooltips: {
+                  enabled: true
+                }
+              }}
+              labels="months"
+            />
+          </CCardBody>
+        </CCard>
+        <CCard>
+          <CCardHeader>
+
             Cases Summary in Current Year
           </CCardHeader>
           <CCardBody>
@@ -275,6 +293,7 @@ const Dashboard = (props) => {
           />
         </CCardBody>
       </CCard>
+
       </CCardGroup>
     </>
   )

@@ -58,7 +58,7 @@ const Dashboard = (props) => {
               <ReactPlayer
                 url={complainDetails ?`${config["VideoStreamURl"]}`+"/"+complainDetails.reference :null}
                 controls
-                height='100%'
+                height='350px'
                 width='100%'
               />
             </div>
